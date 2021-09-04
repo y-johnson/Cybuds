@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">hello_world_DEMO1</string>
+    <string name="app_name">Demo 1 [yjohnson]</string>
+    <string name="main_activity_cButton">Tap me!</string>
+    <string name="channel_name">Main application notifications</string>
+    <string name="channel_description">The notifications that occur from the main app.</string>
+    <string name="main_activity_headerText">S E 309 Demo 1</string>
+    <string name="main_activity_picDesc">2_DO_4: Nick, Josh, Molly, and I</string>
+    <string name="main_activity_buttonDesc">The button below sends a notification to your device!</string>
 </resources>
