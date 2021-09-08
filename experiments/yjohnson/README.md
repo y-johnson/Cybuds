@@ -4,11 +4,11 @@
 
 ### 9/4/2021
 1. Created a project in `2_do_4\experiments\yjohnson\demo1_springboot`.
-	* This project is targeting Java 11.
+	* This project is targeting Java 11 and requires Spring Web Services.
 2. Used IntelliJ's Spring Initializr to generate the default code.
 3. Added a method to `Demo1Application.java` called `helloWorld()` with the `@GetMapping` annotation.
 	* It simply returns "Hello, World!".
-
+4. Accessing `localhost:8080` through a browser brings up the Hello World message.
 
 
 
