@@ -4,13 +4,12 @@
 
 ### 9/4/2021
 1. Created a project in `2_do_4\experiments\yjohnson\demo1_springboot`.
-	* This project is targeting Java 11.
+	* This project is targeting Java 11 and requires Spring Web Services.
 2. Used IntelliJ's Spring Initializr to generate the default code.
 3. Added a method to `Demo1Application.java` called `helloWorld()` with the `@GetMapping` annotation.
 	* It simply returns "Hello, World!".
+4. Accessing `localhost:8080` through a browser brings up the Hello World message.
 
-## Spring Boot - Final Result
-> <img src="demo1_res/demo1_ss4.png" alt="default" width="1000"/>
 
 
 
@@ -60,7 +59,12 @@
 12. Changed the `AndroidManifest.xml` file to replace the theme with the following: `android:theme="@style/Theme.AppCompat.NoActionBar">`.
 	* This was done to remove the action bar.
 
-## Android - Final Result
+
+## Final Result
+### Spring Boot
+> <img src="demo1_res/demo1_ss4.png" alt="default" width="1000"/>
+
+### Android
 > <img src="demo1_res/demo1_ss2.png" alt="main" width="300"/>
 > <img src="demo1_res/demo1_ss3.png" alt="notification" width="300"/>
 
