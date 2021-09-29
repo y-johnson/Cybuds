@@ -27,8 +27,10 @@ public class User {
 
 	@Column(nullable = false, length = 15)
 	public String firstName;
-	@Column(nullable = false, length = 15)
+
+	@Column(length = 15)
 	public String middleName;
+
 	@Column(nullable = false, length = 15)
 	public String lastName;
 
@@ -39,8 +41,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	public Gender gender;
 
-	protected User() {
-	}
+	protected User() {}
 
 	public User(String lastName, String firstName, String middleName, String email, String username, String passwordHash, Gender gender, String address, String phoneNumber) {
 		this.lastName = lastName;
