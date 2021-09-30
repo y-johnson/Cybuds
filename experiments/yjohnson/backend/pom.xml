@@ -48,9 +48,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.places.Main</mainClass>
+                    <mainClass>com.yjohnson.backend.BackendApplication</mainClass>
                 </configuration>
-
                 <executions>
                     <execution>
                         <goals>
