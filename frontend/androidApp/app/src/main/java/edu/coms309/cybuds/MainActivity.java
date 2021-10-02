@@ -2,6 +2,7 @@ package edu.coms309.cybuds;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -15,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnLogin_onClick(View view) {
-        setContentView(R.layout.activity_login);
+        Intent gotoLoginActivityIntent = new Intent(this, Login.class);
+        startActivity(gotoLoginActivityIntent);
+        //setContentView(R.layout.activity_login);
     }
     public void btnSignUp_onClick(View view) {
         Toast.makeText(MainActivity.this, "TODO!", Toast.LENGTH_SHORT).show();
