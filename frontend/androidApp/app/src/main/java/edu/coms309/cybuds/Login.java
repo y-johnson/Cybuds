@@ -12,8 +12,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,31 +71,31 @@ public class Login extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         //String url = "https://www.iastate.edu/index/Z";
         String url = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io/a";
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        textView.setText("Response ok"/* + response.substring(0, 500)*/);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        textView.setText("POST didn't work!");
-                    }
-                })
-        {
+        JSONObject post= new JSONObject();
+        try{
+            post.put("username","name");
+            post.put("password","code");
+
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, post, new Response.Listener<JSONObject>() {
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                MyData.put("username", "user");
-                MyData.put("password", "pass");
-                return MyData;
+            public void onResponse(JSONObject response) {
+                textView.setText("Good Response");
             }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                textView.setText("POST didn't work!");
+            }
+        });
 
-        };
 
-        queue.add(stringRequest);
 
+        queue.add(jsonObjectRequest);
 
 
         Toast.makeText(Login.this,"TODO!", Toast.LENGTH_SHORT).show();
