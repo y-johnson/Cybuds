@@ -15,6 +15,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Login extends AppCompatActivity {
 
@@ -32,7 +35,10 @@ public class Login extends AppCompatActivity {
 
     public void btnLogin_submit_onClick(View view) {
 
+
         final TextView textView = (TextView) findViewById(R.id.textBoxLogin_UserName);
+        //GET Request:
+        /*
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         //String url ="https://www.ece.iastate.edu/~alexs/classes/2021_Fall_281/";
@@ -49,12 +55,41 @@ public class Login extends AppCompatActivity {
                         textView.setText("Response is: "+ response.substring(0,500));
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                textView.setText("That didn't work!");
-            }
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        textView.setText("GET didn't work!");
+                    }
         });
     // Add the request to the RequestQueue.
+        queue.add(stringRequest);*/
+
+        //Post Request:
+        RequestQueue queue = Volley.newRequestQueue(this);
+        //String url = "https://www.iastate.edu/index/Z";
+        String url = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io/a";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        textView.setText("Response ok"/* + response.substring(0, 500)*/);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        textView.setText("POST didn't work!");
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("username", "user");
+                MyData.put("password", "pass");
+                return MyData;
+            }
+
+        };
+
         queue.add(stringRequest);
 
 
