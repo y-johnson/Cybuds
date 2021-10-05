@@ -1,0 +1,20 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+<<<<<<< HEAD
+/Springboot/.metadata
+=======
+/Springboot/.metadata
+>>>>>>> 14438560661e2f4b1ecbeb7645825e0776c6b860
