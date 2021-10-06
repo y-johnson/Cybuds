@@ -1,10 +1,12 @@
 package com.yjohnson.backend.entities;
 
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -42,9 +44,25 @@ public class UserController {
 	 *
 	 * @return if successfully deleted, a response entity with the deleted user's ID; otherwise, a 404 reponse code.
 	 */
+//	@GetMapping()
+//	public ResponseEntity<User> getUser(@RequestParam("id") Long id) {
+//		Optional<User> optionalUser = userRepository.findById(id); // 1
+//		/* Don't even ask me, this is apparently the best way to handle Optionals */
+//		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//	}
+
 	@GetMapping()
-	public ResponseEntity<User> getUser(@RequestParam("id") Long id) {
-		Optional<User> optionalUser = userRepository.findById(id); // 1
+	public ResponseEntity<User> getUser(@RequestParam Map<String, String> parameters) {
+		Optional<User> optionalUser;
+		if (parameters.containsKey("id")) {
+			optionalUser = userRepository.findById(Long.valueOf(parameters.get("id")));     // 1
+		} else if (parameters.containsKey("username")){
+			optionalUser = userRepository.findUserByUsername(parameters.get("username"));   // 1
+		} else if (parameters.containsKey("email")){
+			optionalUser = userRepository.findUserByEmail(parameters.get("email"));         // 1
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		/* Don't even ask me, this is apparently the best way to handle Optionals */
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
