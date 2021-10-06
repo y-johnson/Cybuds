@@ -1,4 +1,4 @@
-package com.example.apicalls.api;
+package edu.coms309.cybuds.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

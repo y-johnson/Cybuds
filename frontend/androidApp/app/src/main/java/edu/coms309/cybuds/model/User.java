@@ -1,4 +1,4 @@
-package com.example.apicalls.model;
+package edu.coms309.cybuds.model;
 
 public class User {
     private String id; //not long
