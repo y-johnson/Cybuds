@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yjohnson</groupId>
-    <artifactId>backend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>server</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
     <name>backend</name>
     <description>backend</description>
     <properties>
