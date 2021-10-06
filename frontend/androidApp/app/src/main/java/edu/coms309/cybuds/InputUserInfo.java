@@ -1,24 +1,26 @@
-package com.example.apicalls;
+package edu.coms309.cybuds;
 
+import static edu.coms309.cybuds.api.ApiClientFactory.GetUserApi;
 
-import static com.example.apicalls.api.ApiClientFactory.GetUserApi;
-
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.apicalls.api.SlimCallback;
-import com.example.apicalls.model.User;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
+import edu.coms309.cybuds.api.SlimCallback;
+import edu.coms309.cybuds.model.User;
 
 import java.util.List;
 //import test.connect.myapplication.api.SlimCallback;
 
-public class MainActivity extends AppCompatActivity {
-
+public class InputUserInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 newUser.setGender(genderIn.getText().toString());
 
 
-                GetUserApi().addUser(newUser).enqueue(new SlimCallback<User>(user->{
+                GetUserApi().addUser(newUser).enqueue(new SlimCallback<User>(user -> {
                     RegenerateAllUsersOnScreen(apiText1);
                     idIn.setText("");
                     usernameIn.setText("");
@@ -97,12 +99,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void RegenerateAllUsersOnScreen(TextView apiText1){
+
+    void RegenerateAllUsersOnScreen(TextView apiText1) {
         //User is of type List, this seems better but need to check.
         GetUserApi().getAllUsers().enqueue(new SlimCallback<List<User>>(users -> {
             apiText1.setText("");
 
-            for (int i = users.size()-1; i >=0; i--){
+            for (int i = users.size() - 1; i >= 0; i--) {
                 apiText1.append(users.get(i).printable());
             }
         }, "GetAllUser"));
@@ -116,5 +119,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }, "GetAllUser"));*/
     }
-}
 
+}
