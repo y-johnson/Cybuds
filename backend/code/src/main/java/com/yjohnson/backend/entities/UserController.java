@@ -42,14 +42,13 @@ public class UserController {
 	 * was provided, then it searches for the unique user with the provided username.
 	 * <p>
 	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body.
-	 * Otherwise,
-	 * a 404 is returned instead.
+	 * Otherwise, a 404 is returned instead.
 	 *
 	 * @param attemptedLogin the pseudo-user object that contains either the email or username and a password hash
 	 *
 	 * @return the User that corresponds to that object, 404 otherwise
 	 */
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
 		Optional<User> query = userRepository.findUserByEmail(attemptedLogin.email);        // 1
 		if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
