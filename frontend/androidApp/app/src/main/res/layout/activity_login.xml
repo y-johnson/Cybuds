@@ -7,20 +7,19 @@
     tools:context=".Login">
 
     <EditText
-        android:id="@+id/textBoxLogin_UserName"
+        android:id="@+id/textBoxLogin_Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="User Name"
+        android:hint="Password"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:singleLine="false"
         android:verticalScrollbarPosition="defaultPosition"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17000002" />
+        app:layout_constraintTop_toBottomOf="@+id/textBoxLogin_Email" />
 
     <Button
         android:id="@+id/btnLogin_submit"
@@ -30,8 +29,9 @@
         android:onClick="btnLogin_submit_onClick"
         android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBoxLogin_UserName" />
+        app:layout_constraintTop_toBottomOf="@+id/textBoxLogin_Password" />
 
     <Button
         android:id="@+id/btnLogin_back"
@@ -42,5 +42,17 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBoxLogin_UserName" />
+        app:layout_constraintTop_toBottomOf="@+id/textBoxLogin_Password" />
+
+    <EditText
+        android:id="@+id/textBoxLogin_Email"
+        android:layout_width="213dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
