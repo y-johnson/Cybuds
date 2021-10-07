@@ -40,7 +40,7 @@ public class ActivityRegister extends AppCompatActivity {
         EditText phonenumberIn = findViewById(R.id.tbRegister_phoneNum);
         EditText genderIn = findViewById(R.id.tbRegister_gender);
 
-        RegenerateAllUsersOnScreen(apiText1);
+        //RegenerateAllUsersOnScreen(apiText1);
 
         postByBodyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
