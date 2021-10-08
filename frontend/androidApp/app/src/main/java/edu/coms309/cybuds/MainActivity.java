@@ -6,6 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import static edu.coms309.cybuds.api.ApiClientFactory.GetUserApi;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import edu.coms309.cybuds.api.SlimCallback;
+import edu.coms309.cybuds.model.User;
+
+import java.util.List;
+//import test.connect.myapplication.api.SlimCallback;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button button;
@@ -15,14 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = (Button)findViewById(R.id.activity_main_inputuserinfo);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openInputUser();
-            }
-        });
+
     }
+
+
 
     public void btnLogin_onClick(View view) {
         Intent gotoLoginActivityIntent = new Intent(this, Login.class);

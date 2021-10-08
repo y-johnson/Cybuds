@@ -17,43 +17,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/tbRegister_UserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:hint="User Name"
-
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/tbRegister_Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:hint="Password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbRegister_UserName" />
 
-    <TextView
+    <EditText
         android:id="@+id/tbRegister_major"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:hint="Major (abbreviated)"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbRegister_Password" />
 
-    <TextView
+    <EditText
         android:id="@+id/tbRegister_gradYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:hint="Graduation Year"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbRegister_major" />
@@ -62,9 +66,115 @@
         android:id="@+id/btnRegister_Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_gender" />
+
+    <EditText
+        android:id="@+id/tbRegister_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="ID"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbRegister_gradYear" />
+
+    <EditText
+        android:id="@+id/tbRegister_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_id" />
+
+    <EditText
+        android:id="@+id/tbRegister_fName"
+        android:layout_width="124dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="F Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/tbRegister_mName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_email" />
+
+    <EditText
+        android:id="@+id/tbRegister_mName"
+        android:layout_width="134dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="M Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/tbRegister_lName"
+        app:layout_constraintStart_toEndOf="@+id/tbRegister_fName"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_email" />
+
+    <EditText
+        android:id="@+id/tbRegister_lName"
+        android:layout_width="104dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="L Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tbRegister_mName"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_email" />
+
+    <EditText
+        android:id="@+id/tbRegister_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="address"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_mName" />
+
+    <EditText
+        android:id="@+id/tbRegister_phoneNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="phone #"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_address" />
+
+    <EditText
+        android:id="@+id/tbRegister_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="gender"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbRegister_phoneNum" />
+
+    <TextView
+        android:id="@+id/tbRegister_textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnRegister_Back"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister_Submit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
