@@ -1,10 +1,10 @@
 package edu.coms309.cybuds;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Button;
 
 import static edu.coms309.cybuds.api.ApiClientFactory.GetUserApi;
 
@@ -23,6 +23,8 @@ import java.util.List;
 //import test.connect.myapplication.api.SlimCallback;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,4 +46,18 @@ public class MainActivity extends AppCompatActivity {
         Intent gotoRegisterActivityIntent = new Intent(this, ActivityRegister.class);
         startActivity(gotoRegisterActivityIntent);
     }
+
+    /*public void activity_main_inputuserinfo(View view) {
+        Intent gotoLoginActivityIntent = new Intent(this, InputUserInfo.class);
+        startActivity(gotoLoginActivityIntent);
+        //setContentView(R.layout.activity_login);
+    }*/
+
+    public void openInputUser(){
+        Intent intent = new Intent(this, InputUserInfo.class);
+        startActivity(intent);
+    }
+
+
+
 }

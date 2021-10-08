@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -25,9 +27,9 @@ public class UserController {
 	@PostMapping()
 	public ResponseEntity<?> addUser(@RequestBody User newUser) {
 		// This one can very likely be optimized, but as of 10/2 the only idea that came to mind was a JOIN query (same cost).
-		if (!userRepository.findUserByEmail(newUser.email).isEmpty()) {              //1
+		if (userRepository.findUserByEmail(newUser.email).isPresent()) {              //1
 			return new ResponseEntity<>(newUser.email, HttpStatus.CONFLICT);
-		} else if (!userRepository.findUserByUsername(newUser.username).isEmpty()) { //2
+		} else if (userRepository.findUserByUsername(newUser.username).isPresent()) { //2
 			return new ResponseEntity<>(newUser.username, HttpStatus.CONFLICT);
 		} else {
 			userRepository.save(newUser);                                            //3
@@ -36,15 +38,51 @@ public class UserController {
 	}
 
 	/**
-	 * Deletes the user that corresponds to the given ID from the database.
+	 * Sends the user object that matches the attemptedLogin object. It queries the database for the unique user with the provided email; if no email
+	 * was provided, then it searches for the unique user with the provided username.
+	 * <p>
+	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body.
+	 * Otherwise, a 404 is returned instead.
 	 *
-	 * @param id the ID of th=e user to be deleted.
+	 * @param attemptedLogin the pseudo-user object that contains either the email or username and a password hash
 	 *
-	 * @return if successfully deleted, a response entity with the deleted user's ID; otherwise, a 404 reponse code.
+	 * @return the User that corresponds to that object, 404 otherwise
+	 */
+	@PostMapping("/login")
+	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
+		Optional<User> query = userRepository.findUserByEmail(attemptedLogin.email);        // 1
+		if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
+			return new ResponseEntity<>(query.get(), HttpStatus.OK);
+		} else {
+			query = userRepository.findUserByUsername(attemptedLogin.username);                   // 2
+			if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
+				return new ResponseEntity<>(query.get(), HttpStatus.OK);
+			} else {
+				if (query.isPresent() && query.get().passwordHash.isEmpty()) return new ResponseEntity<>(attemptedLogin, HttpStatus.BAD_REQUEST);
+				else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
+	}
+
+	/**
+	 * Retrieves a User from the database whose ID, username, or email matches the given parameters.
+	 *
+	 * @param parameters ID, username, or email to search for
+	 *
+	 * @return the user that corresponds to the query, 400 if no params were given, 404 if no user was found
 	 */
 	@GetMapping()
-	public ResponseEntity<User> getUser(@RequestParam("id") Long id) {
-		Optional<User> optionalUser = userRepository.findById(id); // 1
+	public ResponseEntity<User> getUser(@RequestParam Map<String, String> parameters) {
+		Optional<User> optionalUser;
+		if (parameters.containsKey("id")) {
+			optionalUser = userRepository.findById(Long.valueOf(parameters.get("id")));     // 1
+		} else if (parameters.containsKey("username")) {
+			optionalUser = userRepository.findUserByUsername(parameters.get("username"));   // 1
+		} else if (parameters.containsKey("email")) {
+			optionalUser = userRepository.findUserByEmail(parameters.get("email"));         // 1
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		/* Don't even ask me, this is apparently the best way to handle Optionals */
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
