@@ -67,10 +67,10 @@ public class Login extends AppCompatActivity {
 */
         //Post Request:
         RequestQueue queue = Volley.newRequestQueue(this);
-        //String url = "http://coms-309-028.cs.iastate.edu:8080/users/login";
-        String url = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io/a";
+        String url = "http://coms-309-028.cs.iastate.edu:8080/users/login";
+        //String url = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io/b";
         JSONObject post= new JSONObject();
-        try{
+        try {
             post.put("email",tb_email.getText());
             post.put("passwordHash",tb_username.getText());
 
@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, post, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, post, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //tb_username.setText("Good Response");
