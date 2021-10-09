@@ -10,10 +10,14 @@
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.3828571428571429" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.1142857142857143" />
+        <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_profile.xml" value="0.29347826086956524" />
+        <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.3808876811594203" />
+        <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.18659420289855072" />
+        <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/fragment_notifications.xml" value="0.18659420289855072" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -50,7 +50,6 @@ public class InputUserInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User newUser = new User();
-                newUser.setId(idIn.getText().toString());
                 newUser.setUsername(usernameIn.getText().toString());
                 newUser.setEmail(emailIn.getText().toString());
                 newUser.setPasswordHash(passwordIn.getText().toString());
