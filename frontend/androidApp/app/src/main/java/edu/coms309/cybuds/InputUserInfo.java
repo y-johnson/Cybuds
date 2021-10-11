@@ -17,6 +17,16 @@ import java.util.List;
 import edu.coms309.cybuds.api.SlimCallback;
 import edu.coms309.cybuds.model.User;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 //import test.connect.myapplication.api.SlimCallback;
 
@@ -59,6 +69,30 @@ public class InputUserInfo extends AppCompatActivity {
                 newUser.setAddress(addressIn.getText().toString());
                 newUser.setPhoneNumber(phonenumberIn.getText().toString());
                 newUser.setGender(genderIn.getText().toString());
+
+                //my code
+                RequestQueue queue = Volley.newRequestQueue(this);
+                String url = "http://coms-309-028.cs.iastate.edu:8080/users/login";
+
+
+                JSONObject post = new JSONObject();
+                try {
+                    post.put("idIn", idIn.getText());
+                    post.put("usernameIn", usernameIn.getText());
+                    post.put("email", emailIn.getText());
+                    post.put("firstName", firstnameIn.getText());
+                    post.put("middleName", middlenameIn.getText());
+                    post.put("lastName", lastnameIn.getText());
+                    post.put("address", addressIn.getText());
+                    post.put("number", phonenumberIn.getText());
+                    post.put("gender", genderIn.getText());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //
+
 
 
                 GetUserApi().addUser(newUser).enqueue(new SlimCallback<User>(user -> {
