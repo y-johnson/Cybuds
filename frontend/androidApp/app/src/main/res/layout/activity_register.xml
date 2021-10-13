@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ActivityRegister">
 
-    <Button
-        android:id="@+id/btnRegister_Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="32dp"
-        android:onClick="btnRegister_Back_onClick"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <EditText
         android:id="@+id/tbRegister_UserName"
         android:layout_width="wrap_content"
@@ -63,13 +52,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tbRegister_major" />
 
     <Button
-        android:id="@+id/btnRegister_Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_gender" />
+            android:id="@+id/btnRegister_Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_gender"
+            android:onClick="btnSubmit_onClick" />
 
     <EditText
         android:id="@+id/tbRegister_id"
@@ -165,16 +155,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tbRegister_phoneNum" />
 
     <TextView
-        android:id="@+id/tbRegister_textView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnRegister_Back"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister_Submit" />
+            android:id="@+id/tbRegister_textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegister_Submit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
