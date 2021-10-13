@@ -30,4 +30,4 @@ auto-deployment:
     - cd /home/2_do_4/backend/code
     - sudo mvn clean
     - sudo mvn package
-    - sudo mv ./*.jar /target/cybuds-server.jar
+    - sudo mv ./target/*.jar /target/cybuds-server.jar
