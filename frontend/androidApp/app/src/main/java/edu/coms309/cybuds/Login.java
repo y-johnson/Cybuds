@@ -38,7 +38,6 @@ public class Login extends AppCompatActivity {
 
 	public void btnLogin_submit_onClick(View view) {
 
-
 		final EditText tb_password = findViewById(R.id.textBoxLogin_Password);
 		final EditText tb_email = findViewById(R.id.textBoxLogin_Email);
 		//GET Request:
