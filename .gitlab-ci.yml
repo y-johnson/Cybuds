@@ -21,3 +21,13 @@ maven-test:
     artifacts:
         paths:
         - ./backend/code/target/*.jar
+
+auto-deployment:
+    stage: autodeploy
+    tags:
+    - shell
+    script:
+    - cd ./backend/code
+    - mvn clean
+    - mvn package
+    - sudo mv ./*.jar /target/cybuds-server.jar
