@@ -8,7 +8,7 @@ maven-build:
     tags:
     - shell
     script:
-    - cd ./backend/code
+    - cd /home/2_do_4/backend/code
     - mvn package -B
 
 maven-test:
@@ -16,18 +16,18 @@ maven-test:
     tags:
     - shell
     script:
-    - cd ./backend/code
+    - cd /home/2_do_4/backend/code
     - mvn test
     artifacts:
         paths:
-        - ./backend/code/target/*.jar
+        - /home/2_do_4/backend/code/target/*.jar
 
 auto-deployment:
     stage: autodeploy
     tags:
     - shell
     script:
-    - cd ./backend/code
+    - cd /home/2_do_4//backend/code
     - mvn clean
     - mvn package
     - sudo mv ./*.jar /target/cybuds-server.jar
