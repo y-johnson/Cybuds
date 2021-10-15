@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import static edu.coms309.cybuds.api.ApiClientFactory.GetUserApi;
-
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -41,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(gotoLoginActivityIntent);
         //setContentView(R.layout.activity_login);
     }
+
     public void btnSignUp_onClick(View view) {
         //Toast.makeText(MainActivity.this, "TODO!", Toast.LENGTH_SHORT).show();
         Intent gotoRegisterActivityIntent = new Intent(this, ActivityRegister.class);
@@ -53,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_login);
     }*/
 
-    public void openInputUser(){
-        Intent intent = new Intent(this, InputUserInfo.class);
-        startActivity(intent);
-    }
+//    public void openInputUser(){
+//        Intent intent = new Intent(this, InputUserInfo.class);
+//        startActivity(intent);
+//    }
 
 
 
