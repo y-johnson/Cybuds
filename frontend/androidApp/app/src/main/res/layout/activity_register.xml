@@ -1,158 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ActivityRegister">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RegisterActivity"
+        android:textColorHint="#757575">
+
 
     <EditText
-        android:id="@+id/tbRegister_UserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="User Name"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/tbRegister_Password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_UserName"
+            android:layout_marginTop="4dp"
+            android:autofillHints="password" />
 
     <EditText
-        android:id="@+id/tbRegister_Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_UserName" />
-
-    <EditText
-        android:id="@+id/tbRegister_major"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Major (abbreviated)"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_Password" />
-
-    <EditText
-        android:id="@+id/tbRegister_gradYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Graduation Year"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_major" />
+            android:id="@+id/tbRegister_UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="132dp"
+            android:hint="@string/user_name"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            android:autofillHints="username" />
 
     <Button
             android:id="@+id/btnRegister_Submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:text="@string/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tbRegister_gender"
-            android:onClick="btnSubmit_onClick" />
+            android:onClick="btnSubmit_onClick"
+            android:layout_marginTop="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_phoneNum" />
 
     <EditText
-        android:id="@+id/tbRegister_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="ID"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_gradYear" />
+            android:id="@+id/tbRegister_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textWebEmailAddress"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="emailAddress"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_Password" />
 
     <EditText
-        android:id="@+id/tbRegister_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_id" />
+            android:id="@+id/tbRegister_fName"
+            android:layout_width="124dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:hint="@string/first_name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/tbRegister_mName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_email"
+            android:autofillHints="name" />
 
     <EditText
-        android:id="@+id/tbRegister_fName"
-        android:layout_width="124dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="F Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/tbRegister_mName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_email" />
+            android:id="@+id/tbRegister_mName"
+            android:layout_width="134dp"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:hint="@string/middle_name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/tbRegister_lName"
+            app:layout_constraintStart_toEndOf="@+id/tbRegister_fName"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_email"
+            android:autofillHints="name" />
 
     <EditText
-        android:id="@+id/tbRegister_mName"
-        android:layout_width="134dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:hint="M Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/tbRegister_lName"
-        app:layout_constraintStart_toEndOf="@+id/tbRegister_fName"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_email" />
+            android:id="@+id/tbRegister_lName"
+            android:layout_width="104dp"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:hint="@string/last_name"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tbRegister_mName"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_email"
+            android:autofillHints="name" />
 
     <EditText
-        android:id="@+id/tbRegister_lName"
-        android:layout_width="104dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:hint="L Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tbRegister_mName"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_email" />
+            android:id="@+id/tbRegister_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/address"
+            android:inputType="textPostalAddress"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_mName"
+            android:autofillHints="postalAddress" />
 
     <EditText
-        android:id="@+id/tbRegister_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="address"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_mName" />
-
-    <EditText
-        android:id="@+id/tbRegister_phoneNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="phone #"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_address" />
-
-    <EditText
-        android:id="@+id/tbRegister_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="gender"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_phoneNum" />
+            android:id="@+id/tbRegister_phoneNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/phone_number"
+            android:inputType="phone"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbRegister_address"
+            android:autofillHints="phone" />
 
     <TextView
             android:id="@+id/tbRegister_textView"
@@ -161,8 +129,10 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
-            android:text="TextView"
+            android:text="@string/textview2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnRegister_Submit" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

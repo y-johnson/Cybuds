@@ -1,6 +1,16 @@
 package edu.coms309.cybuds.model;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+enum Gender {
+	MALE,
+	FEMALE,
+	OTHER
+}
 
 public class User implements Serializable {
 	private Long id;
@@ -12,10 +22,33 @@ public class User implements Serializable {
 	private String lastName;
 	private String address;
 	private String phoneNumber;
-	private String gender;
+	private Gender gender;
 
 	public User() {
 
+	}
+
+	/**
+	 * Returns a {@code JSONObject} representation of this {@code User}, as parsed by {@code Gson}.
+	 * @return the equivalent {@code JSONObject} representation of this {@code User}.
+	 * @throws JSONException if the Gson object-to-JSON conversion results in an invalid format.
+	 */
+	public JSONObject toJSONObject() throws JSONException {
+		Gson gson = new Gson();
+		return new JSONObject(gson.toJson(this));
+	}
+
+	public String printable() {
+		return "\n ID:  " + getId()
+				+ "\n UserName:  " + getUsername()
+				+ "\n Email:  " + getEmail()
+				+ "\n PasswordHash:  " + getPasswordHash()
+				+ "\n FirstName:  " + getFirstName()
+				+ "\n MiddleName:  " + getMiddleName()
+				+ "\n LastName:  " + getLastName()
+				+ "\n Address:  " + getAddress()
+				+ "\n PhoneNumber:  " + getPhoneNumber()
+				+ "\n Gender:  " + getGender() + "\n";
 	}
 
 	public Long getId() {
@@ -86,24 +119,11 @@ public class User implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
-	}
-
-	public String printable() {
-		return "\n ID:  " + getId()
-				+ "\n UserName:  " + getUsername()
-				+ "\n Email:  " + getEmail()
-				+ "\n PasswordHash:  " + getPasswordHash()
-				+ "\n FirstName:  " + getFirstName()
-				+ "\n MiddleName:  " + getMiddleName()
-				+ "\n LastName:  " + getLastName()
-				+ "\n Address:  " + getAddress()
-				+ "\n PhoneNumber:  " + getPhoneNumber()
-				+ "\n Gender:  " + getGender() + "\n";
 	}
 }

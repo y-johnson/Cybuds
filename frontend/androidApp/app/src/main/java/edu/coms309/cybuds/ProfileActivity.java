@@ -18,13 +18,11 @@ import edu.coms309.cybuds.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
-	private ActivityProfileBinding binding;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		binding = ActivityProfileBinding.inflate(getLayoutInflater());
+		edu.coms309.cybuds.databinding.ActivityProfileBinding binding = ActivityProfileBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
 
 		BottomNavigationView navView = findViewById(R.id.nav_view);
