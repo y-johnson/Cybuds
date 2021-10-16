@@ -2,6 +2,8 @@ stages:
 - mavenbuild
 - maventest
 - autodeploy
+- androidbuild
+
 
 maven-build:
     stage: mavenbuild
@@ -31,3 +33,21 @@ auto-deployment:
     - sudo mvn clean
     - sudo mvn package
     - sudo mv ./target/*.jar /target/cybuds-server.jar
+
+android-build:
+    image:
+    - javiersantos/android-ci:latest
+    stage:
+    - androidbuild
+    before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Android_test/gradlew
+    tags:
+    - docker
+    script:
+    - cd /home/2_do_4/frontend/androidApp
+    - ./gradlew assemble
+    artifacts:
+        paths:
+        - /home/2_do_4/frontend/androidApp/app/build/outputs
+
