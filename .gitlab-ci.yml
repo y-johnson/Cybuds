@@ -39,7 +39,7 @@ android-build:
     stage: androidbuild
     before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - sudo chmod +x /home/2_do_4/frontend/androidApp/gradlew
+    - chmod +x /home/2_do_4/frontend/androidApp/gradlew
     tags:
     - docker
     script:
