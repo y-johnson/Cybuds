@@ -43,9 +43,9 @@ android-build:
     tags:
     - docker
     script:
-    - cd /home/2_do_4/frontend/androidApp
+    - cd ./frontend/androidApp
     - ./gradlew assemble
     artifacts:
         paths:
-        - /home/2_do_4/frontend/androidApp/app/build/outputs
+        - ./frontend/androidApp/app/build/outputs
 
