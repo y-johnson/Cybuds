@@ -3,7 +3,7 @@ stages:
 - maventest
 - autodeploy
 - androidbuild
-
+- androidtest
 
 maven-build:
     stage: mavenbuild
@@ -49,3 +49,14 @@ android-build:
         paths:
         - ./frontend/androidApp/app/build/outputs
 
+android-test:
+    image: javiersantos/android-ci:latest
+    stage: androidtest
+    before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./frontend/androidApp/gradlew
+    tags:
+    - docker
+    script:
+    - cd ./frontend/androidApp
+    - ./gradlew test
