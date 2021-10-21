@@ -6,6 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+//import edu.coms309.cybuds.api.SlimCallback;
+import edu.coms309.cybuds.model.User;
+
+import java.util.List;
+//import test.connect.myapplication.api.SlimCallback;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button button;
@@ -14,14 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-      /*  button = (Button)findViewById(R.id.activity_main_inputuserinfo);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openInputUser();
-            }
-        });*/
     }
 
     public void btnLogin_onClick(View view) {
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(gotoLoginActivityIntent);
         //setContentView(R.layout.activity_login);
     }
+
     public void btnSignUp_onClick(View view) {
         //Toast.makeText(MainActivity.this, "TODO!", Toast.LENGTH_SHORT).show();
         Intent gotoRegisterActivityIntent = new Intent(this, ActivityRegister.class);
@@ -41,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_login);
     }*/
 
-
-
+//    public void openInputUser(){
+//        Intent intent = new Intent(this, InputUserInfo.class);
+//        startActivity(intent);
+//    }
 
 
 }
