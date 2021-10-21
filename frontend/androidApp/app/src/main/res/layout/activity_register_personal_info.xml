@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/backgroundcolor"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_banner"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@drawable/setup_account_banner"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity="center"
+        android:text="Setup Account"
+        android:textColor="@color/dark_red"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_first_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/activity_register_personal_info_button_next"
+        android:layout_width="416dp"
+        android:layout_height="56dp"
+        android:background="@drawable/next_back_button_setup"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity="center"
+        android:text="Next"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_first_name"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="300dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="FirstName"
+        android:textColor="#000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_middle_name"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="23dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="MiddleName"
+        android:textColor="#000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_personal_info_first_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_last_name"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="LastName"
+        android:textColor="#000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_personal_info_middle_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_phone_number"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="PhoneNumber"
+        android:textColor="#000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_personal_info_last_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_address"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="Address"
+        android:textColor="#000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_personal_info_phone_number"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/activity_register_personal_info_gender"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="Gender"
+        android:textColor="#000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_personal_info_address"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

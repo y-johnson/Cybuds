@@ -4,67 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundcolor"
     tools:context=".ActivityRegister">
 
     <Button
-        android:id="@+id/btnRegister_Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="32dp"
-        android:onClick="btnRegister_Back_onClick"
+        android:id="@+id/activity_register_button_back"
+        android:layout_width="184dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/login_next_button"
+        android:fontFamily="@font/racing_sans_one"
         android:text="Back"
+        android:textColor="#000"
+        android:textSize="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tbRegister_UserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:hint="User Name"
-
+        android:id="@+id/activity_register_email"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="212dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="Email"
+        android:textColor="#000"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tbRegister_Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/activity_register_password"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
         android:layout_marginTop="16dp"
         android:hint="Password"
+        android:textSize="20dp"
+        android:gravity=""
+        android:textColor="#000"
+        android:fontFamily="@font/racing_sans_one"
+        android:background="@drawable/text_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_UserName" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_email" />
 
     <TextView
-        android:id="@+id/tbRegister_major"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/activity_register_major"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
         android:layout_marginTop="24dp"
         android:hint="Major (abbreviated)"
+        android:textSize="20dp"
+        android:gravity=""
+        android:textColor="#000"
+        android:fontFamily="@font/racing_sans_one"
+        android:background="@drawable/text_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_Password" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_password" />
 
     <TextView
-        android:id="@+id/tbRegister_gradYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/activity_register_graduation_year"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
         android:layout_marginTop="24dp"
+        android:background="@drawable/text_box"
         android:hint="Graduation Year"
+        android:textSize="20dp"
+        android:gravity=""
+        android:textColor="#000"
+        android:fontFamily="@font/racing_sans_one"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_major" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_major" />
 
     <Button
-        android:id="@+id/btnRegister_Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/activity_register_button_submit"
+        android:layout_width="184dp"
+        android:layout_height="65dp"
         android:layout_marginTop="24dp"
-        android:text="Button"
+        android:text="Next"
+        android:textColor="#000"
+        android:textSize="28dp"
+        android:fontFamily="@font/racing_sans_one"
+        android:background="@drawable/login_next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbRegister_gradYear" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_graduation_year" />
+
+    <TextView
+        android:id="@+id/activity_register_banner"
+        android:layout_width="0dp"
+        android:layout_height="168dp"
+        android:background="@drawable/login_register_banner"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity="center"
+        android:text="Register"
+        android:textColor="@color/dark_red"
+        android:textSize="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.014" />
 </androidx.constraintlayout.widget.ConstraintLayout>

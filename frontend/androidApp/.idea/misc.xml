@@ -6,10 +6,38 @@
         <entry key="..\:/ISU/ComS_309/GH_Repos/2_do_4_NB/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/ISU/ComS_309/GH_Repos/2_do_4_NB/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.12771739130434784" />
         <entry key="..\:/ISU/ComS_309/GH_Repos/2_do_4_NB/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.33" />
-        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_input_user_info.xml" value="0.13272543059777103" />
-        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.1" />
-        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.3828571428571429" />
-        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.1142857142857143" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/circle.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/gname.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/highlight.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.4046875" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/img.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/interest_style.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/interest_style_yellow.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/interest_tile_style.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/login_next_button.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/login_register_banner.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/loginbtn.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/next_back_button_setup.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/picture.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/setup_account_banner.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/small_circle.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/text_box.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/unlimited_background.xml" value="0.40520833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_input_user_info.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.18857142857142858" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_classes.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_personal_info.xml" value="0.18857142857142858" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_username_picture.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/buttonshape.xml" value="0.2743589743589744" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/setup_group.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/setup_interest.xml" value="0.10285714285714286" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/setup_main.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14739583333333334" />
       </map>
     </option>
   </component>

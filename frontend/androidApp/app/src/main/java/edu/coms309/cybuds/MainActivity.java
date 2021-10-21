@@ -15,13 +15,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = (Button)findViewById(R.id.activity_main_inputuserinfo);
+      /*  button = (Button)findViewById(R.id.activity_main_inputuserinfo);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openInputUser();
             }
-        });
+        });*/
     }
 
     public void btnLogin_onClick(View view) {
@@ -41,10 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_login);
     }*/
 
-    public void openInputUser(){
-        Intent intent = new Intent(this, InputUserInfo.class);
-        startActivity(intent);
-    }
+
 
 
 
