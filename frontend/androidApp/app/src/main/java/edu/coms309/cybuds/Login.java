@@ -38,8 +38,8 @@ public class Login extends AppCompatActivity {
 
 	public void btnLogin_submit_onClick(View view) {
 
-		final EditText tb_password = findViewById(R.id.textBoxLogin_Password);
-		final EditText tb_email = findViewById(R.id.textBoxLogin_Email);
+		final EditText tb_password = findViewById(R.id.activity_login_password);
+		final EditText tb_email = findViewById(R.id.activity_login_email);
 		//GET Request:
 /*
         // Instantiate the RequestQueue.

@@ -28,6 +28,7 @@
         android:background="@drawable/next_back_button_setup"
         android:fontFamily="@font/racing_sans_one"
         android:gravity="center"
+        android:onClick="btnRegister_classes_continue_onClick"
         android:text="Next"
         android:textSize="36dp"
         app:layout_constraintBottom_toBottomOf="parent"

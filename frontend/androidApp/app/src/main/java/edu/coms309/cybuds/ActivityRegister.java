@@ -2,20 +2,9 @@ package edu.coms309.cybuds;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.List;
-
-import edu.coms309.cybuds.api.SlimCallback;
-import edu.coms309.cybuds.model.User;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,12 +13,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import edu.coms309.cybuds.model.User;
 //import test.connect.myapplication.api.SlimCallback;
 
 public class ActivityRegister extends AppCompatActivity {
@@ -46,17 +35,49 @@ public class ActivityRegister extends AppCompatActivity {
 
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Intent gotoProfileActivityIntent = new Intent(this, ProfileActivity.class);
+		startActivity(gotoProfileActivityIntent);
+	}
+
+	public void btnRegister_Back_onClick(View view) {
+		finish();
+	}
+
+	public void btnRegister_first_continue_onClick(View view) {
+		setContentView(R.layout.activity_register_personal_info);
+	}
+
+	public void btnRegister_personalInfo_continue_onClick(View view) {
+		setContentView(R.layout.activity_register_username_picture);
+	}
+
+	public void btnRegister_uName_Pict_contine_onClick(View view) {
+		setContentView(R.layout.activity_register_classes);
+	}
+
+	public void btnRegister_classes_continue_onClick(View view) {
+		setContentView(R.layout.setup_interest);
+	}
+
+	public void btnRegister_interests_contine_onClick(View view) {
+		Intent gotoProfileActivityIntent = new Intent(this, ProfileActivity.class);
+		startActivity(gotoProfileActivityIntent);
+	}
+
 	public void btnSubmit_onClick(View view) {
-		EditText idIn = findViewById(R.id.tbRegister_id);
-		EditText usernameIn = findViewById(R.id.tbRegister_UserName);
-		EditText emailIn = findViewById(R.id.tbRegister_email);
-		EditText passwordIn = findViewById(R.id.tbRegister_Password);
-		EditText firstnameIn = findViewById(R.id.tbRegister_fName);
-		EditText middlenameIn = findViewById(R.id.tbRegister_mName);
-		EditText lastnameIn = findViewById(R.id.tbRegister_lName);
-		EditText addressIn = findViewById(R.id.tbRegister_address);
-		EditText phonenumberIn = findViewById(R.id.tbRegister_phoneNum);
-		EditText genderIn = findViewById(R.id.tbRegister_gender);
+		//EditText idIn = findViewById(R.id.tbRegister_id);
+		EditText usernameIn = findViewById(R.id.activity_register_username_picture_username);
+		EditText emailIn = findViewById(R.id.activity_register_email);
+		EditText passwordIn = findViewById(R.id.activity_register_password);
+		EditText firstnameIn = findViewById(R.id.activity_register_personal_info_first_name);
+		EditText middlenameIn = findViewById(R.id.activity_register_personal_info_middle_name);
+		EditText lastnameIn = findViewById(R.id.activity_register_personal_info_last_name);
+		EditText addressIn = findViewById(R.id.activity_register_personal_info_address);
+		EditText phonenumberIn = findViewById(R.id.activity_register_personal_info_phone_number);
+		EditText genderIn = findViewById(R.id.activity_register_personal_info_gender);
 
 		User newUser = new User();
 		newUser.setUsername(usernameIn.getText().toString());

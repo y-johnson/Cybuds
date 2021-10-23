@@ -4,7 +4,7 @@ import edu.coms309.cybuds.model.User;
 //import com.example.apicalls.model.User;
 
 import java.util.List;
-
+/*
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,3 +22,4 @@ public interface UserApi {
     Call<List<User>> getAllUsers();
 
 }
+*/
