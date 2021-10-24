@@ -5,4 +5,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="textview" />
+    <string name="button">Register</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="textview2">TextView</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="last_name">Last Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="first_name">First Name</string>
 </resources>

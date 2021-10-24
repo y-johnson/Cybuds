@@ -18,14 +18,11 @@ import edu.coms309.cybuds.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
-	private ActivityProfileBinding binding;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_profile);
 
-		/*binding = ActivityProfileBinding.inflate(getLayoutInflater());
+		edu.coms309.cybuds.databinding.ActivityProfileBinding binding = ActivityProfileBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
 
 		BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -47,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
 		TextView t = findViewById(R.id.textView_profileHeader);
 		t.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
 		t = findViewById(R.id.textView_MainBody);
-		t.setText(user.printable());*/
+		t.setText(user.printable());
 	}
 
 
