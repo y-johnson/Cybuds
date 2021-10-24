@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/backgroundcolor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/activity_register_username_picture_banner"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@drawable/setup_account_banner"
+        android:text="Setup Account"
+        android:textColor="@color/dark_red"
+        android:textSize="36sp"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_register_username_picture_button_next"
+        android:layout_width="416dp"
+        android:layout_height="56dp"
+        android:background="@drawable/next_back_button_setup"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity="center"
+        android:onClick="btnRegister_uName_Pict_contine_onClick"
+        android:text="Next"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/activity_register_username_picture_username"
+        android:layout_width="290dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="Public UserName"
+        android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_banner" />
+
+    <TextView
+        android:id="@+id/activity_register_username_picture_pp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/racing_sans_one"
+        android:text="Profile Picture"
+        android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_username"
+        app:layout_constraintVertical_bias="0.19999999" />
+
+    <TextView
+        android:id="@+id/activity_register_username_picture_premium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/racing_sans_one"
+        android:text="Premium"
+        android:textColor="#000"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_unlimited_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_username"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/activity_register_username_picture_unlimited_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/unlimited_background"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_button_next"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.237"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_username"
+        app:layout_constraintVertical_bias="0.82"
+        app:srcCompat="@drawable/unlimited" />
+
+    <Switch
+        android:id="@+id/activity_register_username_picture_switch"
+        android:layout_width="111dp"
+        android:layout_height="48dp"
+        android:fontFamily="@font/racing_sans_one"
+        android:text="Enroll"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toEndOf="@+id/activity_register_username_picture_unlimited_img"
+        app:layout_constraintTop_toBottomOf="@+id/cardView5"
+        app:layout_constraintVertical_bias="0.424" />
+
+    <ImageView
+        android:id="@+id/avtivity_register_username_picture_upload"
+        android:layout_width="69dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.769"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_username"
+        app:layout_constraintVertical_bias="0.79"
+        app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_pp_text"
+        app:layout_constraintVertical_bias="0.110000014">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="250dp">
+
+            <ImageView
+                android:id="@+id/activity_register_username_picture_p1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pimage1" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_pp_text"
+        app:layout_constraintVertical_bias="0.12">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="250dp">
+
+        <ImageView
+            android:id="@+id/activity_register_username_picture_p2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pimage2" />
+
+    </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_pp_text">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="250dp">
+
+            <ImageView
+                android:id="@+id/activity_register_username_picture_p3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pimage3" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_pp_text">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="250dp">
+
+            <ImageView
+                android:id="@+id/activity_register_username_picture_p4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pimage4" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView5"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_username_picture_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.81"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_username_picture_pp_text"
+        app:layout_constraintVertical_bias="0.17">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="250dp">
+
+            <ImageView
+                android:id="@+id/activity_register_username_picture_p5"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pimage4" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
