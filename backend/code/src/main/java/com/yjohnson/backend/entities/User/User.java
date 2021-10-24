@@ -1,6 +1,12 @@
-package com.yjohnson.backend.entities;
+package com.yjohnson.backend.entities.User;
+
+import com.yjohnson.backend.entities.Interest.InterestEntity;
+import com.yjohnson.backend.entities.Interest.Relation_UserInterest;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 enum Gender {
 	MALE,
@@ -10,7 +16,7 @@ enum Gender {
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User implements Serializable {
 	@Column(nullable = false, unique = true)
 	public String username;
 	@Column(nullable = false, unique = true)
@@ -29,7 +35,7 @@ public class User {
 	public Gender gender;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false)
+	@Column(nullable = false)
 	private Long id;
 
 	protected User() {
@@ -56,5 +62,6 @@ public class User {
 		this.id = id;
 	}
 
-
+	@OneToMany(cascade = CascadeType.ALL)
+	Set<Relation_UserInterest> interestedIn;
 }

@@ -1,4 +1,4 @@
-package com.yjohnson.backend.entities;
+package com.yjohnson.backend.entities.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +32,8 @@ public class UserController {
 		} else if (userRepository.findUserByUsername(newUser.username).isPresent()) { //2
 			return new ResponseEntity<>(newUser.username, HttpStatus.CONFLICT);
 		} else {
-			userRepository.save(newUser);                                            //3
-			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+			User created = userRepository.save(newUser);                                            //3
+			return new ResponseEntity<>(created, HttpStatus.CREATED);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class UserController {
 	 * @return the user that corresponds to the query, 400 if no params were given, 404 if no user was found
 	 */
 	@GetMapping()
-	public ResponseEntity<User> getUser(@RequestParam Map<String, String> parameters) {
+	public ResponseEntity<?> getUser(@RequestParam Map<String, String> parameters) {
 		Optional<User> optionalUser;
 		if (parameters.containsKey("id")) {
 			optionalUser = userRepository.findById(Long.valueOf(parameters.get("id")));     // 1

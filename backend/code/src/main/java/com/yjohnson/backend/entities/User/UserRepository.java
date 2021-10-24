@@ -1,4 +1,4 @@
-package com.yjohnson.backend.entities;
+package com.yjohnson.backend.entities.User;
 
 import org.springframework.data.repository.CrudRepository;
 
