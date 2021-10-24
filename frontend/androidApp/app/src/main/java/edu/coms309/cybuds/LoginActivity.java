@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 	 */
 	public void btnLogin_submit_onClick(View view) {
 		User user = new User();
-		user.setEmail(this.<EditText>findViewById(R.id.textBoxLogin_Email).getText().toString());
-		user.setPasswordHash(this.<EditText>findViewById(R.id.textBoxLogin_Password).getText().toString());
+		user.setEmail(this.<EditText>findViewById(R.id.activity_login_email).getText().toString());
+		user.setPasswordHash(this.<EditText>findViewById(R.id.activity_login_password).getText().toString());
 
 		HTTP_DRIVER.requestLogin(
 				getBaseContext(),
