@@ -41,8 +41,8 @@ public class UserController {
 	 * Sends the user object that matches the attemptedLogin object. It queries the database for the unique user with the provided email; if no email
 	 * was provided, then it searches for the unique user with the provided username.
 	 * <p>
-	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body.
-	 * Otherwise, a 404 is returned instead.
+	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body. Otherwise,
+	 * a 404 is returned instead.
 	 *
 	 * @param attemptedLogin the pseudo-user object that contains either the email or username and a password hash
 	 *
@@ -90,25 +90,43 @@ public class UserController {
 	/**
 	 * Deletes the user that corresponds to the given ID from the database.
 	 *
-	 * @param id the ID of th=e user to be deleted.
+	 * @param id the ID of the user to be deleted.
 	 *
 	 * @return if successfully deleted, a response entity with the deleted user's ID; otherwise, a 404 reponse code.
 	 */
 	@DeleteMapping()
-	public ResponseEntity<Long> deleteUser(@RequestParam("id") Long id) {
+	public ResponseEntity<?> deleteUser(@RequestParam("id") Long id) {
 		/*
 		 * For the sake of performance, the method will only query the database twice (once to figure out if it exists and once to delete it if it
 		 * does).
 		 * The findById method returns an Optional, which is really just the same idea as returning a null value in C.
 		 */
-		Optional<User> optionalUser = userRepository.findById(id);  //1
-		if (optionalUser.isPresent()) {
-			Long uid = optionalUser.get().getId();
-			userRepository.deleteById(uid);                         //2
-			return new ResponseEntity<>(uid, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		try {
+			Optional<User> optionalUser = userRepository.findById(id);  //1
+			if (optionalUser.isPresent()) {
+				User deleted = optionalUser.get().clone();
+				userRepository.deleteById(deleted.getId());                         //2
+				return new ResponseEntity<>(deleted, HttpStatus.OK);
+			}
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
 		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@PutMapping
+	public ResponseEntity<User> updateUser(@RequestBody User requestedToUpdate) {
+		if (requestedToUpdate != null && requestedToUpdate.getId() != null) {
+			Optional<User> optionalUser = Optional.empty();
+			if (requestedToUpdate.getId() != null) optionalUser = userRepository.findById(requestedToUpdate.getId());
+			if (optionalUser.isPresent()) {
+				return new ResponseEntity<>(
+						userRepository.save(optionalUser.get().updateContents(requestedToUpdate)),  // Updated all but ID.
+						HttpStatus.OK
+				);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	/**

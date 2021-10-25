@@ -1,12 +1,14 @@
 package com.yjohnson.backend.entities.Interest;
 
-import com.yjohnson.backend.entities.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class InterestEntity {
+public class InterestEntity implements Serializable, Cloneable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
@@ -17,7 +19,8 @@ public class InterestEntity {
 	String description;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	Set<Relation_UserInterest> interested;
+	@JsonIgnore
+	public Set<R_UserInterest> interested;
 
 	public Long getId() {
 		return id;
@@ -41,5 +44,10 @@ public class InterestEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public InterestEntity clone() throws CloneNotSupportedException {
+		return (InterestEntity) super.clone();
 	}
 }

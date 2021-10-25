@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface GroupRepository extends CrudRepository<GroupEntity, Long> {
-	Optional<GroupEntity> findGroupByName(String name);
+	Optional<GroupEntity> findByName(String name);
 }
