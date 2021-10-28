@@ -9,18 +9,15 @@ import java.util.Set;
 
 @Entity
 public class InterestEntity implements Serializable, Cloneable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
-
-	@Column(nullable = false, unique = true)
-	String name;
-
-	String description;
-
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserInterest> interested;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	Long id;
+	@Column(nullable = false, unique = true)
+	String name;
+	String description;
 
 	public Long getId() {
 		return id;
@@ -59,5 +56,11 @@ public class InterestEntity implements Serializable, Cloneable {
 	@Override
 	public InterestEntity clone() throws CloneNotSupportedException {
 		return (InterestEntity) super.clone();
+	}
+
+	public InterestEntity updateContents(InterestEntity toCopy) {
+		if (toCopy.name != null) this.name = toCopy.name;
+		if (toCopy.description != null) this.description = toCopy.description;
+		return this;
 	}
 }

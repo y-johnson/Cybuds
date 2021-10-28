@@ -2,7 +2,6 @@ package com.yjohnson.backend.entities.Group;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
-import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,18 +9,15 @@ import java.util.Set;
 
 @Entity
 public class GroupEntity implements Serializable, Cloneable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
-
-	@Column(nullable = false)
-	String name;
-
-	String description;
-
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserGroup> members;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	Long id;
+	@Column(nullable = false)
+	String name;
+	String description;
 
 	public Long getId() {
 		return id;
@@ -60,5 +56,11 @@ public class GroupEntity implements Serializable, Cloneable {
 	@Override
 	public GroupEntity clone() throws CloneNotSupportedException {
 		return (GroupEntity) super.clone();
+	}
+
+	public GroupEntity updateContents(GroupEntity toCopy) {
+		if (toCopy.name != null) this.name = toCopy.name;
+		if (toCopy.description != null) this.description = toCopy.description;
+		return this;
 	}
 }

@@ -12,7 +12,4 @@ import java.util.List;
 public interface UserGroupRepository extends CrudRepository<R_UserGroup, Long> {
 	List<R_UserGroup> findAllByUser(User user);
 	List<R_UserGroup> findByUserAndGroup(User user, GroupEntity group);
-
-//	@Query(value = "SELECT FROM ")
-//	List<R_UserGroup> findAllByUserIdAndGroupId(Long user_id, Long group_id);
 }
