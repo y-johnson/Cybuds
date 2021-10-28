@@ -46,6 +46,16 @@ public class InterestEntity implements Serializable, Cloneable {
 		this.description = description;
 	}
 
+	/**
+	 * Returns a memberwise copy of this object. Note that the {@code} attribute is not reflective of this object's literal ID in the database at any
+	 * moment in time; it reflects what it was at the moment this method was called.
+	 *
+	 * @return a clone of this instance.
+	 *
+	 * @throws CloneNotSupportedException if the object's class does not support the {@code Cloneable} interface. Subclasses that override the {@code
+	 *                                    clone} method can also throw this exception to indicate that an instance cannot be cloned.
+	 * @see Cloneable
+	 */
 	@Override
 	public InterestEntity clone() throws CloneNotSupportedException {
 		return (InterestEntity) super.clone();

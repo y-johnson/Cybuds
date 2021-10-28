@@ -1,5 +1,6 @@
 package com.yjohnson.backend.entities.DB_Relations;
 
+import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Interest.InterestEntity;
 import com.yjohnson.backend.entities.User.User;
 
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-public class R_UserInterest implements Serializable {
+public class R_UserGroup implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
@@ -18,18 +19,18 @@ public class R_UserInterest implements Serializable {
 	User user;
 
 	@ManyToOne
-	@JoinColumn(name = "interest_id")
-	InterestEntity interest;
+	@JoinColumn(name = "group_id")
+	GroupEntity group;
 
 	@Column(nullable = false, name = "date_added")
 	LocalDateTime dateAdded;
 
-	protected R_UserInterest() {
+	protected R_UserGroup() {
 	}
 
-	public R_UserInterest(User user, InterestEntity interest, LocalDateTime dateAdded) {
+	public R_UserGroup(User user, GroupEntity group, LocalDateTime dateAdded) {
 		this.user = user;
-		this.interest = interest;
+		this.group = group;
 		this.dateAdded = dateAdded;
 	}
 }

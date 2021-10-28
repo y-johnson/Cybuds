@@ -1,7 +1,12 @@
 package com.yjohnson.backend.entities.Group;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
+import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class GroupEntity implements Serializable, Cloneable {
@@ -13,6 +18,10 @@ public class GroupEntity implements Serializable, Cloneable {
 	String name;
 
 	String description;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	public Set<R_UserGroup> members;
 
 	public Long getId() {
 		return id;

@@ -1,6 +1,7 @@
 package com.yjohnson.backend.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 
 import javax.persistence.*;
@@ -37,7 +38,9 @@ public class User implements Serializable, Cloneable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserInterest> interestedIn;
-
+	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	public Set<R_UserGroup> partOf;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
@@ -59,18 +62,34 @@ public class User implements Serializable, Cloneable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public User updateContents(User requestedToUpdate) {
-		if (requestedToUpdate.address != null) this.setAddress(requestedToUpdate.address);
-		if (requestedToUpdate.username != null) this.setUsername(requestedToUpdate.username);
-		if (requestedToUpdate.email != null) this.setEmail(requestedToUpdate.email);
-		if (requestedToUpdate.passwordHash != null) this.setPasswordHash(requestedToUpdate.passwordHash);
-		if (requestedToUpdate.firstName != null) this.setFirstName(requestedToUpdate.firstName);
-		if (requestedToUpdate.middleName != null) this.setMiddleName(requestedToUpdate.middleName);
-		if (requestedToUpdate.lastName != null) this.setLastName(requestedToUpdate.lastName);
-		if (requestedToUpdate.phoneNumber != null) this.setPhoneNumber(requestedToUpdate.phoneNumber);
-		if (requestedToUpdate.gender != null) this.setGender(requestedToUpdate.gender);
+	public Set<R_UserGroup> getPartOf() {
+		return partOf;
+	}
+
+	/**
+	 * Update all declared member variables with the contents of the given {@code User} object. Note that the given object does NOT need to declare
+	 * variables that do not need to be updated. This will not update the user relations with {@code Group} or {@code Interest}, or this object's
+	 * {@code id}.
+	 * <p>
+	 * The purpose of this method is to simulate the Dto pattern with clearer readability. Used for Spring's {@code CrudRepository.save()} purposes.
+	 *
+	 * @param toCopy the user object to copy values from.
+	 *
+	 * @return this (updated) {@code User} object
+	 */
+	public User updateContents(User toCopy) {
+		if (toCopy.address != null) this.setAddress(toCopy.address);
+		if (toCopy.username != null) this.setUsername(toCopy.username);
+		if (toCopy.email != null) this.setEmail(toCopy.email);
+		if (toCopy.passwordHash != null) this.setPasswordHash(toCopy.passwordHash);
+		if (toCopy.firstName != null) this.setFirstName(toCopy.firstName);
+		if (toCopy.middleName != null) this.setMiddleName(toCopy.middleName);
+		if (toCopy.lastName != null) this.setLastName(toCopy.lastName);
+		if (toCopy.phoneNumber != null) this.setPhoneNumber(toCopy.phoneNumber);
+		if (toCopy.gender != null) this.setGender(toCopy.gender);
 		return this;
 	}
+
 	public Long getId() {
 		return id;
 	}
