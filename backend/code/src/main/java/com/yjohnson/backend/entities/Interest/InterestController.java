@@ -1,84 +1,137 @@
 package com.yjohnson.backend.entities.Interest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/interests")
 public class InterestController {
 
-	@Autowired
-	InterestRepository interestRepository;
+	private final InterestRepository interestRepository;
 
+	public InterestController(InterestRepository interestRepository) {
+		this.interestRepository = interestRepository;
+	}
+
+	/**
+	 * Adds a given interest to the database. This method sanitizes the input to a degree; the fields will be trimmed and names will be capitalized in
+	 * Title case (e.g. "marTHa" -> "Martha").
+	 * <p>
+	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
+	 *
+	 * @param newInterestEntity the {@code InterestEntity} object to insert into the database.
+	 *
+	 * @return a response entity with the created {@code InterestEntity} object (CREATED) or the conflicting value (CONFLICT).
+	 */
 	@PostMapping
 	public ResponseEntity<?> addInterest(@RequestBody InterestEntity newInterestEntity) {
-		if (newInterestEntity.name == null || newInterestEntity.name.isEmpty()) return new ResponseEntity<>(
-				"Given name is empty!",
-				HttpStatus.BAD_REQUEST
-		);
-
-		if (interestRepository.findByName(newInterestEntity.name).isPresent()) {              //1
-			return new ResponseEntity<>(newInterestEntity.name, HttpStatus.CONFLICT);
+		if (newInterestEntity.getName() == null || newInterestEntity.getName().isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		newInterestEntity.setName(StringUtils.trimWhitespace(StringUtils.capitalize(newInterestEntity.getName())));
+		newInterestEntity.setDescription(StringUtils.trimWhitespace(StringUtils.capitalize(newInterestEntity.getDescription())));
+		if (interestRepository.findByName(newInterestEntity.getName()).isPresent()) {              //1
+			return new ResponseEntity<>(newInterestEntity.getName(), HttpStatus.CONFLICT);
 		} else {
 			return new ResponseEntity<>(interestRepository.save(newInterestEntity), HttpStatus.CREATED);
 		}
 	}
 
-	@GetMapping
-	public ResponseEntity<?> getInterest(@RequestParam Map<String, String> parameters) {
-		Optional<InterestEntity> optionalInterestEntity;
-		if (parameters.containsKey("id")) {
-			optionalInterestEntity = interestRepository.findById(Long.valueOf(parameters.get("id")));     // 1
-		} else if (parameters.containsKey("name")) {
-			optionalInterestEntity = interestRepository.findByName(parameters.get("name"));   // 1
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		return optionalInterestEntity.map(interest -> new ResponseEntity<>(interest, HttpStatus.OK))
-		                             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	/*
+	Mappings are complicated when you want multiple path variable types.
+	https://stackoverflow.com/questions/52260551/spring-boot-rest-single-path-variable-which-takes-different-type-of-values
+	 */
+	/**
+	 * Retrieves a {@code InterestEntity} from the database whose ID matches the given path variable. 
+	 * @param id       the id of the interest to retrieve
+	 *
+	 * @return the {@code InterestEntity} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
+	 */
+	@GetMapping(value = "/{identifier:[0-9]+}")
+	public ResponseEntity<?> getInterestById(@PathVariable("identifier") Optional<Long> id) {
+		Optional<InterestEntity> optionalInterest;
+		if (id.isPresent()) optionalInterest = interestRepository.findById(id.get());     // 1
+		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return optionalInterest.map(interestEntity -> new ResponseEntity<>(interestEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
+				HttpStatus.NOT_FOUND));
 	}
 
-	@DeleteMapping
-	public ResponseEntity<InterestEntity> deleteInterest(@RequestParam("id") Long id) {
+	/**
+	 * Retrieves a {@code InterestEntity} from the database whose name matches the given path variable.
+	 *
+	 * @param name       the name of the interest to retrieve
+	 *
+	 * @return the {@code InterestEntity} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
+	 */
+	@GetMapping(value = "/{identifier:[A-Za-z]+}")
+	public ResponseEntity<?> getInterestByName(@PathVariable(name = "identifier") Optional<String> name) {
+		Optional<InterestEntity> optionalInterest;
+		if (name.isPresent()) optionalInterest = interestRepository.findByName(name.get());     // 1
+		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return optionalInterest.map(interestEntity -> new ResponseEntity<>(interestEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
+				HttpStatus.NOT_FOUND));
+	}
+
+	/**
+	 * Deletes the {@code InterestEntity} that corresponds to the given ID from the database.
+	 *
+	 * @param id the ID of the {@code InterestEntity} to be deleted.
+	 *
+	 * @return a response entity with the deleted {@code InterestEntity} object (OK) or an empty body (BAD REQUEST or NOT FOUND).
+	 */
+	@DeleteMapping("/{id}")
+	public ResponseEntity<InterestEntity> deleteInterest(@PathVariable Optional<Long> id) {
+		if (id.isPresent()) {
+			try {
+				Optional<InterestEntity> optionalInterest = interestRepository.findById(id.get());  //1
+				if (optionalInterest.isPresent()) {
+					InterestEntity deleted = optionalInterest.get().clone();
+					interestRepository.delete(optionalInterest.get());                         //2
+					return new ResponseEntity<>(deleted, HttpStatus.OK);
+				}
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	/**
+	 * Updates the {@code InterestEntity} that corresponds to the given ID path variable with the values of the request body. It is not possible to update the
+	 * ID or interested users via this method. Values that do not need to be updated can be omitted.
+	 *
+	 * @param valuesToUpdate a {@code InterestEntity}-like JSON that holds the values to update.
+	 * @param id             the ID of the {@code InterestEntity} to be updated.
+	 *
+	 * @return a response entity with the updated {@code InterestEntity} object (OK) or an empty body (BAD REQUEST, CONFLICT, or NOT FOUND).
+	 */
+	@PutMapping("/{id}")
+	public ResponseEntity<InterestEntity> updateGroup(@RequestBody Optional<InterestEntity> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
-			Optional<InterestEntity> optionalInterestEntity = interestRepository.findById(id);  //1
-			if (optionalInterestEntity.isPresent()) {
-				InterestEntity deleted = optionalInterestEntity.get().clone();
-				Long uid = optionalInterestEntity.get().getId();
-				interestRepository.deleteById(uid);                         //2
-				return new ResponseEntity<>(deleted, HttpStatus.OK);
-			}
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
-	@PutMapping
-	public ResponseEntity<InterestEntity> updateGroup(@RequestBody InterestEntity requestedToUpdate) {
-		if (requestedToUpdate != null && requestedToUpdate.getName() != null) {
-			Optional<InterestEntity> optionalInterestEntity = Optional.empty();
-			if (requestedToUpdate.getId() != null) optionalInterestEntity = interestRepository.findById(requestedToUpdate.getId());
-			if (!optionalInterestEntity.isPresent()) optionalInterestEntity = interestRepository.findByName(requestedToUpdate.getName());
-			if (optionalInterestEntity.isPresent()) {
-				InterestEntity updatedInterestEntity = optionalInterestEntity.get();
-				updatedInterestEntity.setName(requestedToUpdate.getName());
-				updatedInterestEntity.setDescription(requestedToUpdate.getDescription());
-				return new ResponseEntity<>(
-						interestRepository.save(updatedInterestEntity),  // Updated all but ID.
+			if (valuesToUpdate.isPresent() && id.isPresent()) {
+				Optional<InterestEntity> fromDB = interestRepository.findById(id.get());     // 1
+				return fromDB.map(interest -> new ResponseEntity<>(
+						interestRepository.save(interest.updateContents(valuesToUpdate.get())),  // 2
 						HttpStatus.OK
-				);
+				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			}
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(path = "/all")
+	/**
+	 * Retrieves all the {@code InterestEntity} objects in the database.
+	 *
+	 * @return all the interests in the database
+	 */
+	@GetMapping
 	public Iterable<InterestEntity> retrieveAll() {
 		return interestRepository.findAll();
 	}

@@ -1,140 +1,127 @@
 package com.yjohnson.backend.entities.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+
+	public UserController(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	/**
-	 * Adds a given user to the database.
+	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in
+	 * Title case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
 	 * <p>
-	 * If the given user object contains repeated unique fields, then those fields are returned alongside a 409 status code.
+	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
 	 *
 	 * @param newUser the user object to insert into the database.
 	 *
-	 * @return the user and a 201 status code if successful, otherwise the incompatible field and a 409 status code.
+	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
 	 */
 	@PostMapping()
 	public ResponseEntity<?> addUser(@RequestBody User newUser) {
-		// This one can very likely be optimized, but as of 10/2 the only idea that came to mind was a JOIN query (same cost).
-		if (userRepository.findUserByEmail(newUser.email).isPresent()) {              //1
-			return new ResponseEntity<>(newUser.email, HttpStatus.CONFLICT);
-		} else if (userRepository.findUserByUsername(newUser.username).isPresent()) { //2
-			return new ResponseEntity<>(newUser.username, HttpStatus.CONFLICT);
+		newUser.setFirstName    (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getFirstName().toLowerCase())));
+		newUser.setMiddleName   (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getMiddleName().toLowerCase())));
+		newUser.setLastName     (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getLastName().toLowerCase())));
+		newUser.setUsername     (StringUtils.trimAllWhitespace(newUser.getUsername().toLowerCase()));
+		newUser.setEmail        (StringUtils.trimAllWhitespace(newUser.getEmail().toLowerCase()));
+		newUser.setPhoneNumber  (StringUtils.deleteAny(newUser.getPhoneNumber(), "-()/_-+ ").substring(0,10));
+
+		if (userRepository.findUserByEmail(newUser.getEmail()).isPresent()) {               // 1
+			return new ResponseEntity<>(newUser.getEmail(), HttpStatus.CONFLICT);
+		} else if (userRepository.findUserByUsername(newUser.getUsername()).isPresent()) {  // 2
+			return new ResponseEntity<>(newUser.getUsername(), HttpStatus.CONFLICT);
 		} else {
-			User created = userRepository.save(newUser);                                            //3
-			return new ResponseEntity<>(created, HttpStatus.CREATED);
+			return new ResponseEntity<>(userRepository.save(newUser), HttpStatus.CREATED);  // 3
 		}
 	}
 
-	/**
-	 * Sends the user object that matches the attemptedLogin object. It queries the database for the unique user with the provided email; if no email
-	 * was provided, then it searches for the unique user with the provided username.
-	 * <p>
-	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body. Otherwise,
-	 * a 404 is returned instead.
-	 *
-	 * @param attemptedLogin the pseudo-user object that contains either the email or username and a password hash
-	 *
-	 * @return the User that corresponds to that object, 404 otherwise
-	 */
-	@PostMapping("/login")
-	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
-		Optional<User> query = userRepository.findUserByEmail(attemptedLogin.email);        // 1
-		if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
-			return new ResponseEntity<>(query.get(), HttpStatus.OK);
-		} else {
-			query = userRepository.findUserByUsername(attemptedLogin.username);                   // 2
-			if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
-				return new ResponseEntity<>(query.get(), HttpStatus.OK);
-			} else {
-				if (query.isPresent() && query.get().passwordHash.isEmpty()) return new ResponseEntity<>(attemptedLogin, HttpStatus.BAD_REQUEST);
-				else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-		}
-	}
 
 	/**
-	 * Retrieves a User from the database whose ID, username, or email matches the given parameters.
+	 * Retrieves a {@code User} from the database whose ID or username matches the given path variable. Only one of the two is required.
 	 *
-	 * @param parameters ID, username, or email to search for
+	 * @param id       the id of the user to retrieve
+	 * @param username the username of the user to retrieve
 	 *
-	 * @return the user that corresponds to the query, 400 if no params were given, 404 if no user was found
+	 * @return the {@code User} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
-	@GetMapping()
-	public ResponseEntity<?> getUser(@RequestParam Map<String, String> parameters) {
+	@GetMapping(value = {"/{id}", "/{username}"})
+	public ResponseEntity<?> getUser(@PathVariable Optional<Long> id, @PathVariable Optional<String> username) {
 		Optional<User> optionalUser;
-		if (parameters.containsKey("id")) {
-			optionalUser = userRepository.findById(Long.valueOf(parameters.get("id")));     // 1
-		} else if (parameters.containsKey("username")) {
-			optionalUser = userRepository.findUserByUsername(parameters.get("username"));   // 1
-		} else if (parameters.containsKey("email")) {
-			optionalUser = userRepository.findUserByEmail(parameters.get("email"));         // 1
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		if (id.isPresent()) optionalUser = userRepository.findById(id.get());     // 1
+		else if (username.isPresent()) optionalUser = userRepository.findUserByUsername(username.get());   // 1
+		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 		/* Don't even ask me, this is apparently the best way to handle Optionals */
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	/**
-	 * Deletes the user that corresponds to the given ID from the database.
+	 * Deletes the {@code User} that corresponds to the given ID from the database.
 	 *
-	 * @param id the ID of the user to be deleted.
+	 * @param id the ID of the {@code User} to be deleted.
 	 *
-	 * @return if successfully deleted, a response entity with the deleted user's ID; otherwise, a 404 reponse code.
+	 * @return a response entity with the deleted {@code User} object (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
-	@DeleteMapping()
-	public ResponseEntity<?> deleteUser(@RequestParam("id") Long id) {
-		/*
-		 * For the sake of performance, the method will only query the database twice (once to figure out if it exists and once to delete it if it
-		 * does).
-		 * The findById method returns an Optional, which is really just the same idea as returning a null value in C.
-		 */
-		try {
-			Optional<User> optionalUser = userRepository.findById(id);  //1
-			if (optionalUser.isPresent()) {
-				User deleted = optionalUser.get().clone();
-				userRepository.deleteById(deleted.getId());                         //2
-				return new ResponseEntity<>(deleted, HttpStatus.OK);
-			}
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
-	@PutMapping
-	public ResponseEntity<User> updateUser(@RequestBody User requestedToUpdate) {
-		if (requestedToUpdate != null && requestedToUpdate.getId() != null) {
-			Optional<User> optionalUser = Optional.empty();
-			if (requestedToUpdate.getId() != null) optionalUser = userRepository.findById(requestedToUpdate.getId());
-			if (optionalUser.isPresent()) {
-				return new ResponseEntity<>(
-						userRepository.save(optionalUser.get().updateContents(requestedToUpdate)),  // Updated all but ID.
-						HttpStatus.OK
-				);
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable Optional<Long> id) {
+		if (id.isPresent()) {
+			try {
+				Optional<User> optionalUser = userRepository.findById(id.get());      // 1
+				if (optionalUser.isPresent()) {
+					User deleted = optionalUser.get().clone();
+					userRepository.delete(optionalUser.get());                  // 2
+					return new ResponseEntity<>(deleted, HttpStatus.OK);
+				}
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	/**
-	 * Presents all users in the database.
+	 * Updates the {@code User} that corresponds to the given ID path variable with the values of the request body. It is not possible to update the
+	 * ID, group relations, or interests via this method. Values that do not need to be updated can be omitted.
 	 *
-	 * @return all the users in the databsae
+	 * @param valuesToUpdate a {@code User}-like JSON that holds the values to update.
+	 * @param id             the ID of the {@code User} to be updated.
+	 *
+	 * @return a response entity with the updated {@code User} object (OK) or an empty body (BAD REQUEST, CONFLICT, or NOT FOUND).
 	 */
-	@GetMapping(path = "/all")
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<User> updateUser(@RequestBody Optional<User> valuesToUpdate, @PathVariable Optional<Long> id) {
+		try {
+			if (valuesToUpdate.isPresent() && id.isPresent()) {
+				Optional<User> fromDB = userRepository.findById(id.get());     // 1
+				return fromDB.map(user -> new ResponseEntity<>(
+						userRepository.save(user.updateContents(valuesToUpdate.get())),  // 2
+						HttpStatus.OK
+				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+			}
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	/**
+	 * Retrieves all the {@code User} objects in the database.
+	 *
+	 * @return all the users in the database
+	 */
+	@GetMapping
 	public Iterable<User> getAllUsers() {
 		return userRepository.findAll();    //1
 	}
