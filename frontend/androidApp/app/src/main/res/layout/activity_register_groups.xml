@@ -7,13 +7,13 @@
     android:background="@drawable/backgroundcolor">
 
     <TextView
-        android:id="@+id/activity_register_interest_banner"
+        android:id="@+id/activity_register_groups_banner"
         android:layout_width="411dp"
         android:layout_height="69dp"
         android:background="@drawable/setup_account_banner"
         android:fontFamily="@font/racing_sans_one"
         android:gravity="center"
-        android:text="Tap to Add Interests"
+        android:text="Tap to Add Groups"
         android:textColor="@color/dark_red"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/activity_register_interest_button_next"
+        android:id="@+id/activity_register_groups_button_next"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/next_back_button_setup"
@@ -34,14 +34,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_register_interests_recycler_view"
+        android:id="@+id/activity_register_groups_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_register_interest_button_next"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_groups_button_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_register_interest_banner"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_groups_banner"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
