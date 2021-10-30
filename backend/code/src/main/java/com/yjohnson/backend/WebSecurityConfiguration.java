@@ -15,9 +15,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/**").permitAll().and().csrf().disable();
-//		http.csrf().disable().authorizeRequests()
-//		    .antMatchers("/**").permitAll()
-//		    .anyRequest().authenticated();
+        http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 	}
 }
