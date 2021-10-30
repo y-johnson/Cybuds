@@ -6,8 +6,16 @@
         <entry key="..\:/ISU/ComS_309/GH_Repos/2_do_4_NB/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/ISU/ComS_309/GH_Repos/2_do_4_NB/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/ISU/ComS_309/GH_Repos/2_do_4_NB/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_edit_40.xml" value="0.48385416666666664" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_home_50.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_more_vert_50.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/ic_baseline_person_50.xml" value="0.32592592592592595" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/loginbtn.xml" value="0.32760416666666664" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/drawable/next_back_button_setup.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_group_profile.xml" value="0.46770833333333334" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_input_user_info.xml" value="0.13272543059777103" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.3828571428571429" />
@@ -15,6 +23,10 @@
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_groups.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_interests.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_username_picture.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_search_groups.xml" value="0.46770833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_search_interests.xml" value="0.46770833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_search_people.xml" value="0.46770833333333334" />
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_user_profile.xml" value="0.4605128205128205" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.31145833333333334" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/groups_grid_layout.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/interest_grid_layout.xml" value="0.1" />

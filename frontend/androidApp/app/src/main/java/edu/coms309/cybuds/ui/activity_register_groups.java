@@ -34,7 +34,7 @@ public class activity_register_groups extends AppCompatActivity {
         titles.add("StuDogs");
         titles.add("RSS");
         titles.add("LOL");
-        titles.add("Dab-N-Drab");
+        titles.add("Dab-N-Drag");
         titles.add("Maths");
         titles.add("¯l_(ツ)_|¯");
         // titles.add("La Di Da");

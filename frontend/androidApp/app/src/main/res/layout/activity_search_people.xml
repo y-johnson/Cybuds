@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_red">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_search_people_categories_groups"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="180dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_search_people_categories">
+
+    <TextView
+        android:id="@+id/people_2_category_search_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="61dp"
+        android:layout_marginTop="27dp"
+        android:background="@color/light_red"
+        android:fontFamily="@font/racing_sans_one"
+        android:text="Dab-N-Drag"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/people_1_category_search_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="27dp"
+        android:background="@color/light_red"
+        android:fontFamily="@font/racing_sans_one"
+        android:text="Maths"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/interest_search_title_people_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Group Search"
+            android:textColor="@color/dark_red"
+            android:textSize="20dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_search_people_categories"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="400dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_search_people">
+
+        <TextView
+            android:id="@+id/people_2_category_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="111dp"
+            android:layout_marginTop="27dp"
+            android:background="@color/light_red"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Design"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/people_1_category_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="27dp"
+            android:background="@color/light_red"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Engineering"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/interest_search_title_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Category Search"
+            android:textColor="@color/dark_red"
+            android:textSize="20dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_search_people"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="600dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/icon_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="18dp"
+            app:srcCompat="@drawable/ic_baseline_search_30" />
+
+        <EditText
+            android:id="@+id/search_people"
+            android:layout_width="254dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:fontFamily="@font/racing_sans_one"
+            android:hint="Search People"
+            android:inputType="textPersonName"
+            android:text="" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_banner_people_search"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:cardBackgroundColor="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/icon_more_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="250dp"
+            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
+
+        <ImageView
+            android:id="@+id/icon_person_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_baseline_person_50" />
+
+        <ImageView
+            android:id="@+id/icon_house_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingRight="300dp"
+            app:srcCompat="@drawable/ic_baseline_home_50" />
+    </androidx.cardview.widget.CardView>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
