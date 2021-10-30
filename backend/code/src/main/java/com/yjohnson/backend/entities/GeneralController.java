@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/")
 public class GeneralController {
 	private final UserRepository userRepository;
 
