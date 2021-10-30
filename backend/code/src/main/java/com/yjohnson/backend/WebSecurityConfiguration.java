@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 https://newbedev.com/spring-boot-security-postman-gives-401-unauthorized
  */
 @Configuration
-@EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements ApplicationContextAware {
 
 	@Override
