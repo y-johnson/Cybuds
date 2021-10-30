@@ -33,6 +33,7 @@ auto-deployment:
     - sudo mvn clean
     - sudo mvn package
     - sudo mv ./target/*.jar /target/cybuds-server.jar
+    - sudo systemctl restart system-cybuds-server.service
 
 android-build:
     image: javiersantos/android-ci:latest
