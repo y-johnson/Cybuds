@@ -125,4 +125,44 @@ public class UserController {
 	public Iterable<User> getAllUsers() {
 		return userRepository.findAll();    //1
 	}
+
+	/**
+	 * Sorts all user profiles that have the same characteristic as the choice of the current user.
+	 * Calls add() which counts the number of characterists that are shared.
+	 * Returns user with the most shared characteristics.
+	 *
+	 * @param current user
+	 * @param choice the identifier the current user wanted to match with
+	 * @return user profile with the most in common with current user
+	 */
+	//@ tag?
+	public ResponseEntity <User> match(@Resquest User current, value={/choice}) { //will the current user be passed through volley?
+		Iterable<User> All = getAllUsers();
+		int same = 0;
+		User temp = null;
+		for (User Bob : All) {
+			if (current.choice == Bob.choice && current.id != Bob.id) { //comparing identifiers?
+				int t = add(CurrentUser, Bob) //helper method
+				if (t > same) {
+					same = t;
+					temp = Bob;
+				}
+			}
+		}
+		return temp; //how to send this user back to frontend?
+	}
+
+	/**
+	 * Helper method tracks the number of characteristics that are the same between two users.
+	 * @param one user one
+	 * @param two, user two
+	 * @return, returns int of the number of shared characteristics
+	 */
+	public int add(User one, User two){
+		int i=0;
+		if(one.identifier.equals(two.identifier)){ //need to make a case for each aspect, but I am confused since I do not see identifiers in user.java
+			i++
+		}
+		return i;
+	}
 }
