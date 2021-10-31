@@ -13,6 +13,7 @@ import java.util.List;
 
 import edu.coms309.cybuds.R;
 
+//for interests
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.ViewHolder>{
 
     List<String> titles;

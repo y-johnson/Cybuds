@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_red">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="152dp"
+        android:text="Log Out"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView10"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView6"
+        android:layout_width="265dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="456dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/switch_public"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="200dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/text_public"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="67dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Public Profile"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView7"
+        android:layout_width="265dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView6"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Switch
+            android:id="@+id/allow_matching_toggle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="200dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/allow_matching_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="60dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Allow Matching"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView8"
+        android:layout_width="265dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView7"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Switch
+            android:id="@+id/allow_notifications_toggle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="200dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/allow_notifications_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="47dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Allow Notifications"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView10"
+        android:layout_width="265dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="@color/light_red"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView8"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Switch
+            android:id="@+id/allow_notifications_toggle2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="200dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/allow_notifications_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="57dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Feed Home Page"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_banner_people_search"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:cardBackgroundColor="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/icon_more_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="250dp"
+            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
+
+        <ImageView
+            android:id="@+id/icon_person_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_baseline_person_50" />
+
+        <ImageView
+            android:id="@+id/icon_house_search_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingRight="300dp"
+            app:srcCompat="@drawable/ic_baseline_home_50" />
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/activity_match_people_banner"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@drawable/setup_account_banner"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity="center"
+        android:text="Profile Settings"
+        android:textColor="@color/dark_red"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
