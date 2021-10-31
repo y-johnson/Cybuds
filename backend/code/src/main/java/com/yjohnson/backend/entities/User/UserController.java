@@ -1,5 +1,6 @@
 package com.yjohnson.backend.entities.User;
 
+import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -136,19 +137,26 @@ public class UserController {
 	 * @return user profile with the most in common with current user
 	 */
 	//@ tag?
-	public ResponseEntity <User> match(@Resquest User current, value={/choice}) { //will the current user be passed through volley?
+	@GetMapping("/{id}/match")
+	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @RequestBody String choice) { //will the current user be passed through volley?
 		Iterable<User> All = getAllUsers();
-		int same = 0;
-		User temp = null;
-		for (User Bob : All) {
-			if (current.choice == Bob.choice && current.id != Bob.id) { //comparing identifiers?
-				int t = add(CurrentUser, Bob) //helper method
-				if (t > same) {
-					same = t;
-					temp = Bob;
+		if (id.isPresent()) {
+			Optional<User> current = userRepository.findById(id.get());
+			if(current.isPresent()) {
+				int same = 0;
+				User temp = null;
+				for (User Bob : All) {
+					if (current.get().choice == Bob.choice && current.get().id != Bob.id) { //comparing identifiers?
+						int t = add(CurrentUser, Bob) //helper method
+						if (t > same) {
+							same = t;
+							temp = Bob;
+						}
+					}
 				}
-			}
-		}
+			} return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 		return temp; //how to send this user back to frontend?
 	}
 
@@ -160,8 +168,10 @@ public class UserController {
 	 */
 	public int add(User one, User two){
 		int i=0;
-		if(one.identifier.equals(two.identifier)){ //need to make a case for each aspect, but I am confused since I do not see identifiers in user.java
-			i++
+		for (R_UserInterest r1 : one.interestedIn) {
+		    for (R_UserInterest r2 : two.interestedIn) {
+		        if (r1 == r2) ++i;
+		    }
 		}
 		return i;
 	}
