@@ -3,9 +3,12 @@ package com.yjohnson.backend.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
+import com.yjohnson.backend.entities.Group.GroupEntity;
+import com.yjohnson.backend.entities.Group.GroupType;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 enum Gender {
@@ -13,24 +16,36 @@ enum Gender {
 	FEMALE,
 	OTHER
 }
+enum StudentClassification {
+	FRESHMAN, SOPHOMORE, JUNIOR, SENIOR
+}
 
 @Entity
 @Table(name = "Users")
 public class User implements Serializable, Cloneable {
+
 	@Column(nullable = false, unique = true)
 	public String username;
+
 	@Column(nullable = false, unique = true)
 	public String email;
+
 	@Column(nullable = false)
 	public String passwordHash;
+
 	@Column(nullable = false, length = 15)
 	public String firstName;
+
 	@Column(length = 15)
 	public String middleName;
+
 	@Column(nullable = false, length = 15)
 	public String lastName;
 	public String address;
 	public String phoneNumber;
+
+	@Column(nullable = false)
+	public StudentClassification classification;
 
 	@Enumerated(EnumType.STRING)
 	public Gender gender;
@@ -46,8 +61,7 @@ public class User implements Serializable, Cloneable {
 	@Column(nullable = false)
 	private Long id;
 
-	protected User() {
-	}
+	protected User() {}
 
 	public User(String lastName, String firstName, String middleName, String email, String username, String passwordHash, Gender gender,
 	            String address, String phoneNumber) {
@@ -179,5 +193,23 @@ public class User implements Serializable, Cloneable {
 		return interestedIn;
 	}
 
+	public Iterable<GroupEntity> getMajors() {
+		Set<GroupEntity> majors = new HashSet<>();
+		for (R_UserGroup relation : partOf) {
+		    if (relation.getGroup().groupType == GroupType.STUDENT_MAJOR) {
+				majors.add(relation.getGroup());
+		    }
+		}
+		return majors;
+	}
 
+	public Iterable<GroupEntity> getColleges() {
+		Set<GroupEntity> colleges = new HashSet<>();
+		for (R_UserGroup relation : partOf) {
+			if (relation.getGroup().groupType == GroupType.COLLEGE) {
+				colleges.add(relation.getGroup());
+			}
+		}
+		return colleges;
+	}
 }

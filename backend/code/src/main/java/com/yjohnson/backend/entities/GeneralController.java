@@ -5,13 +5,19 @@ import com.yjohnson.backend.entities.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/")
@@ -46,6 +52,30 @@ public class GeneralController {
 				if (query.isPresent() && query.get().passwordHash.isEmpty()) return new ResponseEntity<>(attemptedLogin, HttpStatus.BAD_REQUEST);
 				else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
+		}
+	}
+
+	@GetMapping("/api/majors")
+	public ResponseEntity<?> retrieveMajors() {
+		List<String> list = new ArrayList<>();
+		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/static/majors.txt"))) {
+			stream.forEach(list::add);
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/api/colleges")
+	public ResponseEntity<?> retrieveColleges() {
+		List<String> list = new ArrayList<>();
+		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/static/colleges.txt"))) {
+			stream.forEach(list::add);
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
