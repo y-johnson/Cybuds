@@ -10,7 +10,7 @@ maven-build:
     tags:
     - shell
     script:
-    - cd /home/2_do_4/backend/code
+    - cd backend/code
     - sudo mvn package -B
 
 maven-test:
@@ -18,18 +18,18 @@ maven-test:
     tags:
     - shell
     script:
-    - cd /home/2_do_4/backend/code
+    - cd backend/code
     - sudo mvn test
     artifacts:
         paths:
-        - /home/2_do_4/backend/code/target/*.jar
+        - backend/code/target/*.jar
 
 auto-deployment:
     stage: autodeploy
     tags:
     - shell
     script:
-    - cd /home/2_do_4/backend/code
+    - cd backend/code
     - sudo mvn clean
     - sudo mvn package
     - sudo mv ./target/*.jar /target/cybuds-server.jar
@@ -40,7 +40,7 @@ android-build:
     stage: androidbuild
     before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./frontend/androidApp/gradlew
+    - chmod +x frontend/androidApp/gradlew
     tags:
     - docker
     script:
