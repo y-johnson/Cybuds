@@ -2,14 +2,12 @@ package com.yjohnson.backend.entities;
 
 import com.yjohnson.backend.entities.User.User;
 import com.yjohnson.backend.entities.User.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping()
 public class GeneralController {
 	private final UserRepository userRepository;
 
@@ -32,7 +30,8 @@ public class GeneralController {
 	 * Sends the user object that matches the attemptedLogin object. It queries the database for the unique user with the provided email; if no email
 	 * was provided, then it searches for the unique user with the provided username.
 	 * <p>
-	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body. Otherwise,
+	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body.
+	 * Otherwise,
 	 * a 404 is returned instead.
 	 *
 	 * @param attemptedLogin the pseudo-user object that contains either the email or username and a password hash
@@ -52,6 +51,30 @@ public class GeneralController {
 				if (query.isPresent() && query.get().passwordHash.isEmpty()) return new ResponseEntity<>(attemptedLogin, HttpStatus.BAD_REQUEST);
 				else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
+		}
+	}
+
+	@PostMapping("/register")
+	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> toRegister) {
+		try {
+			if (toRegister.isPresent() && toRegister.get().validate()) {
+				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())));
+				toRegister.get().setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getMiddleName().toLowerCase())));
+				toRegister.get().setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getLastName().toLowerCase())));
+				toRegister.get().setUsername(StringUtils.trimAllWhitespace(toRegister.get().getUsername().toLowerCase()));
+				toRegister.get().setEmail(StringUtils.trimAllWhitespace(toRegister.get().getEmail().toLowerCase()));
+				toRegister.get().setPhoneNumber(StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ").substring(0, 10));
+
+				if (userRepository.findUserByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
+					return new ResponseEntity<>(toRegister.get().getEmail(), HttpStatus.CONFLICT);
+				} else if (userRepository.findUserByUsername(toRegister.get().getUsername()).isPresent()) {  // 2
+					return new ResponseEntity<>(toRegister.get().getUsername(), HttpStatus.CONFLICT);
+				}
+				return new ResponseEntity<>(userRepository.save(toRegister.get()), HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
 

@@ -41,7 +41,9 @@ public class User implements Serializable, Cloneable {
 
 	@Column(nullable = false, length = 15)
 	public String lastName;
+
 	public String address;
+
 	public String phoneNumber;
 
 	@Column(nullable = false)
@@ -211,5 +213,9 @@ public class User implements Serializable, Cloneable {
 			}
 		}
 		return colleges;
+	}
+
+	public boolean validate(){
+		return username != null && email != null && firstName != null && lastName != null && passwordHash != null && classification != null;
 	}
 }

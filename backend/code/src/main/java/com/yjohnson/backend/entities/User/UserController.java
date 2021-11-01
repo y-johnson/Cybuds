@@ -45,7 +45,6 @@ public class UserController {
 		}
 	}
 
-
 	/**
 	 * Retrieves a {@code User} from the database whose ID or username matches the given path variable. Only one of the two is required.
 	 *
