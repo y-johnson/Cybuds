@@ -54,6 +54,16 @@ public class GeneralController {
 		}
 	}
 
+	/**
+	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in
+	 * Title case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
+	 * <p>
+	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
+	 *
+	 * @param toRegister the user object to insert into the database.
+	 *
+	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
+	 */
 	@PostMapping("/register")
 	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> toRegister) {
 		try {

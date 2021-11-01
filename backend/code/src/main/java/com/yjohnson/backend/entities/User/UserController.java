@@ -17,33 +17,33 @@ public class UserController {
 		this.userRepository = userRepository;
 	}
 
-	/**
-	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in
-	 * Title case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
-	 * <p>
-	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
-	 *
-	 * @param newUser the user object to insert into the database.
-	 *
-	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
-	 */
-	@PostMapping()
-	public ResponseEntity<?> addUser(@RequestBody User newUser) {
-		newUser.setFirstName    (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getFirstName().toLowerCase())));
-		newUser.setMiddleName   (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getMiddleName().toLowerCase())));
-		newUser.setLastName     (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getLastName().toLowerCase())));
-		newUser.setUsername     (StringUtils.trimAllWhitespace(newUser.getUsername().toLowerCase()));
-		newUser.setEmail        (StringUtils.trimAllWhitespace(newUser.getEmail().toLowerCase()));
-		newUser.setPhoneNumber  (StringUtils.deleteAny(newUser.getPhoneNumber(), "-()/_-+ ").substring(0,10));
-
-		if (userRepository.findUserByEmail(newUser.getEmail()).isPresent()) {               // 1
-			return new ResponseEntity<>(newUser.getEmail(), HttpStatus.CONFLICT);
-		} else if (userRepository.findUserByUsername(newUser.getUsername()).isPresent()) {  // 2
-			return new ResponseEntity<>(newUser.getUsername(), HttpStatus.CONFLICT);
-		} else {
-			return new ResponseEntity<>(userRepository.save(newUser), HttpStatus.CREATED);  // 3
-		}
-	}
+//	/**
+//	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in
+//	 * Title case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
+//	 * <p>
+//	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
+//	 *
+//	 * @param newUser the user object to insert into the database.
+//	 *
+//	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
+//	 */
+//	@PostMapping()
+//	public ResponseEntity<?> addUser(@RequestBody User newUser) {
+//		newUser.setFirstName    (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getFirstName().toLowerCase())));
+//		newUser.setMiddleName   (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getMiddleName().toLowerCase())));
+//		newUser.setLastName     (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getLastName().toLowerCase())));
+//		newUser.setUsername     (StringUtils.trimAllWhitespace(newUser.getUsername().toLowerCase()));
+//		newUser.setEmail        (StringUtils.trimAllWhitespace(newUser.getEmail().toLowerCase()));
+//		newUser.setPhoneNumber  (StringUtils.deleteAny(newUser.getPhoneNumber(), "-()/_-+ ").substring(0,10));
+//
+//		if (userRepository.findUserByEmail(newUser.getEmail()).isPresent()) {               // 1
+//			return new ResponseEntity<>(newUser.getEmail(), HttpStatus.CONFLICT);
+//		} else if (userRepository.findUserByUsername(newUser.getUsername()).isPresent()) {  // 2
+//			return new ResponseEntity<>(newUser.getUsername(), HttpStatus.CONFLICT);
+//		} else {
+//			return new ResponseEntity<>(userRepository.save(newUser), HttpStatus.CREATED);  // 3
+//		}
+//	}
 
 	/**
 	 * Retrieves a {@code User} from the database whose ID or username matches the given path variable. Only one of the two is required.
