@@ -6,9 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserInterestRepository extends CrudRepository<R_UserInterest, Long> {
 	List<R_UserInterest> findAllByUser(User user);
-	List<R_UserInterest> findByUserAndInterest(User user, InterestEntity interest);
+	Optional<R_UserInterest> findByUserAndInterest(User user, InterestEntity interest);
 }

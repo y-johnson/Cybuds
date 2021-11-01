@@ -12,6 +12,7 @@ public class GroupEntity implements Cloneable, Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserGroup> members;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;

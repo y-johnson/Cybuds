@@ -37,7 +37,7 @@ public class InterestController {
 	@Operation(summary = "Add an interest")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Added the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = InterestEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "409", description = "Adding value results in conflict")
@@ -64,7 +64,7 @@ public class InterestController {
 	@Operation(summary = "Get an interest by its ID or name")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Got the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = InterestEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found")
@@ -97,7 +97,7 @@ public class InterestController {
 	@Operation(summary = "Delete an interest by its ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = InterestEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
@@ -134,7 +134,7 @@ public class InterestController {
 	@Operation(summary = "Updates an interest by its ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Updated the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = InterestEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "User not found"),
