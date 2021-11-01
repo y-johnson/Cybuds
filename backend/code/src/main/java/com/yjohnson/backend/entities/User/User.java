@@ -8,6 +8,7 @@ import com.yjohnson.backend.entities.Group.GroupType;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -194,7 +195,8 @@ public class User implements Serializable, Cloneable {
 		this.gender = gender;
 	}
 
-	public Set<R_UserInterest> getInterestedIn() {
+	@JsonIgnore
+	public Set<R_UserInterest> getInterests() {
 		return interestedIn;
 	}
 
@@ -223,4 +225,5 @@ public class User implements Serializable, Cloneable {
 	public boolean validate(){
 		return username != null && email != null && firstName != null && lastName != null && passwordHash != null && classification != null;
 	}
+
 }

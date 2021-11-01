@@ -1,14 +1,11 @@
 package com.yjohnson.backend.entities.Group;
 
-import com.yjohnson.backend.entities.Interest.InterestEntity;
-import com.yjohnson.backend.entities.User.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -39,7 +36,7 @@ public class GroupController {
 	@Operation(summary = "Add a group")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Added the group", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = GroupEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "409", description = "Adding value results in conflict")
@@ -60,16 +57,18 @@ public class GroupController {
 	Mappings are complicated when you want multiple path variable types.
 	https://stackoverflow.com/questions/52260551/spring-boot-rest-single-path-variable-which-takes-different-type-of-values
 	 */
+
 	/**
 	 * Retrieves a {@code GroupEntity} from the database whose ID or name matches the given path variable.
-	 * @param identifier       the id or name of the group to retrieve
+	 *
+	 * @param identifier the id or name of the group to retrieve
 	 *
 	 * @return the {@code GroupEntity} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
 	@Operation(summary = "Get a group by its ID or name")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Got the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = GroupEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found")
@@ -101,7 +100,7 @@ public class GroupController {
 	@Operation(summary = "Delete a group by its ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Deleted the group", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = GroupEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
@@ -127,8 +126,8 @@ public class GroupController {
 	}
 
 	/**
-	 * Updates the {@code GroupEntity} that corresponds to the given ID path variable with the values of the request body. It is not possible to update the
-	 * ID or grouped users via this method. Values that do not need to be updated can be omitted.
+	 * Updates the {@code GroupEntity} that corresponds to the given ID path variable with the values of the request body. It is not possible to
+	 * update the ID or grouped users via this method. Values that do not need to be updated can be omitted.
 	 *
 	 * @param valuesToUpdate a {@code GroupEntity}-like JSON that holds the values to update.
 	 * @param id             the ID of the {@code GroupEntity} to be updated.
@@ -138,7 +137,7 @@ public class GroupController {
 	@Operation(summary = "Updates a group by its ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Updated the group", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+					@Content(mediaType = "application/json", schema = @Schema(implementation = GroupEntity.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "User not found"),

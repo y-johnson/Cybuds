@@ -21,7 +21,6 @@ public class R_UserGroup implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "group_id")
-	@JsonIgnore
 	GroupEntity group;
 
 	@Column(nullable = false, name = "date_added")
