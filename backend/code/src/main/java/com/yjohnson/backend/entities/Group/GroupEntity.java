@@ -19,6 +19,8 @@ public class GroupEntity implements Serializable, Cloneable {
 	String name;
 	String description;
 
+	public GroupType groupType;
+
 	public Long getId() {
 		return id;
 	}

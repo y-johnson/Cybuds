@@ -16,14 +16,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").permitAll()
-		    .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-		    .antMatchers(HttpMethod.GET, "/users").permitAll()
-		    .antMatchers(HttpMethod.DELETE, "/users").permitAll()
-		    .antMatchers(HttpMethod.POST, "/login").permitAll()
-		    .antMatchers(HttpMethod.GET, "/users/**").permitAll()
-		    .antMatchers("/interests").permitAll()
-		    .antMatchers("/interests/all").permitAll()
+		http.authorizeRequests().antMatchers("/**").permitAll()
 		    .anyRequest().authenticated();
 	}
 }
