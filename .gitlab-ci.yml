@@ -22,7 +22,7 @@ maven-test:
     - sudo mvn test
     artifacts:
         paths:
-        - backend/code/target/*.jar
+        - "./*.jar"
 
 auto-deployment:
     stage: autodeploy
