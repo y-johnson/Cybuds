@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class GroupEntity implements Serializable, Cloneable {
+public class GroupEntity implements Cloneable, Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserGroup> members;
@@ -29,12 +29,11 @@ public class GroupEntity implements Serializable, Cloneable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getName() {
+		return name;
 	}
 
 	public String getDescription() {

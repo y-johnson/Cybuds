@@ -1,9 +1,13 @@
 package com.yjohnson.backend.entities.User;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,50 +21,36 @@ public class UserController {
 		this.userRepository = userRepository;
 	}
 
-//	/**
-//	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in
-//	 * Title case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
-//	 * <p>
-//	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
-//	 *
-//	 * @param newUser the user object to insert into the database.
-//	 *
-//	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
-//	 */
-//	@PostMapping()
-//	public ResponseEntity<?> addUser(@RequestBody User newUser) {
-//		newUser.setFirstName    (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getFirstName().toLowerCase())));
-//		newUser.setMiddleName   (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getMiddleName().toLowerCase())));
-//		newUser.setLastName     (StringUtils.trimWhitespace(StringUtils.capitalize(newUser.getLastName().toLowerCase())));
-//		newUser.setUsername     (StringUtils.trimAllWhitespace(newUser.getUsername().toLowerCase()));
-//		newUser.setEmail        (StringUtils.trimAllWhitespace(newUser.getEmail().toLowerCase()));
-//		newUser.setPhoneNumber  (StringUtils.deleteAny(newUser.getPhoneNumber(), "-()/_-+ ").substring(0,10));
-//
-//		if (userRepository.findUserByEmail(newUser.getEmail()).isPresent()) {               // 1
-//			return new ResponseEntity<>(newUser.getEmail(), HttpStatus.CONFLICT);
-//		} else if (userRepository.findUserByUsername(newUser.getUsername()).isPresent()) {  // 2
-//			return new ResponseEntity<>(newUser.getUsername(), HttpStatus.CONFLICT);
-//		} else {
-//			return new ResponseEntity<>(userRepository.save(newUser), HttpStatus.CREATED);  // 3
-//		}
-//	}
-
 	/**
 	 * Retrieves a {@code User} from the database whose ID or username matches the given path variable. Only one of the two is required.
 	 *
-	 * @param id       the id of the user to retrieve
-	 * @param username the username of the user to retrieve
+	 * @param identifier the id or username of the user to retrieve
 	 *
 	 * @return the {@code User} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
-	@GetMapping(value = {"/{id}", "/{username}"})
-	public ResponseEntity<?> getUser(@PathVariable Optional<Long> id, @PathVariable Optional<String> username) {
+	@Operation(summary = "Get a user by its ID or username")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Got the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "User not found")
+	})
+	@GetMapping("/{identifier}")
+	public ResponseEntity<?> getUser(@PathVariable Optional<String> identifier) {
 		Optional<User> optionalUser;
-		if (id.isPresent()) optionalUser = userRepository.findById(id.get());     // 1
-		else if (username.isPresent()) optionalUser = userRepository.findUserByUsername(username.get());   // 1
-		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		if (identifier.isPresent()) {
+			try {
+				// Treat it as a Long first (id)
+				Long id = Long.parseLong(identifier.get());
+				optionalUser = userRepository.findById(id);     // 1
+			} catch (NumberFormatException e) {
+				// If it is not a long, treat it as a String (username)
+				optionalUser = userRepository.findUserByUsername(identifier.get());   // 1
+			}
+		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		/* Don't even ask me, this is apparently the best way to handle Optionals */
+		// If it is a valid identifier then return the user associated with it
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
@@ -71,6 +61,15 @@ public class UserController {
 	 *
 	 * @return a response entity with the deleted {@code User} object (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
+	@Operation(summary = "Delete a user by its ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Deleted the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "User not found"),
+			@ApiResponse(responseCode = "500", description = "Unrecoverable exception occurred"),
+	})
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
@@ -99,6 +98,15 @@ public class UserController {
 	 *
 	 * @return a response entity with the updated {@code User} object (OK) or an empty body (BAD REQUEST, CONFLICT, or NOT FOUND).
 	 */
+	@Operation(summary = "Updates a user by its ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Updated the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "User not found"),
+			@ApiResponse(responseCode = "409", description = "Update results in conflict"),
+	})
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<User> updateUser(@RequestBody Optional<User> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
@@ -120,6 +128,7 @@ public class UserController {
 	 *
 	 * @return all the users in the database
 	 */
+	@Operation(summary = "Gets all users")
 	@GetMapping
 	public Iterable<User> getAllUsers() {
 		return userRepository.findAll();    //1

@@ -1,6 +1,14 @@
 package com.yjohnson.backend.entities.Group;
 
+import com.yjohnson.backend.entities.Interest.InterestEntity;
+import com.yjohnson.backend.entities.User.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -28,6 +36,14 @@ public class GroupController {
 	 *
 	 * @return a response entity with the created {@code GroupEntity} object (CREATED) or the conflicting value (CONFLICT).
 	 */
+	@Operation(summary = "Add a group")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Added the group", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "409", description = "Adding value results in conflict")
+	})
 	@PostMapping
 	public ResponseEntity<?> addGroup(@RequestBody GroupEntity newGroupEntity) {
 		if (newGroupEntity.getName() == null || newGroupEntity.getName().isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -45,33 +61,33 @@ public class GroupController {
 	https://stackoverflow.com/questions/52260551/spring-boot-rest-single-path-variable-which-takes-different-type-of-values
 	 */
 	/**
-	 * Retrieves a {@code GroupEntity} from the database whose ID matches the given path variable. 
-	 * @param id       the id of the group to retrieve
+	 * Retrieves a {@code GroupEntity} from the database whose ID or name matches the given path variable.
+	 * @param identifier       the id or name of the group to retrieve
 	 *
 	 * @return the {@code GroupEntity} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
-	@GetMapping(value = "/{identifier:[0-9]+}")
-	public ResponseEntity<?> getGroupById(@PathVariable("identifier") Optional<Long> id) {
+	@Operation(summary = "Get a group by its ID or name")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Got the interest", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found")
+	})
+	@GetMapping(value = "/{identifier}")
+	public ResponseEntity<?> getGroup(@PathVariable("identifier") Optional<String> identifier) {
 		Optional<GroupEntity> optionalGroup;
-		if (id.isPresent()) optionalGroup = groupRepository.findById(id.get());     // 1
-		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		return optionalGroup.map(groupEntity -> new ResponseEntity<>(groupEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
-				HttpStatus.NOT_FOUND));
-	}
-
-	/**
-	 * Retrieves a {@code GroupEntity} from the database whose name matches the given path variable.
-	 *
-	 * @param name       the name of the group to retrieve
-	 *
-	 * @return the {@code GroupEntity} object that corresponds with the path variable (OK) or an empty body (BAD REQUEST or NOT FOUND).
-	 */
-	@GetMapping(value = "/{identifier:[A-Za-z]+}")
-	public ResponseEntity<?> getGroupByName(@PathVariable(name = "identifier") Optional<String> name) {
-		Optional<GroupEntity> optionalGroup;
-		if (name.isPresent()) optionalGroup = groupRepository.findByName(name.get());     // 1
-		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		return optionalGroup.map(groupEntity -> new ResponseEntity<>(groupEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
+		if (identifier.isPresent()) {
+			try {
+				// Treat it as a Long first (id)
+				Long id = Long.parseLong(identifier.get());
+				optionalGroup = groupRepository.findById(id);     // 1
+			} catch (NumberFormatException e) {
+				// If it is not a long, treat it as a String (name)
+				optionalGroup = groupRepository.findByName(identifier.get());   // 1
+			}
+		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return optionalGroup.map(interestEntity -> new ResponseEntity<>(interestEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
 				HttpStatus.NOT_FOUND));
 	}
 
@@ -82,6 +98,15 @@ public class GroupController {
 	 *
 	 * @return a response entity with the deleted {@code GroupEntity} object (OK) or an empty body (BAD REQUEST or NOT FOUND).
 	 */
+	@Operation(summary = "Delete a group by its ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Deleted the group", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+			@ApiResponse(responseCode = "500", description = "Unrecoverable exception occurred"),
+	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<GroupEntity> deleteGroup(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
@@ -110,6 +135,15 @@ public class GroupController {
 	 *
 	 * @return a response entity with the updated {@code GroupEntity} object (OK) or an empty body (BAD REQUEST, CONFLICT, or NOT FOUND).
 	 */
+	@Operation(summary = "Updates a group by its ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Updated the group", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "User not found"),
+			@ApiResponse(responseCode = "409", description = "Update results in conflict"),
+	})
 	@PutMapping("/{id}")
 	public ResponseEntity<GroupEntity> updateGroup(@RequestBody Optional<GroupEntity> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
@@ -131,6 +165,7 @@ public class GroupController {
 	 *
 	 * @return all the groups in the database
 	 */
+	@Operation(summary = "Gets all groups")
 	@GetMapping
 	public Iterable<GroupEntity> retrieveAll() {
 		return groupRepository.findAll();
