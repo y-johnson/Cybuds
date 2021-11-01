@@ -1,5 +1,6 @@
 package com.yjohnson.backend.entities.DB_Relations;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Interest.InterestEntity;
 import com.yjohnson.backend.entities.User.User;
@@ -20,6 +21,7 @@ public class R_UserGroup implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "group_id")
+	@JsonIgnore
 	GroupEntity group;
 
 	@Column(nullable = false, name = "date_added")

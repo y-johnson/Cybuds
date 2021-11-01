@@ -55,9 +55,11 @@ public class User implements Serializable, Cloneable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserInterest> interestedIn;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Set<R_UserGroup> partOf;
+	private Set<R_UserGroup> partOf;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
@@ -78,7 +80,8 @@ public class User implements Serializable, Cloneable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Set<R_UserGroup> getPartOf() {
+	@JsonIgnore
+	public Set<R_UserGroup> getGroups() {
 		return partOf;
 	}
 
@@ -195,6 +198,7 @@ public class User implements Serializable, Cloneable {
 		return interestedIn;
 	}
 
+	@JsonIgnore
 	public Iterable<GroupEntity> getMajors() {
 		Set<GroupEntity> majors = new HashSet<>();
 		for (R_UserGroup relation : partOf) {
@@ -205,6 +209,7 @@ public class User implements Serializable, Cloneable {
 		return majors;
 	}
 
+	@JsonIgnore
 	public Iterable<GroupEntity> getColleges() {
 		Set<GroupEntity> colleges = new HashSet<>();
 		for (R_UserGroup relation : partOf) {

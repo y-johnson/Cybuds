@@ -1,5 +1,9 @@
 package com.yjohnson.backend.entities.User;
 
+import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
+import com.yjohnson.backend.entities.DB_Relations.UserGroupRepository;
+import com.yjohnson.backend.entities.Group.GroupEntity;
+import com.yjohnson.backend.entities.Group.GroupRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,15 +14,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
+	private final GroupRepository groupRepository;
 	private final UserRepository userRepository;
+	private final UserGroupRepository relationRepository;
 
-	public UserController(UserRepository userRepository) {
+	public UserController(UserRepository userRepository, UserGroupRepository relationRepository, GroupRepository groupRepository) {
 		this.userRepository = userRepository;
+		this.relationRepository = relationRepository;
+		this.groupRepository = groupRepository;
 	}
 
 	/**
@@ -132,5 +143,81 @@ public class UserController {
 	@GetMapping
 	public Iterable<User> getAllUsers() {
 		return userRepository.findAll();    //1
+	}
+
+	@Operation(summary = "Gets all groups for a given user")
+	@GetMapping("/{id}/groups")
+	public Iterable<GroupEntity> getAllGroupsForUser(@PathVariable Optional<Long> id) {
+		Set<GroupEntity> groups = new HashSet<>();
+		if (id.isPresent()) {
+			Iterable<R_UserGroup> results = userRepository.findById(id.get()).map(User::getGroups).orElseGet(HashSet::new);
+			for (R_UserGroup r : results) {
+				System.out.println(results);
+				groups.add(r.getGroup());
+			}
+		}
+		return groups;
+	}
+
+	@Operation(summary = "Add a User-Group relation")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Added the group", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "409", description = "Relation already exists")
+	})
+	@PostMapping("/{id}/groups/{gid}")
+	public ResponseEntity<?> addRelation(@PathVariable("id") Optional<Long> user_id, @PathVariable("gid") Optional<Long> group_id) {
+		/* Parameter Checking */
+		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
+
+		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if (relationRepository.findByUserAndGroup(user.get(), optionalGroup.get()).isPresent())
+			return new ResponseEntity<>(HttpStatus.CONFLICT); // 3
+
+		R_UserGroup relation = relationRepository.save(new R_UserGroup(user.get(), optionalGroup.get(), LocalDateTime.now())); //4
+		user.get().getGroups().add(relation);
+		optionalGroup.get().members.add(relation);
+		userRepository.save(user.get()); // 5
+		groupRepository.save(optionalGroup.get()); // 6
+		return new ResponseEntity<>(
+				relation,  // Updated all but ID.
+				HttpStatus.CREATED
+		);
+	}
+
+	@Operation(summary = "Delete a User-Group relation based of both their IDs")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Deleted the group", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+	})
+	@DeleteMapping("/{id}/groups/{gid}")
+	public ResponseEntity<?> deleteRelation(@PathVariable("id") Optional<Long> user_id, @PathVariable("gid") Optional<Long> group_id) {
+		/* Parameter Checking */
+		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
+
+		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		Optional<R_UserGroup> relation = relationRepository.findByUserAndGroup(user.get(), optionalGroup.get());
+		if (!relation.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 3
+
+		user.get().getGroups().remove(relation.get());
+		optionalGroup.get().members.remove(relation.get());
+		relationRepository.delete(relation.get()); //4
+		userRepository.save(user.get()); // 5
+		groupRepository.save(optionalGroup.get()); // 6
+		return new ResponseEntity<>(
+				relation,
+				HttpStatus.OK
+		);
 	}
 }
