@@ -35,30 +35,63 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/activity_register_classes_textview"
-        android:layout_width="290dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="36dp"
+    <EditText
+        android:id="@+id/activity_register_major"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="512dp"
         android:background="@drawable/text_box"
         android:fontFamily="@font/racing_sans_one"
         android:gravity=""
-        android:hint="Enrolled Classes"
+        android:hint="Major"
+        android:singleLine="true"
         android:textColor="#000"
-        android:textSize="24dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_classes_button_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.743"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_register_classes_banner" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_classes_banner"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/activity_register_classes_button_add"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/ic_baseline_add_circle_outline_24"
-        app:layout_constraintEnd_toStartOf="@+id/activity_register_classes_textview"
-        app:layout_constraintHorizontal_bias="0.432"
+    <EditText
+        android:id="@+id/activity_register_graduation_year"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="Classification"
+        android:singleLine="true"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_classes_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_register_classes_banner" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_major"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/activity_register_college"
+        android:layout_width="224dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
+        android:gravity=""
+        android:hint="College (Engineering)"
+        android:singleLine="true"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_register_classes_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_graduation_year"
+        app:layout_constraintVertical_bias="0.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
