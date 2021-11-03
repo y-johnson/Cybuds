@@ -17,9 +17,12 @@ import edu.coms309.cybuds.model.User;
  * RequestMethodInterface} implementation that dictates what the caller desires once the server responds.
  */
 public class HTTPDriver {
+	//final String BASE_URL = "http://10.48.49.41:8080";
+	//final String BASE_URL = "http://192.168.1.101:8080";
 	final String BASE_URL = "http://coms-309-028.cs.iastate.edu:8080";
 	final String USER_MAP = "/users";
 	final String LOGIN_MAP = "/login";
+	final String REGISTER_MAP = "/register";
 
 	// TODO: These methods would ideally me modified to implement authentication
 	public void requestLogin(Context context, User user, RequestMethodInterface onResponse) {
@@ -29,7 +32,7 @@ public class HTTPDriver {
 		try {
 			jsonObjectRequest = new JsonObjectRequest(
 					Request.Method.POST,
-					BASE_URL + USER_MAP + LOGIN_MAP,
+					BASE_URL /*+ USER_MAP*/ + LOGIN_MAP,
 					user.toJSONObject(),
 					response -> onResponse.executeAction(response, context),
 					error -> onResponse.handleError(error, context)
@@ -47,7 +50,7 @@ public class HTTPDriver {
 		try {
 			jsonObjectRequest = new JsonObjectRequest(
 					Request.Method.POST,
-					BASE_URL + USER_MAP,
+					BASE_URL + /*USER_MAP*/REGISTER_MAP,
 					newUser.toJSONObject(),
 					response -> onResponse.executeAction(response, context),
 					error -> onResponse.handleError(error, context)

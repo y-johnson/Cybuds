@@ -7,21 +7,6 @@
     android:background="@drawable/backgroundcolor"
     tools:context=".RegisterActivity">
 
-    <Button
-        android:id="@+id/activity_register_button_back"
-        android:layout_width="184dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginStart="4dp"
-        android:background="@drawable/login_next_button"
-        android:fontFamily="@font/racing_sans_one"
-        android:onClick="btnRegister_Back_onClick"
-        android:text="Back"
-        android:textColor="#000"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <EditText
         android:id="@+id/activity_register_email"
         android:layout_width="224dp"

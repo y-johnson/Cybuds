@@ -23,6 +23,7 @@ public class User implements Serializable {
 	private String address;
 	private String phoneNumber;
 	private Gender gender;
+	private int gradYear;
 
 	public User() {
 
@@ -117,6 +118,10 @@ public class User implements Serializable {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public void setGradYear(int gradYear) {
+		this.gradYear = gradYear;
 	}
 
 	public Gender getGender() {

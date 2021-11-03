@@ -28,9 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
 		startActivity(gotoProfileActivityIntent);
 	}
 
-	public void btnRegister_Back_onClick(View view) {
-		finish();
-	}
 
 	public void btnRegister_first_continue_onClick(View view) {
 		setContentView(R.layout.activity_register_personal_info);
@@ -62,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 		EditText lastnameIn = findViewById(R.id.activity_register_personal_info_last_name);
 		EditText addressIn = findViewById(R.id.activity_register_personal_info_address);
 		EditText phonenumberIn = findViewById(R.id.activity_register_personal_info_phone_number);
+		EditText gradyearIn = findViewById(R.id.activity_register_graduation_year);
 
 
 		User newUser = new User();
@@ -73,19 +71,21 @@ public class RegisterActivity extends AppCompatActivity {
 		newUser.setLastName(lastnameIn.getText().toString());
 		newUser.setAddress(addressIn.getText().toString());
 		newUser.setPhoneNumber(phonenumberIn.getText().toString());
+		newUser.setGradYear(Integer.parseInt(gradyearIn.getText().toString()));
 
 		HTTP_DRIVER.requestSignUp(
 				getBaseContext(),
 				newUser,
 				(response, context) -> {
 					User responseUser = new Gson().fromJson(response.toString(), User.class);
-					Intent toProfile = new Intent(getBaseContext(), ProfileActivity.class);
-					toProfile.putExtra("currentUserProfile", responseUser);
+
 					Toast.makeText(
 							getBaseContext(),
 							String.format("Welcome to CyBuds, %s!", responseUser.getFirstName()),
 							Toast.LENGTH_LONG
 					).show();
+					Intent toProfile = new Intent(getBaseContext(), ProfileActivity.class);
+					toProfile.putExtra("currentUserProfile", responseUser);
 					startActivity(toProfile);
 				}
 		);
