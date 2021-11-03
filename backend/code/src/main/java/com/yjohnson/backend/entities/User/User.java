@@ -8,8 +8,8 @@ import com.yjohnson.backend.entities.Group.GroupType;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 enum Gender {
@@ -17,6 +17,7 @@ enum Gender {
 	FEMALE,
 	OTHER
 }
+
 enum StudentClassification {
 	FRESHMAN, SOPHOMORE, JUNIOR, SENIOR
 }
@@ -24,6 +25,38 @@ enum StudentClassification {
 @Entity
 @Table(name = "Users")
 public class User implements Serializable, Cloneable {
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return getUsername().equals(user.getUsername()) && getEmail().equals(user.getEmail()) && getPasswordHash().equals(user.getPasswordHash()) &&
+				Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getMiddleName(), user.getMiddleName()) &&
+				getLastName().equals(user.getLastName()) && Objects.equals(getAddress(), user.getAddress()) && Objects.equals(
+				getPhoneNumber(),
+				user.getPhoneNumber()
+		) && classification == user.classification && getGender() == user.getGender() && Objects.equals(interestedIn, user.interestedIn) &&
+				Objects.equals(partOf, user.partOf) && getId().equals(user.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(
+				getUsername(),
+				getEmail(),
+				getPasswordHash(),
+				getFirstName(),
+				getMiddleName(),
+				getLastName(),
+				getAddress(),
+				getPhoneNumber(),
+				classification,
+				getGender(),
+				interestedIn,
+				partOf,
+				getId()
+		);
+	}
 
 	@Column(nullable = false, unique = true)
 	public String username;
@@ -66,10 +99,46 @@ public class User implements Serializable, Cloneable {
 	@Column(nullable = false)
 	private Long id;
 
-	protected User() {}
+	protected User() {
+	}
 
-	public User(String lastName, String firstName, String middleName, String email, String username, String passwordHash, Gender gender,
-	            String address, String phoneNumber) {
+	public User(String username,
+	            String email,
+	            String passwordHash,
+	            String firstName,
+	            String middleName,
+	            String lastName,
+	            String address,
+	            String phoneNumber,
+	            StudentClassification classification,
+	            Gender gender,
+	            Set<R_UserInterest> interestedIn,
+	            Set<R_UserGroup> partOf,
+	            Long id) {
+		this.username = username;
+		this.email = email;
+		this.passwordHash = passwordHash;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.classification = classification;
+		this.gender = gender;
+		this.interestedIn = interestedIn;
+		this.partOf = partOf;
+		this.id = id;
+	}
+
+	public User(String lastName,
+	            String firstName,
+	            String middleName,
+	            String email,
+	            String username,
+	            String passwordHash,
+	            Gender gender,
+	            String address,
+	            String phoneNumber) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -195,6 +264,25 @@ public class User implements Serializable, Cloneable {
 		this.gender = gender;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"username='" + username + '\'' +
+				", email='" + email + '\'' +
+				", passwordHash='" + passwordHash + '\'' +
+				", firstName='" + firstName + '\'' +
+				", middleName='" + middleName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", address='" + address + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", classification=" + classification +
+				", gender=" + gender +
+				", interestedIn=" + interestedIn +
+				", partOf=" + partOf +
+				", id=" + id +
+				'}';
+	}
+
 	@JsonIgnore
 	public Set<R_UserInterest> getInterests() {
 		return interestedIn;
@@ -204,9 +292,9 @@ public class User implements Serializable, Cloneable {
 	public Iterable<GroupEntity> getMajors() {
 		Set<GroupEntity> majors = new HashSet<>();
 		for (R_UserGroup relation : partOf) {
-		    if (relation.getGroup().groupType == GroupType.STUDENT_MAJOR) {
+			if (relation.getGroup().groupType == GroupType.STUDENT_MAJOR) {
 				majors.add(relation.getGroup());
-		    }
+			}
 		}
 		return majors;
 	}
@@ -222,7 +310,7 @@ public class User implements Serializable, Cloneable {
 		return colleges;
 	}
 
-	public boolean validate(){
+	public boolean validate() {
 		return username != null && email != null && firstName != null && lastName != null && passwordHash != null && classification != null;
 	}
 

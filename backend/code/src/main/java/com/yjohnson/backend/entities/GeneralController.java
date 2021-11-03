@@ -30,8 +30,7 @@ public class GeneralController {
 	 * Sends the user object that matches the attemptedLogin object. It queries the database for the unique user with the provided email; if no email
 	 * was provided, then it searches for the unique user with the provided username.
 	 * <p>
-	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body.
-	 * Otherwise,
+	 * When the queried user is present and their password hash matches the provided one, the User object is returned as the response body. Otherwise,
 	 * a 404 is returned instead.
 	 *
 	 * @param attemptedLogin the pseudo-user object that contains either the email or username and a password hash
@@ -40,11 +39,11 @@ public class GeneralController {
 	 */
 	@PostMapping("/login")
 	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
-		Optional<User> query = userRepository.findUserByEmail(attemptedLogin.email);        // 1
+		Optional<User> query = userRepository.findByEmail(attemptedLogin.email);        // 1
 		if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
 			return new ResponseEntity<>(query.get(), HttpStatus.OK);
 		} else {
-			query = userRepository.findUserByUsername(attemptedLogin.username);                   // 2
+			query = userRepository.findByUsername(attemptedLogin.username);                   // 2
 			if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
 				return new ResponseEntity<>(query.get(), HttpStatus.OK);
 			} else {
@@ -55,8 +54,8 @@ public class GeneralController {
 	}
 
 	/**
-	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in
-	 * Title case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
+	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in Title
+	 * case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
 	 * <p>
 	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
 	 *
@@ -75,9 +74,9 @@ public class GeneralController {
 				toRegister.get().setEmail(StringUtils.trimAllWhitespace(toRegister.get().getEmail().toLowerCase()));
 				toRegister.get().setPhoneNumber(StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ").substring(0, 10));
 
-				if (userRepository.findUserByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
+				if (userRepository.findByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
 					return new ResponseEntity<>(toRegister.get().getEmail(), HttpStatus.CONFLICT);
-				} else if (userRepository.findUserByUsername(toRegister.get().getUsername()).isPresent()) {  // 2
+				} else if (userRepository.findByUsername(toRegister.get().getUsername()).isPresent()) {  // 2
 					return new ResponseEntity<>(toRegister.get().getUsername(), HttpStatus.CONFLICT);
 				}
 				return new ResponseEntity<>(userRepository.save(toRegister.get()), HttpStatus.CREATED);
@@ -91,7 +90,8 @@ public class GeneralController {
 	@GetMapping("/api/majors")
 	public ResponseEntity<?> retrieveMajors() {
 		List<String> list = new ArrayList<>();
-		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/static/majors.txt"))) {
+		try (Stream<String> stream = Files.lines(Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource("static/majors.txt"))
+		                                                          .getFile()))) {
 			stream.forEach(list::add);
 			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (IOException e) {
@@ -103,7 +103,8 @@ public class GeneralController {
 	@GetMapping("/api/colleges")
 	public ResponseEntity<?> retrieveColleges() {
 		List<String> list = new ArrayList<>();
-		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/static/colleges.txt"))) {
+		try (Stream<String> stream = Files.lines(Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource("static/colleges.txt"))
+		                                                          .getFile()))) {
 			stream.forEach(list::add);
 			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (IOException e) {

@@ -29,6 +29,7 @@ public class UserController {
 	private final UserRepository userRepository;
 	private final UserGroupRepository userGroupRepository;
 	private final UserInterestRepository userInterestRepository;
+	private final UserService userService;
 
 
 	public UserController(UserRepository userRepository, UserGroupRepository userGroupRepository, GroupRepository groupRepository, InterestRepository interestRepository, UserInterestRepository userInterestRepository) {
@@ -37,6 +38,7 @@ public class UserController {
 		this.groupRepository = groupRepository;
 		this.interestRepository = interestRepository;
 		this.userInterestRepository = userInterestRepository;
+		this.userService = new UserService(userRepository);
 	}
 
 	/**
@@ -58,19 +60,13 @@ public class UserController {
 	public ResponseEntity<?> getUser(@PathVariable Optional<String> identifier) {
 		Optional<User> optionalUser;
 		if (identifier.isPresent()) {
-			try {
-				// Treat it as a Long first (id)
-				Long id = Long.parseLong(identifier.get());
-				optionalUser = userRepository.findById(id);     // 1
-			} catch (NumberFormatException e) {
-				// If it is not a long, treat it as a String (username)
-				optionalUser = userRepository.findUserByUsername(identifier.get());   // 1
-			}
+			optionalUser = userService.getUser(identifier.get());
 		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		// If it is a valid identifier then return the user associated with it
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+
 
 	/**
 	 * Deletes the {@code User} that corresponds to the given ID from the database.
@@ -92,13 +88,9 @@ public class UserController {
 	public ResponseEntity<?> deleteUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			try {
-				Optional<User> optionalUser = userRepository.findById(id.get());      // 1
-				if (optionalUser.isPresent()) {
-					User deleted = optionalUser.get().clone();
-					userRepository.delete(optionalUser.get());                  // 2
-					return new ResponseEntity<>(deleted, HttpStatus.OK);
-				}
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				Optional<User> result = userService.deleteUserByID(id.get());
+				return result.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+				             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,6 +98,7 @@ public class UserController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
 
 	/**
 	 * Updates the {@code User} that corresponds to the given ID path variable with the values of the request body. It is not possible to update the
@@ -129,9 +122,9 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody Optional<User> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
 			if (valuesToUpdate.isPresent() && id.isPresent()) {
-				Optional<User> fromDB = userRepository.findById(id.get());     // 1
+				Optional<User> fromDB = userService.getUserByID(id.get());
 				return fromDB.map(user -> new ResponseEntity<>(
-						userRepository.save(user.updateContents(valuesToUpdate.get())),  // 2
+						userService.saveUpdatedUser(valuesToUpdate.get(), user),  // 2
 						HttpStatus.OK
 				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			}
@@ -149,7 +142,7 @@ public class UserController {
 	@Operation(summary = "Gets all users")
 	@GetMapping
 	public Iterable<User> getAllUsers() {
-		return userRepository.findAll();    //1
+		return userService.getAllUsersFromDB();    //1
 	}
 
 	@Operation(summary = "Gets all groups for a given user")
@@ -163,7 +156,7 @@ public class UserController {
 	@GetMapping("/{id}/groups")
 	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
-			Optional<User> optionalUser = userRepository.findById(id.get());
+			Optional<User> optionalUser = userService.getUserByID(id.get());
 			return optionalUser.map(user -> new ResponseEntity<Iterable<R_UserGroup>>(user.getGroups(), HttpStatus.OK))
 			                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		}
@@ -183,7 +176,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
 
 		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -214,7 +207,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
 
 		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -243,7 +236,7 @@ public class UserController {
 	@GetMapping("/{id}/interests")
 	public ResponseEntity<?> getAllInterestsForUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
-			Optional<User> optionalUser = userRepository.findById(id.get());
+			Optional<User> optionalUser = userService.getUserByID(id.get());
 			return optionalUser.map(user -> new ResponseEntity<Iterable<R_UserInterest>>(user.getInterests(), HttpStatus.OK))
 			                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		}
@@ -263,7 +256,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !interest_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<InterestEntity> optionalInterest = interestRepository.findById(interest_id.get());// 2
 
 		if (!user.isPresent() || !optionalInterest.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -294,7 +287,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !interest_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<InterestEntity> optionalInterest = interestRepository.findById(interest_id.get());// 2
 
 		if (!user.isPresent() || !optionalInterest.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
