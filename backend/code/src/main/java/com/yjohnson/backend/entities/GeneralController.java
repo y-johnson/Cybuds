@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.ClassLoaderUtil;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -67,12 +70,12 @@ public class GeneralController {
 	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> toRegister) {
 		try {
 			if (toRegister.isPresent() && toRegister.get().validate()) {
-				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())).substring(0,15));
-				toRegister.get().setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getMiddleName().toLowerCase())));
+				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())));
+				if(toRegister.get().getMiddleName() != null) toRegister.get().setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getMiddleName().toLowerCase())));
 				toRegister.get().setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getLastName().toLowerCase())));
 				toRegister.get().setUsername(StringUtils.trimAllWhitespace(toRegister.get().getUsername().toLowerCase()));
 				toRegister.get().setEmail(StringUtils.trimAllWhitespace(toRegister.get().getEmail().toLowerCase()));
-				toRegister.get().setPhoneNumber(StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ").substring(0, 10));
+				if(toRegister.get().getPhoneNumber() != null) toRegister.get().setPhoneNumber(StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ").substring(0, 10));
 
 				if (userRepository.findByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
 					return new ResponseEntity<>(toRegister.get().getEmail(), HttpStatus.CONFLICT);
@@ -90,11 +93,11 @@ public class GeneralController {
 	@GetMapping("/api/majors")
 	public ResponseEntity<?> retrieveMajors() {
 		List<String> list = new ArrayList<>();
-		try (Stream<String> stream = Files.lines(Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource("static/majors.txt"))
-		                                                          .getFile()))) {
+		URL url = this.getClass().getResource("/static/majors.txt");
+		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
 			stream.forEach(list::add);
 			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch (IOException e) {
+		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -103,11 +106,11 @@ public class GeneralController {
 	@GetMapping("/api/colleges")
 	public ResponseEntity<?> retrieveColleges() {
 		List<String> list = new ArrayList<>();
-		try (Stream<String> stream = Files.lines(Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource("static/colleges.txt"))
-		                                                          .getFile()))) {
+		URL url = this.getClass().getResource("/static/colleges.txt");
+		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
 			stream.forEach(list::add);
 			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch (IOException e) {
+		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
