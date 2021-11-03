@@ -6,6 +6,7 @@ import com.yjohnson.backend.entities.DB_Relations.UserGroupRepository;
 import com.yjohnson.backend.entities.DB_Relations.UserInterestRepository;
 import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupRepository;
+import com.yjohnson.backend.entities.Group.GroupType;
 import com.yjohnson.backend.entities.Interest.InterestEntity;
 import com.yjohnson.backend.entities.Interest.InterestRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +30,7 @@ public class UserController {
 	private final UserRepository userRepository;
 	private final UserGroupRepository userGroupRepository;
 	private final UserInterestRepository userInterestRepository;
-
+	private final UserService userService;
 
 	public UserController(UserRepository userRepository, UserGroupRepository userGroupRepository, GroupRepository groupRepository, InterestRepository interestRepository, UserInterestRepository userInterestRepository) {
 		this.userRepository = userRepository;
@@ -37,6 +38,7 @@ public class UserController {
 		this.groupRepository = groupRepository;
 		this.interestRepository = interestRepository;
 		this.userInterestRepository = userInterestRepository;
+		this.userService = new UserService(userRepository);
 	}
 
 	/**
@@ -58,19 +60,13 @@ public class UserController {
 	public ResponseEntity<?> getUser(@PathVariable Optional<String> identifier) {
 		Optional<User> optionalUser;
 		if (identifier.isPresent()) {
-			try {
-				// Treat it as a Long first (id)
-				Long id = Long.parseLong(identifier.get());
-				optionalUser = userRepository.findById(id);     // 1
-			} catch (NumberFormatException e) {
-				// If it is not a long, treat it as a String (username)
-				optionalUser = userRepository.findUserByUsername(identifier.get());   // 1
-			}
+			optionalUser = userService.getUser(identifier.get());
 		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		// If it is a valid identifier then return the user associated with it
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+
 
 	/**
 	 * Deletes the {@code User} that corresponds to the given ID from the database.
@@ -92,13 +88,9 @@ public class UserController {
 	public ResponseEntity<?> deleteUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			try {
-				Optional<User> optionalUser = userRepository.findById(id.get());      // 1
-				if (optionalUser.isPresent()) {
-					User deleted = optionalUser.get().clone();
-					userRepository.delete(optionalUser.get());                  // 2
-					return new ResponseEntity<>(deleted, HttpStatus.OK);
-				}
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				Optional<User> result = userService.deleteUserByID(id.get());
+				return result.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+				             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,6 +98,7 @@ public class UserController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
 
 	/**
 	 * Updates the {@code User} that corresponds to the given ID path variable with the values of the request body. It is not possible to update the
@@ -129,9 +122,9 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody Optional<User> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
 			if (valuesToUpdate.isPresent() && id.isPresent()) {
-				Optional<User> fromDB = userRepository.findById(id.get());     // 1
+				Optional<User> fromDB = userService.getUserByID(id.get());
 				return fromDB.map(user -> new ResponseEntity<>(
-						userRepository.save(user.updateContents(valuesToUpdate.get())),  // 2
+						userService.saveUpdatedUser(valuesToUpdate.get(), user),  // 2
 						HttpStatus.OK
 				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			}
@@ -139,17 +132,6 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	/**
-	 * Retrieves all the {@code User} objects in the database.
-	 *
-	 * @return all the users in the database
-	 */
-	@Operation(summary = "Gets all users")
-	@GetMapping
-	public Iterable<User> getAllUsers() {
-		return userRepository.findAll();    //1
 	}
 
 	@Operation(summary = "Gets all groups for a given user")
@@ -163,7 +145,7 @@ public class UserController {
 	@GetMapping("/{id}/groups")
 	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
-			Optional<User> optionalUser = userRepository.findById(id.get());
+			Optional<User> optionalUser = userService.getUserByID(id.get());
 			return optionalUser.map(user -> new ResponseEntity<Iterable<R_UserGroup>>(user.getGroups(), HttpStatus.OK))
 			                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		}
@@ -183,7 +165,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
 
 		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -214,7 +196,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
 
 		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -243,7 +225,7 @@ public class UserController {
 	@GetMapping("/{id}/interests")
 	public ResponseEntity<?> getAllInterestsForUser(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
-			Optional<User> optionalUser = userRepository.findById(id.get());
+			Optional<User> optionalUser = userService.getUserByID(id.get());
 			return optionalUser.map(user -> new ResponseEntity<Iterable<R_UserInterest>>(user.getInterests(), HttpStatus.OK))
 			                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 		}
@@ -263,7 +245,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !interest_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<InterestEntity> optionalInterest = interestRepository.findById(interest_id.get());// 2
 
 		if (!user.isPresent() || !optionalInterest.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -294,7 +276,7 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !interest_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userRepository.findById(user_id.get());// 1
+		Optional<User> user = userService.getUserByID(user_id.get());
 		Optional<InterestEntity> optionalInterest = interestRepository.findById(interest_id.get());// 2
 
 		if (!user.isPresent() || !optionalInterest.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -310,5 +292,123 @@ public class UserController {
 				relation,
 				HttpStatus.OK
 		);
+	}
+
+	/**
+	 * Sorts all user profiles that have the same characteristic as the choice of the current user. Calls add() which counts the number of
+	 * characterists that are shared. Returns user with the most shared characteristics.
+	 *
+	 * @param id     user id
+	 * @param choice the identifier the current user wanted to match with
+	 *
+	 * @return user profile with the most in common with current user
+	 */
+	@GetMapping("/{id}/match")
+	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @RequestBody GroupType choice) {
+		if (id.isPresent()) {
+			Optional<User> optionalCurrentUser = userRepository.findById(id.get());
+			if (optionalCurrentUser.isPresent()) {
+				int same = 0;
+				int t = 0;
+				User temp = null;
+				Iterable<User> All = getAllUsers();
+				for (User secondaryUser : All) {
+					User currentUser = optionalCurrentUser.get();
+					if (!secondaryUser.getId().equals(currentUser.getId())) {
+						switch (choice) {
+							case STUDENT_CLASS:
+								if (secondaryUser.classification == currentUser.classification) {
+									t = add(currentUser, secondaryUser);
+								}
+								break;
+							case COLLEGE:
+								Iterable<GroupEntity> college1 = currentUser.getColleges();
+								Iterable<GroupEntity> college2 = secondaryUser.getColleges();
+								for (GroupEntity c1 : college1) {
+									for (GroupEntity c2 : college2) {
+										if (c1 == c2) {
+											t = add(currentUser, secondaryUser);
+										}
+									}
+								}
+								break;
+							case STUDENT_MAJOR:
+								Iterable<GroupEntity> major1 = currentUser.getMajors();
+								Iterable<GroupEntity> major2 = secondaryUser.getMajors();
+								for (GroupEntity g1 : major1) {
+									for (GroupEntity g2 : major2) {
+										if (g1 == g2) {
+											t = add(currentUser, secondaryUser);
+										}
+									}
+								}
+								break;
+							default:
+								break;
+						}
+						if (t > same) {
+							same = t;
+							temp = secondaryUser;
+						}
+					}
+				}
+				return new ResponseEntity<>(temp, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	/**
+	 * Retrieves all the {@code User} objects in the database.
+	 *
+	 * @return all the users in the database
+	 */
+	@Operation(summary = "Gets all users")
+	@GetMapping
+	public Iterable<User> getAllUsers() {
+		return userService.getAllUsersFromDB();    //1
+	}
+
+	/**
+	 * Helper method tracks the number of characteristics that are the same between two users.
+	 *
+	 * @param one  user one
+	 * @param two, user two
+	 *
+	 * @return returns int of the number of shared characteristics
+	 */
+	public int add(User one, User two) {
+		int i = 0;
+		//iterate through all interests-sees if any match
+		for (R_UserInterest r1 : one.interestedIn) {
+			for (R_UserInterest r2 : two.interestedIn) {
+				if (r1 == r2) ++i;
+			}
+		}
+		//iterate through all majors-counts if any match
+		Iterable<GroupEntity> major1 = one.getMajors();
+		Iterable<GroupEntity> major2 = two.getMajors();
+		for (GroupEntity g1 : major1) {
+			for (GroupEntity g2 : major2) {
+				if (g1 == g2) ++i;
+			}
+		}
+
+		//iterate through all colleges-counts if any match
+		Iterable<GroupEntity> college1 = one.getColleges();
+		Iterable<GroupEntity> college2 = two.getColleges();
+		for (GroupEntity c1 : college1) {
+			for (GroupEntity c2 : college2) {
+				if (c1 == c2) ++i;
+			}
+		}
+
+		//another point if the students are the same class year
+		if (one.classification == two.classification) {
+			i++;
+		}
+
+		return i;
 	}
 }

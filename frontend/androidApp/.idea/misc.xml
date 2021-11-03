@@ -47,6 +47,9 @@
         <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.3808876811594203" />
         <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.18659420289855072" />
         <entry key="..\:/Users/yjohn/StudioProjects/2_do_4/frontend/androidApp/app/src/main/res/layout/fragment_notifications.xml" value="0.18659420289855072" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.12031408308004053" />
+        <entry key="app/src/main/res/layout/activity_search_people.xml" value="0.3458506701683204" />
+        <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.36818404068466337" />
       </map>
     </option>
   </component>
