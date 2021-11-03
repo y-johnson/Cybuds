@@ -86,11 +86,11 @@ public class User implements Serializable, Cloneable {
 	@Enumerated(EnumType.STRING)
 	public Gender gender;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
 	public Set<R_UserInterest> interestedIn;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<R_UserGroup> partOf;
 

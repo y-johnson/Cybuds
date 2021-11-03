@@ -2,30 +2,31 @@ package com.yjohnson.backend.entities.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashSet;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 class UserServiceTest {
 	public static final long ID = 1L;
+	@Autowired
 	UserRepository repo;
 	UserService service;
 	User user;
 
 	@BeforeEach
 	void setUp() {
-		repo = mock(UserRepository.class);
 		user = new User(
 				"exampleUsername",
 				"example@email.com",
 				"examplePassword",
-				"ExampleFirstName",
-				"ExampleMiddleName",
-				"ExampleLastName",
+				"ExampleFirst",
+				"ExampleMiddle",
+				"ExampleLast",
 				"ExampleAddress",
 				"1231231234",
 				StudentClassification.SENIOR,
@@ -34,10 +35,7 @@ class UserServiceTest {
 				new HashSet<>(),
 				ID
 		);
-		when(repo.findByEmail("a@example.com")).thenReturn(Optional.of(user));
-		when(repo.findByUsername("exampleUsername")).thenReturn(Optional.of(user));
-		when(repo.findById(ID)).thenReturn(Optional.of(user), Optional.empty());
-		doNothing().when(repo).deleteById(ID);
+		repo.save(user);
 		service = new UserService(repo);
 	}
 
@@ -45,10 +43,7 @@ class UserServiceTest {
 	void getUser() {
 		Optional<User> user1 = service.getUser("1");
 		Optional<User> user2 = service.getUser("exampleUsername");
-
 		assert user1.isPresent() && user2.isPresent();
-		System.out.println(user1.get());
-		System.out.println(user2.get());
 		assert user1.get().equals(user2.get());
 		assert !service.getUser("WrongExample").isPresent();
 	}
@@ -63,6 +58,12 @@ class UserServiceTest {
 			fail();                         // Cloning must be supported
 		}
 		assert !service.getUserByID(ID).isPresent();
+
+		int i = 0;
+		for (User ignored : service.getAllUsersFromDB()) {
+			++i;
+		}
+		assert i == 0;
 	}
 
 	@Test
@@ -74,10 +75,35 @@ class UserServiceTest {
 
 	@Test
 	void saveUpdatedUser() {
-
+		Optional<User> userByID = service.getUserByID(ID);
+		assert userByID.isPresent();
+		User values = new User();
+		values.setEmail("Changed@Email.com");
+		Optional<User> user = service.getUserByID(ID);
+		assert user.isPresent();
+		assert service.saveUpdatedUser(values, userByID.get()).equals(new User(
+				"exampleUsername",
+				"Changed@Email.com",
+				"examplePassword",
+				"ExampleFirst",
+				"ExampleMiddle",
+				"ExampleLast",
+				"ExampleAddress",
+				"1231231234",
+				StudentClassification.SENIOR,
+				Gender.OTHER,
+				new HashSet<>(),
+				new HashSet<>(),
+				ID
+		));
 	}
 
 	@Test
 	void getAllUsersFromDB() {
+		int i = 0;
+		for (User ignored : service.getAllUsersFromDB()) {
+		    ++i;
+		}
+		assert i == 1;
 	}
 }

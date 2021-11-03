@@ -67,7 +67,7 @@ public class GeneralController {
 	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> toRegister) {
 		try {
 			if (toRegister.isPresent() && toRegister.get().validate()) {
-				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())));
+				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())).substring(0,15));
 				toRegister.get().setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getMiddleName().toLowerCase())));
 				toRegister.get().setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getLastName().toLowerCase())));
 				toRegister.get().setUsername(StringUtils.trimAllWhitespace(toRegister.get().getUsername().toLowerCase()));
