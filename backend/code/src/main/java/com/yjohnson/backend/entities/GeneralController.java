@@ -75,7 +75,7 @@ public class GeneralController {
 				toRegister.get().setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getLastName().toLowerCase())));
 				toRegister.get().setUsername(StringUtils.trimAllWhitespace(toRegister.get().getUsername().toLowerCase()));
 				toRegister.get().setEmail(StringUtils.trimAllWhitespace(toRegister.get().getEmail().toLowerCase()));
-				if(toRegister.get().getPhoneNumber() != null) toRegister.get().setPhoneNumber(StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ").substring(0, 10));
+				if(toRegister.get().getPhoneNumber() != null) toRegister.get().setPhoneNumber(String.format("%10s",StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ")));
 
 				if (userRepository.findByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
 					return new ResponseEntity<>(toRegister.get().getEmail(), HttpStatus.CONFLICT);
