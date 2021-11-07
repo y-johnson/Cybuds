@@ -12,9 +12,8 @@ https://newbedev.com/spring-boot-security-postman-gives-401-unauthorized
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements ApplicationContextAware {
-
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll();
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/**").permitAll();
 	}
 }

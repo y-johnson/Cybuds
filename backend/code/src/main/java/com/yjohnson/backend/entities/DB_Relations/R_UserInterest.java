@@ -32,4 +32,20 @@ public class R_UserInterest implements Serializable {
 		this.interest = interest;
 		this.dateAdded = dateAdded;
 	}
+
+	public InterestEntity getInterest() {
+		return interest;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public LocalDateTime getDateAdded() {
+		return dateAdded;
+	}
 }
