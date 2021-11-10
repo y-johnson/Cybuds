@@ -102,7 +102,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:gravity=""
         android:hint="PhoneNumber"
-        android:inputType="textPersonName|text|textAutoComplete"
+        android:inputType="number|text|textAutoComplete|phone"
         android:textColor="#000"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/activity_register_personal_info_button_next"

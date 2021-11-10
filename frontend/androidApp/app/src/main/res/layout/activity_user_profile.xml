@@ -247,14 +247,6 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/icon_more_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="300dp"
-            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
-
-        <ImageView
             android:id="@+id/icon_person_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -262,16 +254,23 @@
             app:srcCompat="@drawable/ic_baseline_person_50" />
 
         <ImageView
+            android:id="@+id/icon_more_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
+
+        <ImageView
             android:id="@+id/icon_house_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="left|center_vertical"
             android:clickable="false"
             android:onClick="btnUserProfile_menu_onClick"
-            android:paddingRight="300dp"
             app:srcCompat="@drawable/ic_baseline_home_50"
             tools:ignore="SpeakableTextPresentCheck" />
 
 
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

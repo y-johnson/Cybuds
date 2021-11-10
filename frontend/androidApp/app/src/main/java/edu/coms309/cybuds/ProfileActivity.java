@@ -15,7 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import edu.coms309.cybuds.databinding.ActivityProfileBinding;
+//import edu.coms309.cybuds.databinding.ActivityProfileBinding;
 import edu.coms309.cybuds.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
 		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 		NavigationUI.setupWithNavController(binding.navView, navController);*/
 
-		Intent i = getIntent();
+		/*Intent i = getIntent();
 		User user = (User) i.getSerializableExtra("currentUserProfile");
 
 		TextView t = findViewById(R.id.activity_user_profile_name);
@@ -49,7 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 		t.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
 		t = findViewById(R.id.activity_user_profile_bio);
-		t.setText(user.printable());
+		t.setText(user.printable());*/
 	}
 
 
