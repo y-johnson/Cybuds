@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"edu.coms309.cybuds"},{"l":"edu.coms309.cybuds.model"},{"l":"edu.coms309.cybuds.network"},{"l":"edu.coms309.cybuds.ui"},{"l":"edu.coms309.cybuds.ui.dashboard"},{"l":"edu.coms309.cybuds.ui.home"},{"l":"edu.coms309.cybuds.ui.notifications"}]
