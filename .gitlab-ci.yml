@@ -36,7 +36,7 @@ auto-deployment:
     - sudo systemctl restart system-cybuds-server.service
 
 android-build:
-    image: javiersantos/android-ci:latest
+    image: gjandres/android-ci:latest
     stage: androidbuild
     before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -51,7 +51,7 @@ android-build:
         - ./frontend/androidApp/app/build/outputs
 
 android-test:
-    image: javiersantos/android-ci:latest
+    image: gjandres/android-ci:latest
     stage: androidtest
     before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
