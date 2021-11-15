@@ -12,15 +12,35 @@ public class GroupEntity implements Cloneable, Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserGroup> members;
+	public GroupType groupType;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
-	@Column(nullable = false)
+
+	@Override
+	public String toString() {
+		return "GroupEntity{" +
+				"groupType=" + groupType +
+				", id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				'}';
+	}
+
+	@Column(nullable = false, unique = true)
 	String name;
 	String description;
 
-	public GroupType groupType;
+	protected GroupEntity(GroupType groupType, String name, String description) {
+		this.groupType = groupType;
+		this.name = name;
+		this.description = description;
+	}
+
+	public GroupEntity() {
+
+	}
 
 	public Long getId() {
 		return id;
@@ -30,11 +50,12 @@ public class GroupEntity implements Cloneable, Serializable {
 		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {

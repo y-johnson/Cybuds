@@ -11,21 +11,55 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(path = "/groups")
 public class GroupController {
 
+	public static final String STATIC_MAJORS_TXT = "/static/majors.txt";
+	public static final String STATIC_COLLEGES_TXT = "/static/colleges.txt";
 	private final GroupRepository groupRepository;
 
 	public GroupController(GroupRepository groupRepository) {
 		this.groupRepository = groupRepository;
+		preloadGroups(groupRepository, "%s is a major at ISU.", GroupType.STUDENT_MAJOR, STATIC_MAJORS_TXT);
+		preloadGroups(groupRepository, "%s is a college at ISU.", GroupType.COLLEGE, STATIC_COLLEGES_TXT);
+	}
+
+	private void preloadGroups(GroupRepository groupRepository, String format, GroupType groupType, String file) {
+		URL url = this.getClass().getResource(file);
+		assert url != null;
+		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+			stream.forEach((name) -> {
+				if (!groupRepository.findByName(name).isPresent()) {
+					try {
+						groupRepository.save(new GroupEntity(
+								groupType,
+								name,
+								String.format(format, name)
+						));
+					} catch (DataIntegrityViolationException ignored) {
+						System.err.println("Save failed for " + name);
+					}
+				}
+			});
+		} catch (IOException | URISyntaxException | NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Adds a given group to the database. This method sanitizes the input to a degree; the fields will be trimmed and names will be capitalized in
-	 * Title case (e.g. "marTHa" -> "Martha").
+	 * Title case (e.g. "marTHa" - "Martha").
 	 * <p>
 	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
 	 *
@@ -168,5 +202,17 @@ public class GroupController {
 	@GetMapping
 	public Iterable<GroupEntity> retrieveAll() {
 		return groupRepository.findAll();
+	}
+
+	@Operation(summary = "Gets all majors")
+	@GetMapping("/majors")
+	public Iterable<GroupEntity> retrieveMajors(){
+		return groupRepository.findAllByGroupType(GroupType.STUDENT_MAJOR);
+	}
+
+	@Operation(summary = "Gets all colleges")
+	@GetMapping("/colleges")
+	public Iterable<GroupEntity> retrieveColleges() {
+		return groupRepository.findAllByGroupType(GroupType.COLLEGE);
 	}
 }

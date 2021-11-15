@@ -26,7 +26,7 @@ public class InterestController {
 
 	/**
 	 * Adds a given interest to the database. This method sanitizes the input to a degree; the fields will be trimmed and names will be capitalized in
-	 * Title case (e.g. "marTHa" -> "Martha").
+	 * Title case (e.g. "marTHa" - "Martha").
 	 * <p>
 	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
 	 *

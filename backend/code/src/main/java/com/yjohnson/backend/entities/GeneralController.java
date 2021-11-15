@@ -58,7 +58,7 @@ public class GeneralController {
 
 	/**
 	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in Title
-	 * case (e.g. "marTHa" -> "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
+	 * case (e.g. "marTHa" - "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
 	 * <p>
 	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
 	 *
@@ -89,30 +89,30 @@ public class GeneralController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
-
-	@GetMapping("/api/majors")
-	public ResponseEntity<?> retrieveMajors() {
-		List<String> list = new ArrayList<>();
-		URL url = this.getClass().getResource("/static/majors.txt");
-		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
-			stream.forEach(list::add);
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@GetMapping("/api/colleges")
-	public ResponseEntity<?> retrieveColleges() {
-		List<String> list = new ArrayList<>();
-		URL url = this.getClass().getResource("/static/colleges.txt");
-		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
-			stream.forEach(list::add);
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+//
+//	@GetMapping("/api/majors")
+//	public ResponseEntity<?> retrieveMajors() {
+//		List<String> list = new ArrayList<>();
+//		URL url = this.getClass().getResource("/static/majors.txt");
+//		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+//			stream.forEach(list::add);
+//			return new ResponseEntity<>(list, HttpStatus.OK);
+//		} catch (IOException | URISyntaxException e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
+//
+//	@GetMapping("/api/colleges")
+//	public ResponseEntity<?> retrieveColleges() {
+//		List<String> list = new ArrayList<>();
+//		URL url = this.getClass().getResource("/static/colleges.txt");
+//		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+//			stream.forEach(list::add);
+//			return new ResponseEntity<>(list, HttpStatus.OK);
+//		} catch (IOException | URISyntaxException e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 }
