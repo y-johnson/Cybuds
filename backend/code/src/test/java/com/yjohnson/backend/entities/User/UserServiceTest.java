@@ -41,11 +41,11 @@ class UserServiceTest {
 
 	@Test
 	void getUser() {
-		Optional<User> user1 = service.getUser("1");
-		Optional<User> user2 = service.getUser("exampleUsername");
+		Optional<User> user1 = service.getUserByString("1");
+		Optional<User> user2 = service.getUserByString("exampleUsername");
 		assert user1.isPresent() && user2.isPresent();
 		assert user1.get().equals(user2.get());
-		assert !service.getUser("WrongExample").isPresent();
+		assert !service.getUserByString("WrongExample").isPresent();
 	}
 
 	@Test
