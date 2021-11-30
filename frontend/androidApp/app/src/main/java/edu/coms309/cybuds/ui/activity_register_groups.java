@@ -17,6 +17,7 @@ import java.util.List;
 
 import edu.coms309.cybuds.R;
 
+
 public class activity_register_groups extends AppCompatActivity {
     RecyclerView datalist;
     List<String> titles;
