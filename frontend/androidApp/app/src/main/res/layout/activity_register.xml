@@ -9,24 +9,27 @@
 
     <Button
         android:id="@+id/activity_register_button_back"
-        android:layout_width="184dp"
+        android:layout_width="200dp"
         android:layout_height="65dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginStart="4dp"
-        android:background="@drawable/login_next_button"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/login_back_button"
         android:fontFamily="@font/racing_sans_one"
         android:onClick="btnRegister_Back_onClick"
         android:text="Back"
-        android:textColor="#000"
+        android:textColor="@color/white"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_button_submit"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/activity_register_email"
-        android:layout_width="224dp"
+        android:layout_width="290dp"
         android:layout_height="63dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="192dp"
         android:background="@drawable/text_box"
         android:fontFamily="@font/racing_sans_one"
         android:gravity=""
@@ -41,9 +44,9 @@
 
     <EditText
         android:id="@+id/activity_register_password"
-        android:layout_width="224dp"
+        android:layout_width="290dp"
         android:layout_height="63dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/text_box"
         android:fontFamily="@font/racing_sans_one"
         android:gravity=""
@@ -57,7 +60,7 @@
 
     <EditText
         android:id="@+id/activity_register_major"
-        android:layout_width="224dp"
+        android:layout_width="290dp"
         android:layout_height="63dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/text_box"
@@ -73,7 +76,7 @@
 
     <EditText
         android:id="@+id/activity_register_graduation_year"
-        android:layout_width="224dp"
+        android:layout_width="290dp"
         android:layout_height="63dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/text_box"
@@ -89,7 +92,7 @@
 
     <Button
         android:id="@+id/activity_register_button_submit"
-        android:layout_width="184dp"
+        android:layout_width="200dp"
         android:layout_height="65dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/login_next_button"

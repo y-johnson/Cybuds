@@ -27,7 +27,7 @@ public class activity_register_groups extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register_groups);
 
         datalist = findViewById(R.id.activity_register_interests_recycler_view);
 
