@@ -2,19 +2,26 @@ package com.yjohnson.backend.entities;
 
 import com.yjohnson.backend.entities.User.User;
 import com.yjohnson.backend.entities.User.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import sun.misc.ClassLoaderUtil;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping()
 public class GeneralController {
 	private final UserRepository userRepository;
 
@@ -35,11 +42,11 @@ public class GeneralController {
 	 */
 	@PostMapping("/login")
 	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
-		Optional<User> query = userRepository.findUserByEmail(attemptedLogin.email);        // 1
+		Optional<User> query = userRepository.findByEmail(attemptedLogin.email);        // 1
 		if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
 			return new ResponseEntity<>(query.get(), HttpStatus.OK);
 		} else {
-			query = userRepository.findUserByUsername(attemptedLogin.username);                   // 2
+			query = userRepository.findByUsername(attemptedLogin.username);                   // 2
 			if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
 				return new ResponseEntity<>(query.get(), HttpStatus.OK);
 			} else {
@@ -48,4 +55,64 @@ public class GeneralController {
 			}
 		}
 	}
+
+	/**
+	 * Adds a given user to the database. This method sanitizes the input to a degree; the fields will be trimmed, names will be capitalized in Title
+	 * case (e.g. "marTHa" - "Martha"), the username and email will be lowercase and the phone number will be reduced to a max of 10 digits.
+	 * <p>
+	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
+	 *
+	 * @param toRegister the user object to insert into the database.
+	 *
+	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
+	 */
+	@PostMapping("/register")
+	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> toRegister) {
+		try {
+			if (toRegister.isPresent() && toRegister.get().validate()) {
+				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())));
+				if(toRegister.get().getMiddleName() != null) toRegister.get().setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getMiddleName().toLowerCase())));
+				toRegister.get().setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getLastName().toLowerCase())));
+				toRegister.get().setUsername(StringUtils.trimAllWhitespace(toRegister.get().getUsername().toLowerCase()));
+				toRegister.get().setEmail(StringUtils.trimAllWhitespace(toRegister.get().getEmail().toLowerCase()));
+				if(toRegister.get().getPhoneNumber() != null) toRegister.get().setPhoneNumber(String.format("%10s",StringUtils.deleteAny(toRegister.get().getPhoneNumber(), "-()/_-+ ")));
+
+				if (userRepository.findByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
+					return new ResponseEntity<>(toRegister.get().getEmail(), HttpStatus.CONFLICT);
+				} else if (userRepository.findByUsername(toRegister.get().getUsername()).isPresent()) {  // 2
+					return new ResponseEntity<>(toRegister.get().getUsername(), HttpStatus.CONFLICT);
+				}
+				return new ResponseEntity<>(userRepository.save(toRegister.get()), HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+	}
+//
+//	@GetMapping("/api/majors")
+//	public ResponseEntity<?> retrieveMajors() {
+//		List<String> list = new ArrayList<>();
+//		URL url = this.getClass().getResource("/static/majors.txt");
+//		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+//			stream.forEach(list::add);
+//			return new ResponseEntity<>(list, HttpStatus.OK);
+//		} catch (IOException | URISyntaxException e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
+//
+//	@GetMapping("/api/colleges")
+//	public ResponseEntity<?> retrieveColleges() {
+//		List<String> list = new ArrayList<>();
+//		URL url = this.getClass().getResource("/static/colleges.txt");
+//		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+//			stream.forEach(list::add);
+//			return new ResponseEntity<>(list, HttpStatus.OK);
+//		} catch (IOException | URISyntaxException e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 }

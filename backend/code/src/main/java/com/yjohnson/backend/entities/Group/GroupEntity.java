@@ -8,16 +8,39 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class GroupEntity implements Serializable, Cloneable {
+public class GroupEntity implements Cloneable, Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<R_UserGroup> members;
+	public GroupType groupType;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
-	@Column(nullable = false)
+
+	@Override
+	public String toString() {
+		return "GroupEntity{" +
+				"groupType=" + groupType +
+				", id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				'}';
+	}
+
+	@Column(nullable = false, unique = true)
 	String name;
 	String description;
+
+	protected GroupEntity(GroupType groupType, String name, String description) {
+		this.groupType = groupType;
+		this.name = name;
+		this.description = description;
+	}
+
+	public GroupEntity() {
+
+	}
 
 	public Long getId() {
 		return id;
