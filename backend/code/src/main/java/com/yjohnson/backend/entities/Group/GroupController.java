@@ -31,31 +31,31 @@ public class GroupController {
 
 	public GroupController(GroupRepository groupRepository) {
 		this.groupRepository = groupRepository;
-		preloadGroups(groupRepository, "%s is a major at ISU.", GroupType.STUDENT_MAJOR, STATIC_MAJORS_TXT);
-		preloadGroups(groupRepository, "%s is a college at ISU.", GroupType.COLLEGE, STATIC_COLLEGES_TXT);
+//		preloadGroups(groupRepository, "%s is a major at ISU.", GroupType.STUDENT_MAJOR, STATIC_MAJORS_TXT);
+//		preloadGroups(groupRepository, "%s is a college at ISU.", GroupType.COLLEGE, STATIC_COLLEGES_TXT);
 	}
 
-	private void preloadGroups(GroupRepository groupRepository, String format, GroupType groupType, String file) {
-		URL url = this.getClass().getResource(file);
-		assert url != null;
-		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
-			stream.forEach((name) -> {
-				if (!groupRepository.findByName(name).isPresent()) {
-					try {
-						groupRepository.save(new GroupEntity(
-								groupType,
-								name,
-								String.format(format, name)
-						));
-					} catch (DataIntegrityViolationException ignored) {
-						System.err.println("Save failed for " + name);
-					}
-				}
-			});
-		} catch (IOException | URISyntaxException | NullPointerException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void preloadGroups(GroupRepository groupRepository, String format, GroupType groupType, String file) {
+//		URL url = this.getClass().getResource(file);
+//		assert url != null;
+//		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+//			stream.forEach((name) -> {
+//				if (!groupRepository.findByName(name).isPresent()) {
+//					try {
+//						groupRepository.save(new GroupEntity(
+//								groupType,
+//								name,
+//								String.format(format, name)
+//						));
+//					} catch (DataIntegrityViolationException ignored) {
+//						System.err.println("Save failed for " + name);
+//					}
+//				}
+//			});
+//		} catch (IOException | URISyntaxException | NullPointerException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Adds a given group to the database. This method sanitizes the input to a degree; the fields will be trimmed and names will be capitalized in
