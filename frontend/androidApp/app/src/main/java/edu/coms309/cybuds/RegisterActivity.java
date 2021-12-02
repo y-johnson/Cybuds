@@ -3,18 +3,21 @@ package edu.coms309.cybuds;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import androidx.appcompat.app.AppCompatActivity;
 import edu.coms309.cybuds.model.User;
 import edu.coms309.cybuds.network.HTTPDriver;
 
 public class RegisterActivity extends AppCompatActivity {
 	private static final HTTPDriver HTTP_DRIVER = new HTTPDriver();
+
+	private static final String[] GenderSpinnerVals = {"Gender", "Male", "Female", "Other"};
 
 	EditText usernameIn;
 	EditText emailIn;
@@ -26,7 +29,9 @@ public class RegisterActivity extends AppCompatActivity {
 	EditText phonenumberIn;
 	EditText gradyearIn;
 	EditText classificationIn;
-	EditText majorIn;
+	//EditText majorIn;
+	EditText genderIn;
+	Spinner genderSpinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
 		addressIn = findViewById(R.id.activity_register_personal_info_address);
 		phonenumberIn = findViewById(R.id.activity_register_personal_info_phone_number);
 		gradyearIn = findViewById(R.id.activity_register_graduation_year);
+
+
 	}
 		@Override
 	protected void onDestroy() {
@@ -55,6 +62,32 @@ public class RegisterActivity extends AppCompatActivity {
 		emailIn = findViewById(R.id.activity_register_email);
 		passwordIn = findViewById(R.id.activity_register_password);
 		setContentView(R.layout.activity_register_personal_info);
+		genderSpinner = findViewById(R.id.spinner);
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+				this, android.R.layout.simple_spinner_item, GenderSpinnerVals );
+		genderSpinner.setAdapter(spinnerArrayAdapter);
+
+
+		/*String[] ar_dd_bus_type = getResources().getStringArray(R.array.ar_dd_bus_type);
+		List<String> lst_bus_type = Arrays.asList(ar_dd_bus_type);
+		ArrayList<String> ar_bus_type = new ArrayList<>(lst_bus_type);
+		//==
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(RegisterActivity.this, R.layout.activity_register_personal_info, R.id.spinner, ar_bus_type);
+		adapter.setDropDownViewResource(R.layout
+				.item_spinner_dropdown);
+		//=========
+		Spinner sp_my_spinner= rootView.findViewById(R.id.sp_my_spinner);
+		sp_my_spinner.setAdapter(adapter);*/
+
+
+
+		/*ArrayAdapter adapter = ArrayAdapter.createFromResource(this,
+				R.array.emptyArray, R.layout.item_spinner_dropdown);
+
+		adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
+		genderSpinner.setAdapter(adapter);*/
+
 	}
 
 	public void btnRegister_personalInfo_continue_onClick(View view) {
@@ -63,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 		lastnameIn = findViewById(R.id.activity_register_personal_info_last_name);
 		addressIn = findViewById(R.id.activity_register_personal_info_address);
 		phonenumberIn = findViewById(R.id.activity_register_personal_info_phone_number);
+		genderIn = findViewById(R.id.activity_register_personal_info_gender);
 		setContentView(R.layout.activity_register_username_picture);
 	}
 
@@ -75,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
 	public void btnRegister_classes_continue_onClick(View view) {
 		//gradyearIn = findViewById(R.id.activity_register_graduation_year);
 		classificationIn = findViewById(R.id.activity_register_graduation_year);
-		majorIn = findViewById(R.id.activity_register_major);
+		//majorIn = findViewById(R.id.activity_register_major);
 
 		setContentView(R.layout.activity_register_groups);
 	}
@@ -104,8 +138,9 @@ public class RegisterActivity extends AppCompatActivity {
 		newUser.setAddress(addressIn.getText().toString());
 		newUser.setPhoneNumber(phonenumberIn.getText().toString());
 		newUser.setClassification(classificationIn.getText().toString());
-		gradyearIn.getText().toString();
-		newUser.setGradYear(0);
+		newUser.setGender(Integer.parseInt(genderIn.getText().toString()));
+		//gradyearIn.getText().toString();
+		//newUser.setGradYear(0);
 		/*//newUser.setUsername(this.<EditText>findViewById(R.id.activity_register_email).getText().toString());
 		newUser.setEmail(this.<EditText>findViewById(R.id.activity_register_email).getText().toString());
 		newUser.setPasswordHash(this.<EditText>findViewById(R.id.activity_register_email).getText().toString());

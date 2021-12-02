@@ -32,7 +32,7 @@ public class HTTPDriver {
 	 * The Login map.
 	 */
 	final String LOGIN_MAP = "/login";
-	//final String REGISTER_MAP = "/register";
+	final String REGISTER_MAP = "/register";
 
 	/**
 	 * Request login.
@@ -74,7 +74,7 @@ public class HTTPDriver {
 		try {
 			jsonObjectRequest = new JsonObjectRequest(
 					Request.Method.POST,
-					BASE_URL + USER_MAP+"/addUser",
+					BASE_URL /*+ USER_MAP+"/addUser"*/+REGISTER_MAP,
 					newUser.toJSONObject(),
 					response -> onResponse.executeAction(response, context),
 					error -> onResponse.handleError(error, context)

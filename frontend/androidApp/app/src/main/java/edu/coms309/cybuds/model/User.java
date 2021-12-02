@@ -39,7 +39,7 @@ public class User implements Serializable {
 	private String address;
 	private String phoneNumber;
 	private Gender gender;
-	private int gradYear;
+	//private int gradYear;
 	private String classification;
 
 	/**
@@ -231,14 +231,14 @@ public class User implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	/**
+	/* *
 	 * Sets grad year.
 	 *
 	 * @param gradYear the grad year
 	 */
-	public void setGradYear(int gradYear) {
+	/*public void setGradYear(int gradYear) {
 		this.gradYear = gradYear;
-	}
+	}*/
 
 	/**
 	 * Gets gender.
@@ -254,8 +254,8 @@ public class User implements Serializable {
 	 *
 	 * @param gender the gender
 	 */
-	public void setGender(Gender gender) {
-		this.gender = gender;
+	public void setGender(int gender) {
+		this.gender = Gender.values()[gender];
 	}
 
 	/**
