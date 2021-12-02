@@ -19,12 +19,14 @@
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_input_user_info.xml" value="0.13272543059777103" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_main.xml" value="0.3828571428571429" />
-
+        <<<<<<< HEAD
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_match_people.xml" value="0.46770833333333334" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_profile_settings.xml" value="0.46770833333333334" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.3828571428571429" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_classes.xml" value="0.275" />
-
+        =======
+        <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register.xml" value="0.1142857142857143" />
+        >>>>>>> 9466b02d8c4777bcab7f645c90468c31c3225944
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_groups.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_interests.xml" value="0.2857142857142857" />
         <entry key="..\:/Users/joshm/Documents/309Project/2_do_4/frontend/androidApp/app/src/main/res/layout/activity_register_username_picture.xml" value="0.2857142857142857" />
