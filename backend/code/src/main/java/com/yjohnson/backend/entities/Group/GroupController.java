@@ -25,8 +25,8 @@ import java.util.stream.Stream;
 @RequestMapping(path = "/groups")
 public class GroupController {
 
-	public static final String STATIC_MAJORS_TXT = "static/majors.txt";
-	public static final String STATIC_COLLEGES_TXT = "static/colleges.txt";
+	public static final String STATIC_MAJORS_TXT = "/majors.txt";
+	public static final String STATIC_COLLEGES_TXT = "/colleges.txt";
 	private final GroupRepository groupRepository;
 
 	public GroupController(GroupRepository groupRepository) {
