@@ -2,7 +2,9 @@ package edu.coms309.cybuds;
 
 import android.os.Bundle;
 
-public class SearchPeopleActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SearchPeopleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

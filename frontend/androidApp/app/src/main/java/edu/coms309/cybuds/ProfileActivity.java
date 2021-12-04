@@ -3,12 +3,14 @@ package edu.coms309.cybuds;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.DialogInterface;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -41,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 		NavigationUI.setupWithNavController(binding.navView, navController);*/
 
-		/*Intent i = getIntent();
+		Intent i = getIntent();
 		User user = (User) i.getSerializableExtra("currentUserProfile");
 
 		TextView t = findViewById(R.id.activity_user_profile_name);
@@ -49,10 +51,15 @@ public class ProfileActivity extends AppCompatActivity {
 
 		t.setText(String.format("%s %s", user.getFirstName(), user.getLastName()));
 		t = findViewById(R.id.activity_user_profile_bio);
-		t.setText(user.printable());*/
+		t.setText(user.printable());
 	}
 
 
+	public void activity_user_profile_bio_edit_onClick(View view) {
+		//FrameLayout fl = findViewById(android.R.id.custom);
+		//fl.addView(myView, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+
+	}
 
 	public void btnUserProfile_menu_onClick(View view) {
 		Toast.makeText( getBaseContext(), "Test!", Toast.LENGTH_LONG ).show();

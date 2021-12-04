@@ -22,8 +22,8 @@ public class HTTPDriver {
 	 */
 //final String BASE_URL = "http://10.48.49.41:8080";
 	//final String BASE_URL = "http://192.168.1.101:8080";
-	//final String BASE_URL = "http://coms-309-028.cs.iastate.edu:8080";
-	final String BASE_URL = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io";
+	final String BASE_URL = "http://coms-309-028.cs.iastate.edu:8080";
+	//final String BASE_URL = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io";
 	/**
 	 * The User map.
 	 */

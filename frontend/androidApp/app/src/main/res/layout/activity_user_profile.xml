@@ -8,19 +8,19 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_contact_profile"
+
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="260dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_groups_profile">
+
 
         <TextView
             android:id="@+id/email_profile"
@@ -60,19 +60,18 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_groups_profile"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="240dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:onClick="btnUserProfile_groupCard_onClick"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_view_contact_profile"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_interests_profile"
-        app:layout_constraintVertical_bias="0.0">
+
+        app:layout_constraintTop_toBottomOf="@+id/card_view_interests_profile">
+
 
         <TextView
             android:id="@+id/group1_profile"
@@ -111,20 +110,17 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_interests_profile"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="370dp"
+        android:layout_width="0dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:onClick="btnUserProfile_interestCard_onClick"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_view_contact_profile"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile">
 
         <TextView
             android:id="@+id/interest_1_profile"
@@ -164,17 +160,14 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_friends_profile"
         android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_top_banner_profile"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_top_banner_profile">
 
         <TextView
             android:id="@+id/friend1_profile"
@@ -221,15 +214,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">>
+        app:layout_constraintVertical_bias="0.0"><![CDATA[>
 
-        <ImageView
-            android:id="@+id/activity_user_profile_pen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="370dp"
-            android:layout_marginTop="120dp"
-            app:srcCompat="@drawable/ic_baseline_edit_40" />
+
+
+
+
+        ]]>
 
         <TextView
             android:id="@+id/activity_user_profile_name"
@@ -257,6 +248,25 @@
             android:layout_marginLeft="130dp"
             android:layout_marginRight="20dp"
             android:text="This is a test of the emergency alet system. This is a test. This is a test." />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/activity_user_profile_pen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:onClick="activity_user_profile_bio_edit_onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_edit_40"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
