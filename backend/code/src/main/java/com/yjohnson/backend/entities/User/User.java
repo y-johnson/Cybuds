@@ -25,75 +25,32 @@ enum StudentClassification {
 @Entity
 @Table(name = "Users")
 public class User implements Serializable, Cloneable {
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		User user = (User) o;
-		return getUsername().equals(user.getUsername()) && getEmail().equals(user.getEmail()) && getPasswordHash().equals(user.getPasswordHash()) &&
-				Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getMiddleName(), user.getMiddleName()) &&
-				getLastName().equals(user.getLastName()) && Objects.equals(getAddress(), user.getAddress()) && Objects.equals(
-				getPhoneNumber(),
-				user.getPhoneNumber()
-		) && classification == user.classification && getGender() == user.getGender() && Objects.equals(interestedIn, user.interestedIn) &&
-				Objects.equals(partOf, user.partOf) && getId().equals(user.getId());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(
-				getUsername(),
-				getEmail(),
-				getPasswordHash(),
-				getFirstName(),
-				getMiddleName(),
-				getLastName(),
-				getAddress(),
-				getPhoneNumber(),
-				classification,
-				getGender(),
-				interestedIn,
-				partOf,
-				getId()
-		);
-	}
-
 	@Column(nullable = false, unique = true)
 	public String username;
-
 	@Column(nullable = false, unique = true)
 	public String email;
-
 	@Column(nullable = false)
 	public String passwordHash;
-
 	@Column(nullable = false, length = 15)
 	public String firstName;
-
 	@Column(length = 15)
 	public String middleName;
-
 	@Column(nullable = false, length = 15)
 	public String lastName;
-
+	@Column(length = 255)
+	public String biography;
 	public String address;
-
 	public String phoneNumber;
-
 	@Column(nullable = false)
 	public StudentClassification classification;
-
 	@Enumerated(EnumType.STRING)
 	public Gender gender;
-
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	public Set<R_UserInterest> interestedIn;
-
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<R_UserGroup> partOf;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
@@ -150,33 +107,37 @@ public class User implements Serializable, Cloneable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@JsonIgnore
-	public Set<R_UserGroup> getGroups() {
-		return partOf;
+	@Override
+	public int hashCode() {
+		return Objects.hash(
+				getUsername(),
+				getEmail(),
+				getPasswordHash(),
+				getFirstName(),
+				getMiddleName(),
+				getLastName(),
+				getAddress(),
+				getPhoneNumber(),
+				classification,
+				getGender(),
+				interestedIn,
+				partOf,
+				getId()
+		);
 	}
 
-	/**
-	 * Update all declared member variables with the contents of the given {@code User} object. Note that the given object does NOT need to declare
-	 * variables that do not need to be updated. This will not update the user relations with {@code Group} or {@code Interest}, or this object's
-	 * {@code id}.
-	 * <p>
-	 * The purpose of this method is to simulate the Dto pattern with clearer readability. Used for Spring's {@code CrudRepository.save()} purposes.
-	 *
-	 * @param toCopy the user object to copy values from.
-	 *
-	 * @return this (updated) {@code User} object
-	 */
-	public User updateContents(User toCopy) {
-		if (toCopy.address != null) this.setAddress(toCopy.address);
-		if (toCopy.username != null) this.setUsername(toCopy.username);
-		if (toCopy.email != null) this.setEmail(toCopy.email);
-		if (toCopy.passwordHash != null) this.setPasswordHash(toCopy.passwordHash);
-		if (toCopy.firstName != null) this.setFirstName(toCopy.firstName);
-		if (toCopy.middleName != null) this.setMiddleName(toCopy.middleName);
-		if (toCopy.lastName != null) this.setLastName(toCopy.lastName);
-		if (toCopy.phoneNumber != null) this.setPhoneNumber(toCopy.phoneNumber);
-		if (toCopy.gender != null) this.setGender(toCopy.gender);
-		return this;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return getUsername().equals(user.getUsername()) && getEmail().equals(user.getEmail()) && getPasswordHash().equals(user.getPasswordHash()) &&
+				Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getMiddleName(), user.getMiddleName()) &&
+				getLastName().equals(user.getLastName()) && Objects.equals(getAddress(), user.getAddress()) && Objects.equals(
+				getPhoneNumber(),
+				user.getPhoneNumber()
+		) && classification == user.classification && getGender() == user.getGender() && Objects.equals(interestedIn, user.interestedIn) &&
+				Objects.equals(partOf, user.partOf) && getId().equals(user.getId());
 	}
 
 	public Long getId() {
@@ -190,6 +151,25 @@ public class User implements Serializable, Cloneable {
 	@Override
 	protected User clone() throws CloneNotSupportedException {
 		return (User) super.clone();
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"username='" + username + '\'' +
+				", email='" + email + '\'' +
+				", passwordHash='" + passwordHash + '\'' +
+				", firstName='" + firstName + '\'' +
+				", middleName='" + middleName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", address='" + address + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", classification=" + classification +
+				", gender=" + gender +
+				", interestedIn=" + interestedIn +
+				", partOf=" + partOf +
+				", id=" + id +
+				'}';
 	}
 
 	public String getUsername() {
@@ -264,23 +244,51 @@ public class User implements Serializable, Cloneable {
 		this.gender = gender;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"username='" + username + '\'' +
-				", email='" + email + '\'' +
-				", passwordHash='" + passwordHash + '\'' +
-				", firstName='" + firstName + '\'' +
-				", middleName='" + middleName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", address='" + address + '\'' +
-				", phoneNumber='" + phoneNumber + '\'' +
-				", classification=" + classification +
-				", gender=" + gender +
-				", interestedIn=" + interestedIn +
-				", partOf=" + partOf +
-				", id=" + id +
-				'}';
+	public StudentClassification getClassification() {
+		return classification;
+	}
+
+	public void setClassification(StudentClassification classification) {
+		this.classification = classification;
+	}
+
+	public String getBiography() {
+		return biography;
+	}
+
+	public void setBiography(String biography) {
+		this.biography = biography;
+	}
+
+	@JsonIgnore
+	public Set<R_UserGroup> getGroups() {
+		return partOf;
+	}
+
+	/**
+	 * Update all declared member variables with the contents of the given {@code User} object. Note that the given object does NOT need to declare
+	 * variables that do not need to be updated. This will not update the user relations with {@code Group} or {@code Interest}, or this object's
+	 * {@code id}.
+	 * <p>
+	 * The purpose of this method is to simulate the Dto pattern with clearer readability. Used for Spring's {@code CrudRepository.save()} purposes.
+	 *
+	 * @param toCopy the user object to copy values from.
+	 *
+	 * @return this (updated) {@code User} object
+	 */
+	public User updateContents(User toCopy) {
+		if (toCopy.address != null) this.setAddress(toCopy.address);
+		if (toCopy.username != null) this.setUsername(toCopy.username);
+		if (toCopy.email != null) this.setEmail(toCopy.email);
+		if (toCopy.passwordHash != null) this.setPasswordHash(toCopy.passwordHash);
+		if (toCopy.firstName != null) this.setFirstName(toCopy.firstName);
+		if (toCopy.middleName != null) this.setMiddleName(toCopy.middleName);
+		if (toCopy.lastName != null) this.setLastName(toCopy.lastName);
+		if (toCopy.biography != null) this.setBiography(toCopy.biography);
+		if (toCopy.classification != null) this.setClassification(toCopy.classification);
+		if (toCopy.phoneNumber != null) this.setPhoneNumber(toCopy.phoneNumber);
+		if (toCopy.gender != null) this.setGender(toCopy.gender);
+		return this;
 	}
 
 	@JsonIgnore
