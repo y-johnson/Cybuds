@@ -71,14 +71,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_match_profile"
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,7 +190,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_match_people_banner">
+        app:layout_constraintTop_toBottomOf="@+id/activity_match_people_banner"
+        app:layout_constraintVertical_bias="0.37">
 
         <TextView
             android:id="@+id/people_2_category_search_group"
@@ -233,6 +233,7 @@
         android:layout_width="170dp"
         android:layout_height="100dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="100dp"
         app:cardBackgroundColor="@color/yellow"
@@ -242,7 +243,7 @@
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_match_people_banner"
-        app:layout_constraintVertical_bias="0.53">
+        app:layout_constraintVertical_bias="0.38">
 
         <TextView
             android:id="@+id/people_2_category_search"
