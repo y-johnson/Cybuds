@@ -43,6 +43,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:gravity=""
         android:hint="Public UserName"
+        android:text="y"
         android:textColor="#000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

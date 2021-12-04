@@ -23,9 +23,6 @@ public class LoginActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_login);
 	}
 
-	public void btnLogin_Back_onClick(View view) {
-		finish();
-	}
 
 	/**
 	 * On click, this method requests that the server authenticate the given information. The response should include information regarding the
@@ -43,13 +40,11 @@ public class LoginActivity extends AppCompatActivity {
 				user,
 				(response, context) -> {
 					User responseUser = new Gson().fromJson(response.toString(), User.class);
+
+					Toast.makeText(getBaseContext(), String.format("Welcome back, %s!", responseUser.getFirstName()), Toast.LENGTH_LONG).show();
+
 					Intent toProfile = new Intent(getBaseContext(), ProfileActivity.class);
 					toProfile.putExtra("currentUserProfile", responseUser);
-					Toast.makeText(
-							getBaseContext(),
-							String.format("Welcome back, %s!", responseUser.getFirstName()),
-							Toast.LENGTH_LONG
-					).show();
 					startActivity(toProfile);
 				}
 		);

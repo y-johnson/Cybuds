@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:paddingBottom="10dp"
             android:fontFamily="@font/racing_sans_one"
-            android:text="Engineering"
+            android:text="Maths"
             android:textColor="@color/dark_red"
             android:textSize="25dp" />
 
@@ -42,7 +42,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/racing_sans_one"
             android:layout_gravity="center"
-            android:text="TextView" />
+            android:text="We do Maths!" />
 
 
     </androidx.cardview.widget.CardView>

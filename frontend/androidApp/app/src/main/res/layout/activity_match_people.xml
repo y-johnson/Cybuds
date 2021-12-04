@@ -8,9 +8,8 @@
 
     <Button
         android:id="@+id/match_friend_button"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="131dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="148dp"
         android:background="@drawable/match_friend"
         android:fontFamily="@font/racing_sans_one"
