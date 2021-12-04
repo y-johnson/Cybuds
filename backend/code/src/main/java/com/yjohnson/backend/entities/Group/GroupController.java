@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,8 +15,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -27,10 +24,10 @@ public class GroupController {
 
 	public static final String STATIC_MAJORS_TXT = "/static/majors.txt";
 	public static final String STATIC_COLLEGES_TXT = "/static/colleges.txt";
-	private final GroupRepository groupRepository;
+	private final GroupService groupService;
 
-	public GroupController(GroupRepository groupRepository) {
-		this.groupRepository = groupRepository;
+	public GroupController(GroupRepository groupRepository, GroupService groupService) {
+		this.groupService = groupService;
 		preloadGroups(groupRepository, "%s is a major at ISU.", GroupType.STUDENT_MAJOR, STATIC_MAJORS_TXT);
 		preloadGroups(groupRepository, "%s is a college at ISU.", GroupType.COLLEGE, STATIC_COLLEGES_TXT);
 	}
@@ -78,13 +75,8 @@ public class GroupController {
 	@PostMapping
 	public ResponseEntity<?> addGroup(@RequestBody GroupEntity newGroupEntity) {
 		if (newGroupEntity.getName() == null || newGroupEntity.getName().isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		newGroupEntity.setName(StringUtils.trimWhitespace(StringUtils.capitalize(newGroupEntity.getName())));
-		newGroupEntity.setDescription(StringUtils.trimWhitespace(StringUtils.capitalize(newGroupEntity.getDescription())));
-		if (groupRepository.findByName(newGroupEntity.getName()).isPresent()) {              //1
-			return new ResponseEntity<>(newGroupEntity.getName(), HttpStatus.CONFLICT);
-		} else {
-			return new ResponseEntity<>(groupRepository.save(newGroupEntity), HttpStatus.CREATED);
-		}
+		return groupService.addGroupToDB(newGroupEntity).map(entity -> new ResponseEntity<>(entity, HttpStatus.CREATED))
+		                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
 	}
 
 	/*
@@ -108,19 +100,12 @@ public class GroupController {
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
 	@GetMapping(value = "/{identifier}")
-	public ResponseEntity<?> getGroup(@PathVariable("identifier") Optional<String> identifier) {
+	public ResponseEntity<?> getGroupFromString(@PathVariable("identifier") Optional<String> identifier) {
 		Optional<GroupEntity> optionalGroup;
 		if (identifier.isPresent()) {
-			try {
-				// Treat it as a Long first (id)
-				Long id = Long.parseLong(identifier.get());
-				optionalGroup = groupRepository.findById(id);     // 1
-			} catch (NumberFormatException e) {
-				// If it is not a long, treat it as a String (name)
-				optionalGroup = groupRepository.findByName(identifier.get());   // 1
-			}
+			optionalGroup = groupService.getGroupByString(identifier.get());
 		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		return optionalGroup.map(interestEntity -> new ResponseEntity<>(interestEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
+		return optionalGroup.map(groupEntity -> new ResponseEntity<>(groupEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
 				HttpStatus.NOT_FOUND));
 	}
 
@@ -144,13 +129,9 @@ public class GroupController {
 	public ResponseEntity<GroupEntity> deleteGroup(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			try {
-				Optional<GroupEntity> optionalGroup = groupRepository.findById(id.get());  //1
-				if (optionalGroup.isPresent()) {
-					GroupEntity deleted = optionalGroup.get().clone();
-					groupRepository.delete(optionalGroup.get());                         //2
-					return new ResponseEntity<>(deleted, HttpStatus.OK);
-				}
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				Optional<GroupEntity> deleted = groupService.deleteGroupById(id.get());
+				return deleted.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+				              .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -181,9 +162,9 @@ public class GroupController {
 	public ResponseEntity<GroupEntity> updateGroup(@RequestBody Optional<GroupEntity> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
 			if (valuesToUpdate.isPresent() && id.isPresent()) {
-				Optional<GroupEntity> fromDB = groupRepository.findById(id.get());     // 1
+				Optional<GroupEntity> fromDB = groupService.getGroupByID(id.get());     // 1
 				return fromDB.map(group -> new ResponseEntity<>(
-						groupRepository.save(group.updateContents(valuesToUpdate.get())),  // 2
+						groupService.saveUpdatedGroup(valuesToUpdate.get(), group),  // 2
 						HttpStatus.OK
 				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			}
@@ -201,18 +182,18 @@ public class GroupController {
 	@Operation(summary = "Gets all groups")
 	@GetMapping
 	public Iterable<GroupEntity> retrieveAll() {
-		return groupRepository.findAll();
+		return groupService.getAllGroups();
 	}
 
 	@Operation(summary = "Gets all majors")
 	@GetMapping("/majors")
-	public Iterable<GroupEntity> retrieveMajors(){
-		return groupRepository.findAllByGroupType(GroupType.STUDENT_MAJOR);
+	public Iterable<GroupEntity> retrieveMajors() {
+		return groupService.getGroupsByType(GroupType.STUDENT_MAJOR);
 	}
 
 	@Operation(summary = "Gets all colleges")
 	@GetMapping("/colleges")
 	public Iterable<GroupEntity> retrieveColleges() {
-		return groupRepository.findAllByGroupType(GroupType.COLLEGE);
+		return groupService.getGroupsByType(GroupType.COLLEGE);
 	}
 }

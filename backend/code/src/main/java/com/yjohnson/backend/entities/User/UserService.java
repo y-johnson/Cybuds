@@ -11,10 +11,12 @@ import com.yjohnson.backend.entities.Group.GroupRepository;
 import com.yjohnson.backend.entities.Interest.InterestEntity;
 import com.yjohnson.backend.entities.Interest.InterestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
 public class UserService {
 	protected final UserGroupService ugService = new UserGroupService();
 	protected final UserInterestService igService = new UserInterestService();
