@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundcolor">
@@ -16,7 +15,7 @@
         android:gravity="center"
         android:text="Tap to Add Interests"
         android:textColor="@color/dark_red"
-        android:textSize="30dp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +27,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:gravity="center"
         android:text="Next"
-        android:textSize="36dp"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -36,12 +35,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/activity_register_interest_button_next"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_register_interest_banner"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/activity_register_interest_banner">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -54,9 +53,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
+                android:layout_rowWeight="1"
                 app:cardCornerRadius="25dp">
 
                 <LinearLayout
@@ -68,15 +67,14 @@
 
                     <Button
                         android:id="@+id/activity_register_interest_button_1"
-                        android:layout_width="94dp"
-                        android:layout_height="66dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp"
                         android:layout_alignParentRight="true"
                         android:background="@drawable/interest_style"
                         android:fontFamily="@font/racing_sans_one"
                         android:text="Engineering"
                         android:textColor="#fff"
-                        android:textSize="20dp" />
-
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -84,9 +82,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
+                android:layout_rowWeight="1"
                 app:cardCornerRadius="25dp">
 
                 <LinearLayout
@@ -98,16 +96,14 @@
 
                     <Button
                         android:id="@+id/activity_register_interest_button_2"
-                        android:layout_width="190dp"
+                        android:layout_width="match_parent"
                         android:layout_height="125dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="-9dp"
                         android:background="@drawable/interest_style"
                         android:fontFamily="@font/racing_sans_one"
                         android:text="Engineering"
                         android:textColor="#fff"
-                        android:textSize="20dp" />
-
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -115,9 +111,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
+                android:layout_rowWeight="1"
                 app:cardCornerRadius="25dp">
 
                 <LinearLayout
@@ -129,15 +125,14 @@
 
                     <Button
                         android:id="@+id/activity_register_interest_button_3"
-                        android:layout_width="190dp"
+                        android:layout_width="match_parent"
                         android:layout_height="125dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="-9dp"
                         android:background="@drawable/interest_style"
                         android:fontFamily="@font/racing_sans_one"
                         android:text="Engineering"
                         android:textColor="#fff"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -146,9 +141,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
+                android:layout_rowWeight="1"
                 app:cardCornerRadius="25dp">
 
                 <LinearLayout
@@ -160,15 +155,14 @@
 
                     <Button
                         android:id="@+id/activity_register_interest_button_4"
-                        android:layout_width="190dp"
+                        android:layout_width="match_parent"
                         android:layout_height="125dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="-9dp"
                         android:background="@drawable/interest_style"
                         android:fontFamily="@font/racing_sans_one"
                         android:text="Engineering"
                         android:textColor="#fff"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -177,9 +171,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
+                android:layout_rowWeight="1"
                 app:cardCornerRadius="25dp">
 
                 <LinearLayout
@@ -191,15 +185,14 @@
 
                     <Button
                         android:id="@+id/activity_register_interest_button_5"
-                        android:layout_width="190dp"
+                        android:layout_width="match_parent"
                         android:layout_height="125dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="-9dp"
                         android:background="@drawable/interest_style"
                         android:fontFamily="@font/racing_sans_one"
                         android:text="Engineering"
                         android:textColor="#fff"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -208,9 +201,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="10dp"
+                android:layout_rowWeight="1"
                 app:cardCornerRadius="25dp">
 
                 <LinearLayout
@@ -222,15 +215,14 @@
 
                     <Button
                         android:id="@+id/activity_register_interest_button_6"
-                        android:layout_width="190dp"
+                        android:layout_width="match_parent"
                         android:layout_height="125dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="-9dp"
                         android:background="@drawable/interest_style"
                         android:fontFamily="@font/racing_sans_one"
                         android:text="Engineering"
                         android:textColor="#fff"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 

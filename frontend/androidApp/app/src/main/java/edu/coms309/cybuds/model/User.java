@@ -41,6 +41,7 @@ public class User implements Serializable {
 	private Gender gender;
 	//private int gradYear;
 	private String classification;
+	private String biography;
 
 	/**
 	 * Instantiates a new User.
@@ -75,7 +76,12 @@ public class User implements Serializable {
 				+ "\n LastName:  " + getLastName()
 				+ "\n Address:  " + getAddress()
 				+ "\n PhoneNumber:  " + getPhoneNumber()
-				+ "\n Gender:  " + getGender() + "\n";
+				+ "\n Gender:  " + getGender()
+				+ "\n Biography: "+ getBiography() +"\n";
+	}
+
+	public String getBiography() {
+		return biography;
 	}
 
 	/**
@@ -229,6 +235,11 @@ public class User implements Serializable {
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+
+	public void setBiography(String newBio) {
+		this.biography = newBio;
 	}
 
 	/* *

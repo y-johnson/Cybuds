@@ -8,19 +8,34 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_contact_profile"
+
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="260dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_groups_profile">
+
+
+        <ImageView
+            android:id="@+id/activity_user_profile_pen3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:onClick="activity_user_profile_bio_edit_onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_edit_40"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/email_profile"
@@ -60,19 +75,18 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_groups_profile"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="240dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:onClick="btnUserProfile_groupCard_onClick"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_view_contact_profile"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_interests_profile"
-        app:layout_constraintVertical_bias="0.0">
+
+        app:layout_constraintTop_toBottomOf="@+id/card_view_interests_profile">
+
 
         <TextView
             android:id="@+id/group1_profile"
@@ -111,20 +125,17 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_interests_profile"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="370dp"
+        android:layout_width="0dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:onClick="btnUserProfile_interestCard_onClick"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_view_contact_profile"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile">
 
         <TextView
             android:id="@+id/interest_1_profile"
@@ -164,17 +175,14 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_friends_profile"
         android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="100sp"
         android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_top_banner_profile"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_top_banner_profile">
 
         <TextView
             android:id="@+id/friend1_profile"
@@ -209,6 +217,24 @@
             android:text="Friends"
             android:textColor="@color/dark_red"
             android:textSize="26dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/user_profile_goto_match_user_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5sp"
+                android:background="@drawable/login_next_button"
+                android:fontFamily="@font/racing_sans_one"
+                android:onClick="userProfileGotoMatchUser_onClick"
+                android:text="Match User"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -221,15 +247,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">>
+        app:layout_constraintVertical_bias="0.0"><![CDATA[>
 
-        <ImageView
-            android:id="@+id/activity_user_profile_pen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="370dp"
-            android:layout_marginTop="120dp"
-            app:srcCompat="@drawable/ic_baseline_edit_40" />
+
+
+
+
+        ]]>
 
         <TextView
             android:id="@+id/activity_user_profile_name"
@@ -258,34 +282,79 @@
             android:layout_marginRight="20dp"
             android:text="This is a test of the emergency alet system. This is a test. This is a test." />
 
-    </androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="250dp"
-        app:layout_constraintBottom_toBottomOf="@+id/card_view_top_banner_profile"
-        app:layout_constraintEnd_toEndOf="@+id/card_view_top_banner_profile"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/card_view_top_banner_profile">
+            <Button
+                android:id="@+id/user_profile_edit_bio_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/activity_user_profile_pen" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="250dp">
+            <EditText
+                android:id="@+id/editTextTextPersonName"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@drawable/text_box"
+                android:clickable="false"
+                android:ems="10"
+                android:enabled="false"
+                android:fontFamily="@font/racing_sans_one"
+                android:inputType="textPersonName"
+                android:singleLine="false"
+                android:text="New bio"
+                android:textAlignment="textStart"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/user_profile_edit_bio_submit" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                app:cardCornerRadius="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="250dp">
+
+                    <ImageView
+                        android:id="@+id/profile_picture_profile"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/pimage4" />
+
+                </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/profile_picture_profile"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/pimage4" />
+                android:id="@+id/activity_user_profile_pen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:onClick="activity_user_profile_bio_edit_onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_edit_40"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
