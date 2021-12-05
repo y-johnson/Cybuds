@@ -349,7 +349,7 @@ public class UserController {
 	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id){
 
 		if(id.isPresent()) {
-			Optional<User> optionalCurrentUser = userRepository.findById(id.get());
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
 			if(optionalCurrentUser.isPresent()) {
 				User currentUser = optionalCurrentUser.get();
 
