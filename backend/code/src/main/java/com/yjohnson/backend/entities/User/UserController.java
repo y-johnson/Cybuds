@@ -1,11 +1,11 @@
 package com.yjohnson.backend.entities.User;
 
-import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
-import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupType;
+import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
+import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,10 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.Random;
 
@@ -138,8 +135,9 @@ public class UserController {
 	@GetMapping("/{pathID}/groups")
 	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> pathID) {
 		return pathID.map(id -> userService.ugService.getGroupsOfUserByID(id)
-		                                      .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
-		                                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND))).orElseGet(()->new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+		                                             .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
+		                                             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)))
+		             .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
 	}
 
 	@Operation(summary = "Add a User-Group relation")
@@ -345,32 +343,6 @@ public class UserController {
 		return userService.getAllUsersFromDB();    //1
 	}
 
-	@GetMapping("/{id}/randomMatch")
-	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id){
-
-		if(id.isPresent()) {
-			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
-			if(optionalCurrentUser.isPresent()) {
-				User currentUser = optionalCurrentUser.get();
-
-				Iterable<User> all = getAllUsers();
-				ArrayList<User> list= new ArrayList<>();
-				for(User bob: all){
-					list.add(bob);
-				}
-				int peopleCounter=list.size();
-				Random rand= new Random();
-				User selected=currentUser;
-				while(selected.getId().equals(currentUser.getId())){
-					selected = list.get(rand.nextInt(peopleCounter));
-				}
-				return new ResponseEntity<>(selected, HttpStatus.OK);
-			}
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
 	/**
 	 * Helper method tracks the number of characteristics that are the same between two users.
 	 *
@@ -411,5 +383,37 @@ public class UserController {
 		}
 
 		return i;
+	}
+
+	@Operation(summary = "Matches a user randomly based on their ID.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+	})
+	@GetMapping("/{id}/randomMatch")
+	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id) {
+		if (id.isPresent()) {
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
+			if (optionalCurrentUser.isPresent()) {
+				User currentUser = optionalCurrentUser.get();
+
+				Iterable<User> all = userService.getAllUsersFromDB();
+				ArrayList<User> list = new ArrayList<>();
+				all.forEach(list::add);
+
+				int peopleCounter = list.size();
+				Random rand = new Random();
+				User selected = currentUser;
+				while (selected.getId().equals(currentUser.getId())) {
+					selected = list.get(rand.nextInt(peopleCounter));
+				}
+				return new ResponseEntity<>(selected, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

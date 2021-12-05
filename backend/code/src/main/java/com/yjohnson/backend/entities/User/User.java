@@ -25,6 +25,8 @@ enum StudentClassification {
 @Entity
 @Table(name = "Users")
 public class User implements Serializable, Cloneable {
+	@Column(nullable = false)
+	public boolean premium;
 	@Column(nullable = false, unique = true)
 	public String username;
 	@Column(nullable = false, unique = true)
@@ -70,7 +72,9 @@ public class User implements Serializable, Cloneable {
 	            StudentClassification classification,
 	            Gender gender,
 	            Set<R_UserInterest> interestedIn,
-	            Set<R_UserGroup> partOf, String biography,
+	            Set<R_UserGroup> partOf,
+	            String biography,
+	            boolean premium,
 	            Long id) {
 		this.username = username;
 		this.email = email;
@@ -85,6 +89,7 @@ public class User implements Serializable, Cloneable {
 		this.interestedIn = interestedIn;
 		this.partOf = partOf;
 		this.biography = biography;
+		this.premium = premium;
 		this.id = id;
 	}
 
@@ -97,7 +102,8 @@ public class User implements Serializable, Cloneable {
 	            Gender gender,
 	            String address,
 	            String phoneNumber,
-	            String biography) {
+	            String biography,
+	            boolean premium) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -108,6 +114,7 @@ public class User implements Serializable, Cloneable {
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 		this.biography = biography;
+		this.premium = premium;
 	}
 
 	@Override

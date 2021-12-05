@@ -48,6 +48,7 @@ class UserServiceTest {
 				new HashSet<>(),
 				new HashSet<>(),
 				"",
+				false,
 				ID
 		);
 		userRepository.save(user);
