@@ -34,6 +34,7 @@ class UserServiceTest {
 				Gender.OTHER,
 				new HashSet<>(),
 				new HashSet<>(),
+				"",
 				1L
 		);
 
@@ -102,6 +103,7 @@ class UserServiceTest {
 				Gender.OTHER,
 				new HashSet<>(),
 				new HashSet<>(),
+				"",
 				ID
 		));
 	}

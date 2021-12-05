@@ -70,7 +70,7 @@ public class User implements Serializable, Cloneable {
 	            StudentClassification classification,
 	            Gender gender,
 	            Set<R_UserInterest> interestedIn,
-	            Set<R_UserGroup> partOf,
+	            Set<R_UserGroup> partOf, String biography,
 	            Long id) {
 		this.username = username;
 		this.email = email;
@@ -84,6 +84,7 @@ public class User implements Serializable, Cloneable {
 		this.gender = gender;
 		this.interestedIn = interestedIn;
 		this.partOf = partOf;
+		this.biography = biography;
 		this.id = id;
 	}
 
@@ -95,7 +96,8 @@ public class User implements Serializable, Cloneable {
 	            String passwordHash,
 	            Gender gender,
 	            String address,
-	            String phoneNumber) {
+	            String phoneNumber,
+	            String biography) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -105,6 +107,7 @@ public class User implements Serializable, Cloneable {
 		this.gender = gender;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
+		this.biography = biography;
 	}
 
 	@Override
@@ -140,14 +143,6 @@ public class User implements Serializable, Cloneable {
 				Objects.equals(partOf, user.partOf) && getId().equals(user.getId());
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	@Override
 	protected User clone() throws CloneNotSupportedException {
 		return (User) super.clone();
@@ -162,6 +157,7 @@ public class User implements Serializable, Cloneable {
 				", firstName='" + firstName + '\'' +
 				", middleName='" + middleName + '\'' +
 				", lastName='" + lastName + '\'' +
+				", biography='" + biography + '\'' +
 				", address='" + address + '\'' +
 				", phoneNumber='" + phoneNumber + '\'' +
 				", classification=" + classification +
@@ -170,6 +166,14 @@ public class User implements Serializable, Cloneable {
 				", partOf=" + partOf +
 				", id=" + id +
 				'}';
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
