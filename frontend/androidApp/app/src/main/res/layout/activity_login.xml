@@ -31,32 +31,30 @@
         android:id="@+id/activity_login_submit"
         android:layout_width="200dp"
         android:layout_height="65dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/login_next_button"
         android:fontFamily="@font/racing_sans_one"
         android:onClick="btnLogin_submit_onClick"
         android:text="Submit"
-        android:textColor="#000"
 
+        android:textColor="#000"
         android:textSize="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_login_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_login_email"
-        app:layout_constraintVertical_bias="0.17" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_password" />
 
     <EditText
         android:id="@+id/activity_login_password"
         android:layout_width="224dp"
         android:layout_height="63dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:textColor="#000"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/activity_login_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_email" />

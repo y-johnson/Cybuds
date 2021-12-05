@@ -2,7 +2,9 @@ package edu.coms309.cybuds;
 
 import android.os.Bundle;
 
-public class GroupProfileActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class GroupProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

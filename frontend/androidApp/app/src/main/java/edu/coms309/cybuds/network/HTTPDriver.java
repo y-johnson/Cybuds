@@ -8,6 +8,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import edu.coms309.cybuds.model.User;
 
@@ -22,8 +23,8 @@ public class HTTPDriver {
 	 */
 //final String BASE_URL = "http://10.48.49.41:8080";
 	//final String BASE_URL = "http://192.168.1.101:8080";
-	//final String BASE_URL = "http://coms-309-028.cs.iastate.edu:8080";
-	final String BASE_URL = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io";
+	final String BASE_URL = "http://coms-309-028.cs.iastate.edu:8080";
+	//final String BASE_URL = "https://109cdd6d-625e-4049-8d44-b5c41012075f.mock.pstmn.io";
 	/**
 	 * The User map.
 	 */
@@ -33,6 +34,7 @@ public class HTTPDriver {
 	 */
 	final String LOGIN_MAP = "/login";
 	final String REGISTER_MAP = "/register";
+	final String MATCHING_MAP = "/match";
 
 	/**
 	 * Request login.
@@ -83,5 +85,88 @@ public class HTTPDriver {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Requests new match
+	 * @param context
+	 * @param currentUser
+	 * @param matchingTypeChoice
+	 * @param onResponse
+	 */
+	public User requestMatch(Context context, User currentUser, int matchingTypeChoice, RequestMethodInterface onResponse) {
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+		JsonObjectRequest jsonObjectRequest;
+		try {
+			JSONObject myData = new JSONObject("{\"choice\":\""+((matchingTypeChoice ==0)?"STUDENT_MAJOR":((matchingTypeChoice==1)?"COLLEGE":"STUDENT_CLASS"))+"}");
+			jsonObjectRequest = new JsonObjectRequest(
+					Request.Method.GET,
+					BASE_URL + USER_MAP + "/" + currentUser.getId() + MATCHING_MAP,
+					myData,
+					response -> onResponse.executeAction(response, context),
+					error -> onResponse.handleError(error, context)
+			);
+			requestQueue.add(jsonObjectRequest);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return new User();
+	}
+
+
+	public void putBio(Context context, User currentUser, byte matchingTypeChoice, RequestMethodInterface onResponse) {
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+		JsonObjectRequest jsonObjectRequest;
+		try {
+			JSONObject myData = new JSONObject("{\"biography\":\""+((matchingTypeChoice ==0)?"STUDENT_MAJOR":((matchingTypeChoice==1)?"COLLEGE":"STUDENT_CLASS"))+"}");
+			jsonObjectRequest = new JsonObjectRequest(
+					Request.Method.PUT,
+					BASE_URL + USER_MAP + "/" + currentUser.getId(),
+					myData,
+					response -> onResponse.executeAction(response, context),
+					error -> onResponse.handleError(error, context)
+			);
+			requestQueue.add(jsonObjectRequest);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void putContactInfo(Context context, User currentUser, String email, String phoneNumber, RequestMethodInterface onResponse) {
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+		JsonObjectRequest jsonObjectRequest;
+		try {
+			JSONObject myData = new JSONObject("{\"email\":\""+email+"}");
+			jsonObjectRequest = new JsonObjectRequest(
+					Request.Method.PUT,
+					BASE_URL + USER_MAP + "/" + currentUser.getId(),
+					myData,
+					response -> onResponse.executeAction(response, context),
+					error -> onResponse.handleError(error, context)
+			);
+			requestQueue.add(jsonObjectRequest);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			JSONObject myData = new JSONObject("{\"phone\":\""+phoneNumber+"}");
+			jsonObjectRequest = new JsonObjectRequest(
+					Request.Method.PUT,
+					BASE_URL + USER_MAP + "/" + currentUser.getId(),
+					myData,
+					response -> onResponse.executeAction(response, context),
+					error -> onResponse.handleError(error, context)
+			);
+			requestQueue.add(jsonObjectRequest);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

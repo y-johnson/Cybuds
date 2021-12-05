@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_red">
@@ -15,7 +14,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:text="Friend"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -31,7 +30,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:text="Back"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.222"
@@ -47,7 +46,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:text="Next"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_banner_people_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.783"
@@ -83,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">>
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/activity_user_profile_name"
@@ -96,7 +95,7 @@
             android:paddingLeft="130dp"
             android:text="Cy Ren"
             android:textColor="@color/dark_red"
-            android:textSize="28dp" />
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/activity_user_profile_bio"
@@ -110,7 +109,7 @@
             android:paddingRight="20dp"
             android:text="This is a test of the emergency alet system. This is a test. This is a test."
             android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
     </androidx.cardview.widget.CardView>
 
@@ -157,8 +156,7 @@
             android:id="@+id/icon_more_search_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="250dp"
+            android:layout_gravity="right|center_vertical"
             app:srcCompat="@drawable/ic_baseline_more_vert_50" />
 
         <ImageView
@@ -172,8 +170,7 @@
             android:id="@+id/icon_house_search_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingRight="300dp"
+            android:layout_gravity="center|left|center_vertical"
             app:srcCompat="@drawable/ic_baseline_home_50" />
     </androidx.cardview.widget.CardView>
 
@@ -203,7 +200,7 @@
             android:fontFamily="@font/racing_sans_one"
             android:text="Dab-N-Drag"
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/people_1_category_search_group"
@@ -215,7 +212,7 @@
             android:fontFamily="@font/racing_sans_one"
             android:text="Maths"
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/interest_search_title_people_groups"
@@ -225,7 +222,7 @@
             android:fontFamily="@font/racing_sans_one"
             android:text="Groups"
             android:textColor="@color/dark_red"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -255,7 +252,7 @@
             android:fontFamily="@font/racing_sans_one"
             android:text="Design"
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/people_1_category_search"
@@ -267,7 +264,7 @@
             android:fontFamily="@font/racing_sans_one"
             android:text="Engineering"
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/interest_search_title_people"
@@ -277,7 +274,20 @@
             android:fontFamily="@font/racing_sans_one"
             android:text="Interests"
             android:textColor="@color/dark_red"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/login_next_button"
+        android:enabled="false"
+        android:fontFamily="@font/racing_sans_one"
+        android:text="Get Random Match"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/match_friend_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
