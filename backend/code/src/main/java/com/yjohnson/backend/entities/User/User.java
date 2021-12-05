@@ -39,8 +39,8 @@ public class User implements Serializable, Cloneable {
 	public String middleName;
 	@Column(nullable = false, length = 15)
 	public String lastName;
-	@Column(length = 255)
 	public String biography;
+	public int profilePicture;
 	public String address;
 	public String phoneNumber;
 	@Column(nullable = false)
@@ -75,6 +75,7 @@ public class User implements Serializable, Cloneable {
 	            Set<R_UserGroup> partOf,
 	            String biography,
 	            boolean premium,
+	            int profilePicture,
 	            Long id) {
 		this.username = username;
 		this.email = email;
@@ -90,6 +91,7 @@ public class User implements Serializable, Cloneable {
 		this.partOf = partOf;
 		this.biography = biography;
 		this.premium = premium;
+		this.profilePicture = profilePicture;
 		this.id = id;
 	}
 
@@ -103,7 +105,9 @@ public class User implements Serializable, Cloneable {
 	            String address,
 	            String phoneNumber,
 	            String biography,
-	            boolean premium) {
+	            boolean premium,
+	            int profilePicture
+	) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.middleName = middleName;
@@ -115,39 +119,32 @@ public class User implements Serializable, Cloneable {
 		this.phoneNumber = phoneNumber;
 		this.biography = biography;
 		this.premium = premium;
+		this.profilePicture = profilePicture;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(
-				getUsername(),
-				getEmail(),
-				getPasswordHash(),
-				getFirstName(),
-				getMiddleName(),
-				getLastName(),
-				getAddress(),
-				getPhoneNumber(),
-				classification,
-				getGender(),
-				interestedIn,
-				partOf,
-				getId()
-		);
-	}
-
+	/**
+	 * Verifies that a User is completely equal to another. This method verifies that each variable that composes the user object is equivalent.
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
-		return getUsername().equals(user.getUsername()) && getEmail().equals(user.getEmail()) && getPasswordHash().equals(user.getPasswordHash()) &&
-				Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getMiddleName(), user.getMiddleName()) &&
-				getLastName().equals(user.getLastName()) && Objects.equals(getAddress(), user.getAddress()) && Objects.equals(
-				getPhoneNumber(),
-				user.getPhoneNumber()
-		) && classification == user.classification && getGender() == user.getGender() && Objects.equals(interestedIn, user.interestedIn) &&
-				Objects.equals(partOf, user.partOf) && getId().equals(user.getId());
+		/* Object.equals is null-safe */
+		return getUsername().equals(user.getUsername())
+				&& getEmail().equals(user.getEmail())
+				&& getPasswordHash().equals(user.getPasswordHash())
+				&& getFirstName().equals(user.getFirstName())
+				&& Objects.equals(getMiddleName(), user.getMiddleName())
+				&& getLastName().equals(user.getLastName())
+				&& Objects.equals(getAddress(), user.getAddress())
+				&& Objects.equals(getPhoneNumber(), user.getPhoneNumber())
+				&& getClassification() == user.getClassification()
+				&& getGender() == user.getGender()
+				&& Objects.equals(getInterests(), user.getInterests())
+				&& Objects.equals(partOf, user.partOf)
+				&& premium == user.premium
+				&& getId().equals(user.getId());
 	}
 
 	@Override
