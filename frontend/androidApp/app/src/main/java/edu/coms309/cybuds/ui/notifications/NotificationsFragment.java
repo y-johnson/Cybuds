@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import edu.coms309.cybuds.R;
+//import edu.coms309.cybuds.R;
 import edu.coms309.cybuds.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
