@@ -11,23 +11,21 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Random;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-	@Autowired
+	private final MatchService matchService;
 	private final UserService userService;
 
-	public UserController(UserService userService) {
+	public UserController(MatchService matchService, UserService userService) {
+		this.matchService = matchService;
 		this.userService = userService;
 	}
 
@@ -270,8 +268,8 @@ public class UserController {
 	 */
 	@Operation(summary = "Matches a user with another based on the group type specified.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			@ApiResponse(responseCode = "200", description = "Matched the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
@@ -387,9 +385,10 @@ public class UserController {
 
 	@Operation(summary = "Matches a user randomly based on their ID.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			@ApiResponse(responseCode = "200", description = "Matched and returned user randomly", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
 			}),
+			@ApiResponse(responseCode = "204", description = "No match found"),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
 	})
@@ -397,23 +396,16 @@ public class UserController {
 	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
+			Iterable<User> allUsers = userService.getAllUsersFromDB();
 			if (optionalCurrentUser.isPresent()) {
-				User currentUser = optionalCurrentUser.get();
-
-				Iterable<User> all = userService.getAllUsersFromDB();
-				ArrayList<User> list = new ArrayList<>();
-				all.forEach(list::add);
-
-				int peopleCounter = list.size();
-				Random rand = new Random();
-				User selected = currentUser;
-				while (selected.getId().equals(currentUser.getId())) {
-					selected = list.get(rand.nextInt(peopleCounter));
-				}
-				return new ResponseEntity<>(selected, HttpStatus.OK);
+				return matchService.matchUserRandomly(optionalCurrentUser.get(), allUsers)
+				                   .map(selected -> new ResponseEntity<>(selected, HttpStatus.OK))
+				                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
+
 }
