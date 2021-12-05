@@ -3,21 +3,10 @@ package edu.coms309.cybuds;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.DialogInterface;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-//import edu.coms309.cybuds.databinding.ActivityProfileBinding;
 import edu.coms309.cybuds.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -61,9 +50,16 @@ public class ProfileActivity extends AppCompatActivity {
 
 	}
 
-	public void btnUserProfile_menu_onClick(View view) {
-		Toast.makeText( getBaseContext(), "Test!", Toast.LENGTH_LONG ).show();
+	public void userProfileGotoMatchUser_onClick(View view) {
+		Intent toProfile = new Intent(getBaseContext(), SearchPeopleActivity.class);
+		startActivity(toProfile);
+
 	}
+
+	public void btnUserProfile_menu_onClick(View view) {
+		Toast.makeText( getBaseContext(), "Goto Feed!", Toast.LENGTH_LONG ).show();
+	}
+
 
 	public void btnUserProfile_interestCard_onClick(View view) {
 		setContentView(R.layout.activity_search_interests);

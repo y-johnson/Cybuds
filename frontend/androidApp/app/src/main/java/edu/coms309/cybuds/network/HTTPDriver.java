@@ -33,6 +33,7 @@ public class HTTPDriver {
 	 */
 	final String LOGIN_MAP = "/login";
 	final String REGISTER_MAP = "/register";
+	final String MATCHING_MAP = "/match";
 
 	/**
 	 * Request login.
@@ -76,6 +77,30 @@ public class HTTPDriver {
 					Request.Method.POST,
 					BASE_URL /*+ USER_MAP+"/addUser"*/+REGISTER_MAP,
 					newUser.toJSONObject(),
+					response -> onResponse.executeAction(response, context),
+					error -> onResponse.handleError(error, context)
+			);
+			requestQueue.add(jsonObjectRequest);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Requests new match
+	 * @param context
+	 * @param currentUser
+	 * @param onResponse
+	 */
+	public void requestMatch(Context context, User currentUser, RequestMethodInterface onResponse) {
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+		JsonObjectRequest jsonObjectRequest;
+		try {
+			jsonObjectRequest = new JsonObjectRequest(
+					Request.Method.GET,
+					BASE_URL + USER_MAP + "/" + currentUser.getId() + MATCHING_MAP,
+					currentUser.toJSONObject(),
 					response -> onResponse.executeAction(response, context),
 					error -> onResponse.handleError(error, context)
 			);
