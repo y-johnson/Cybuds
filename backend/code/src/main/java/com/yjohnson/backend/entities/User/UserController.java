@@ -1,44 +1,32 @@
 package com.yjohnson.backend.entities.User;
 
+import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
+import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
-import com.yjohnson.backend.entities.DB_Relations.UserGroupRepository;
-import com.yjohnson.backend.entities.DB_Relations.UserInterestRepository;
 import com.yjohnson.backend.entities.Group.GroupEntity;
-import com.yjohnson.backend.entities.Group.GroupRepository;
 import com.yjohnson.backend.entities.Group.GroupType;
-import com.yjohnson.backend.entities.Interest.InterestEntity;
-import com.yjohnson.backend.entities.Interest.InterestRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-	private final GroupRepository groupRepository;
-	private final InterestRepository interestRepository;
-	private final UserRepository userRepository;
-	private final UserGroupRepository userGroupRepository;
-	private final UserInterestRepository userInterestRepository;
+	@Autowired
 	private final UserService userService;
 
-	public UserController(UserRepository userRepository, UserGroupRepository userGroupRepository, GroupRepository groupRepository, InterestRepository interestRepository, UserInterestRepository userInterestRepository) {
-		this.userRepository = userRepository;
-		this.userGroupRepository = userGroupRepository;
-		this.groupRepository = groupRepository;
-		this.interestRepository = interestRepository;
-		this.userInterestRepository = userInterestRepository;
-		this.userService = new UserService(userRepository);
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
 	/**
@@ -60,7 +48,7 @@ public class UserController {
 	public ResponseEntity<?> getUser(@PathVariable Optional<String> identifier) {
 		Optional<User> optionalUser;
 		if (identifier.isPresent()) {
-			optionalUser = userService.getUser(identifier.get());
+			optionalUser = userService.getUserByString(identifier.get());
 		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		// If it is a valid identifier then return the user associated with it
@@ -124,7 +112,7 @@ public class UserController {
 			if (valuesToUpdate.isPresent() && id.isPresent()) {
 				Optional<User> fromDB = userService.getUserByID(id.get());
 				return fromDB.map(user -> new ResponseEntity<>(
-						userService.saveUpdatedUser(valuesToUpdate.get(), user),  // 2
+						userService.saveUpdatedUser(user, valuesToUpdate.get()),  // 2
 						HttpStatus.OK
 				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			}
@@ -142,14 +130,11 @@ public class UserController {
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
 	})
-	@GetMapping("/{id}/groups")
-	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> id) {
-		if (id.isPresent()) {
-			Optional<User> optionalUser = userService.getUserByID(id.get());
-			return optionalUser.map(user -> new ResponseEntity<Iterable<R_UserGroup>>(user.getGroups(), HttpStatus.OK))
-			                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	@GetMapping("/{pathID}/groups")
+	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> pathID) {
+		return pathID.map(id -> userService.ugService.getGroupsOfUserByID(id)
+		                                      .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
+		                                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND))).orElseGet(()->new ResponseEntity<>(HttpStatus.BAD_REQUEST));
 	}
 
 	@Operation(summary = "Add a User-Group relation")
@@ -158,29 +143,24 @@ public class UserController {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserGroup.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Entity not found"),
 			@ApiResponse(responseCode = "409", description = "Relation already exists")
 	})
 	@PostMapping("/{id}/groups/{gid}")
-	public ResponseEntity<?> addRelation(@PathVariable("id") Optional<Long> user_id, @PathVariable("gid") Optional<Long> group_id) {
+	public ResponseEntity<?> addGroupRelation(@PathVariable("id") Optional<Long> user_id, @PathVariable("gid") Optional<Long> group_id) {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userService.getUserByID(user_id.get());
-		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
-
-		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		if (userGroupRepository.findByUserAndGroup(user.get(), optionalGroup.get()).isPresent())
-			return new ResponseEntity<>(HttpStatus.CONFLICT); // 3
-
-		R_UserGroup relation = userGroupRepository.save(new R_UserGroup(user.get(), optionalGroup.get(), LocalDateTime.now())); //4
-		user.get().getGroups().add(relation);
-		optionalGroup.get().members.add(relation);
-		userRepository.save(user.get()); // 5
-		groupRepository.save(optionalGroup.get()); // 6
-		return new ResponseEntity<>(
-				relation,  // Updated all but ID.
-				HttpStatus.CREATED
-		);
+		try {
+			return new ResponseEntity<>(
+					userService.ugService.addRelationToUser(user_id.get(), group_id.get()),
+					HttpStatus.OK
+			);
+		} catch (CybudsEntityByIdNotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (CybudsActionResultsInConflictException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 	}
 
 	@Operation(summary = "Delete a User-Group relation based off both their IDs")
@@ -192,26 +172,21 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not found"),
 	})
 	@DeleteMapping("/{id}/groups/{gid}")
-	public ResponseEntity<?> deleteRelation(@PathVariable("id") Optional<Long> user_id, @PathVariable("gid") Optional<Long> group_id) {
+	public ResponseEntity<?> deleteGroupRelation(@PathVariable("id") Optional<Long> user_id, @PathVariable("gid") Optional<Long> group_id) {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !group_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userService.getUserByID(user_id.get());
-		Optional<GroupEntity> optionalGroup = groupRepository.findById(group_id.get());// 2
+		try {
+			return new ResponseEntity<>(
+					userService.ugService.deleteRelationForUser(user_id.get(), group_id.get()),
+					HttpStatus.OK
+			);
+		} catch (CybudsEntityByIdNotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (CybudsActionResultsInConflictException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 
-		if (!user.isPresent() || !optionalGroup.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		Optional<R_UserGroup> relation = userGroupRepository.findByUserAndGroup(user.get(), optionalGroup.get());
-		if (!relation.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 3
-
-		user.get().getGroups().remove(relation.get());
-		optionalGroup.get().members.remove(relation.get());
-		userGroupRepository.delete(relation.get()); //4
-		userRepository.save(user.get()); // 5
-		groupRepository.save(optionalGroup.get()); // 6
-		return new ResponseEntity<>(
-				relation,
-				HttpStatus.OK
-		);
 	}
 
 	@Operation(summary = "Gets all interests for a given user")
@@ -221,14 +196,13 @@ public class UserController {
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
+
 	})
 	@GetMapping("/{id}/interests")
 	public ResponseEntity<?> getAllInterestsForUser(@PathVariable Optional<Long> id) {
-		if (id.isPresent()) {
-			Optional<User> optionalUser = userService.getUserByID(id.get());
-			return optionalUser.map(user -> new ResponseEntity<Iterable<R_UserInterest>>(user.getInterests(), HttpStatus.OK))
-			                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-		}
+		id.ifPresent(identifier -> userService.igService.getInterestsOfUserByID(identifier)
+		                                                .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
+		                                                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)));
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
@@ -245,22 +219,16 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !interest_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userService.getUserByID(user_id.get());
-		Optional<InterestEntity> optionalInterest = interestRepository.findById(interest_id.get());// 2
-
-		if (!user.isPresent() || !optionalInterest.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		if (userInterestRepository.findByUserAndInterest(user.get(), optionalInterest.get()).isPresent())
-			return new ResponseEntity<>(HttpStatus.CONFLICT); // 3
-
-		R_UserInterest relation = userInterestRepository.save(new R_UserInterest(user.get(), optionalInterest.get(), LocalDateTime.now())); //4
-		user.get().getInterests().add(relation);
-		optionalInterest.get().interested.add(relation);
-		userRepository.save(user.get()); // 5
-		interestRepository.save(optionalInterest.get()); // 6
-		return new ResponseEntity<>(
-				relation,  // Updated all but ID.
-				HttpStatus.CREATED
-		);
+		try {
+			return new ResponseEntity<>(
+					userService.igService.addRelationToUser(user_id.get(), interest_id.get()),
+					HttpStatus.OK
+			);
+		} catch (CybudsEntityByIdNotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (CybudsActionResultsInConflictException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 	}
 
 	@Operation(summary = "Delete a User-Interest relation based off both their IDs")
@@ -276,22 +244,16 @@ public class UserController {
 		/* Parameter Checking */
 		if (!user_id.isPresent() || !interest_id.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		Optional<User> user = userService.getUserByID(user_id.get());
-		Optional<InterestEntity> optionalInterest = interestRepository.findById(interest_id.get());// 2
-
-		if (!user.isPresent() || !optionalInterest.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		Optional<R_UserInterest> relation = userInterestRepository.findByUserAndInterest(user.get(), optionalInterest.get());
-		if (!relation.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 3
-
-		user.get().getInterests().remove(relation.get());
-		optionalInterest.get().interested.remove(relation.get());
-		userInterestRepository.delete(relation.get()); //4
-		userRepository.save(user.get()); // 5
-		interestRepository.save(optionalInterest.get()); // 6
-		return new ResponseEntity<>(
-				relation,
-				HttpStatus.OK
-		);
+		try {
+			return new ResponseEntity<>(
+					userService.igService.deleteRelationForUser(user_id.get(), interest_id.get()),
+					HttpStatus.OK
+			);
+		} catch (CybudsEntityByIdNotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (CybudsActionResultsInConflictException e) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 	}
 
 	/**
@@ -303,10 +265,18 @@ public class UserController {
 	 *
 	 * @return user profile with the most in common with current user
 	 */
-	@GetMapping("/{id}/match")
-	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @RequestBody GroupType choice) {
+	@Operation(summary = "Matches a user with another based on the group type specified.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+	})
+	@GetMapping("/{id}/match/{choice}")
+	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @PathVariable GroupType choice) {
 		if (id.isPresent()) {
-			Optional<User> optionalCurrentUser = userRepository.findById(id.get());
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
 			if (optionalCurrentUser.isPresent()) {
 				int same = 0;
 				int t = 0;
