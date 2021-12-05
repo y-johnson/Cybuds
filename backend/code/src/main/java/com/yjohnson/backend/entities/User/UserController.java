@@ -17,7 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -338,6 +343,32 @@ public class UserController {
 	@GetMapping
 	public Iterable<User> getAllUsers() {
 		return userService.getAllUsersFromDB();    //1
+	}
+
+	@GetMapping("/{id}/randomMatch")
+	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id){
+
+		if(id.isPresent()) {
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
+			if(optionalCurrentUser.isPresent()) {
+				User currentUser = optionalCurrentUser.get();
+
+				Iterable<User> all = getAllUsers();
+				ArrayList<User> list= new ArrayList<>();
+				for(User bob: all){
+					list.add(bob);
+				}
+				int peopleCounter=list.size();
+				Random rand= new Random();
+				User selected=currentUser;
+				while(selected.getId().equals(currentUser.getId())){
+					selected = list.get(rand.nextInt(peopleCounter));
+				}
+				return new ResponseEntity<>(selected, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	/**
