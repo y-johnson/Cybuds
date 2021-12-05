@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -131,12 +130,11 @@ public class UserController {
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
 	})
-	@GetMapping("/{OptionalId}/groups")
-	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> OptionalId) {
-		OptionalId.ifPresent(id -> userService.ugService.getGroupsOfUserByID(id)
-		                                                .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
-		                                                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)));
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	@GetMapping("/{pathID}/groups")
+	public ResponseEntity<?> getAllGroupsForUser(@PathVariable Optional<Long> pathID) {
+		return pathID.map(id -> userService.ugService.getGroupsOfUserByID(id)
+		                                      .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
+		                                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND))).orElseGet(()->new ResponseEntity<>(HttpStatus.BAD_REQUEST));
 	}
 
 	@Operation(summary = "Add a User-Group relation")
@@ -267,9 +265,16 @@ public class UserController {
 	 *
 	 * @return user profile with the most in common with current user
 	 */
-	@GetMapping("/{id}/match")
-	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @RequestBody GroupType choice) {
-		System.out.println(id);
+	@Operation(summary = "Matches a user with another based on the group type specified.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+	})
+	@GetMapping("/{id}/match/{choice}")
+	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @PathVariable GroupType choice) {
 		if (id.isPresent()) {
 			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
 			if (optionalCurrentUser.isPresent()) {
