@@ -6,13 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.coms309.cybuds.ui.AdapterRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 //	RecyclerView datalist;
@@ -24,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		TextView title = (TextView) findViewById(R.id.activity_main_group_name);
+		TextView title = findViewById(R.id.activity_main_group_name);
 		title.setText("Get Group's Name"); //calls db and retrieves random group name
-		TextView description = (TextView) findViewById(R.id.activity_main_short_description);
+		TextView description = findViewById(R.id.activity_main_short_description);
 		title.setText("Get Group's Description"); //calls db and retrieves the above group names description
 		//Group picture element not implemented
 
@@ -54,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public void btnSignUp_onClick(View view) {
-		//Toast.makeText(MainActivity.this, "TODO!", Toast.LENGTH_SHORT).show();
 		Intent gotoRegisterActivityIntent = new Intent(this, RegisterActivity.class);
 		startActivity(gotoRegisterActivityIntent);
 	}
