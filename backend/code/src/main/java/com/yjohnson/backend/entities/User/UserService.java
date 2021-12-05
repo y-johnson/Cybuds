@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserService {
@@ -22,17 +24,17 @@ public class UserService {
 	protected final UserInterestService igService = new UserInterestService();
 
 	private final UserRepository userRepository;
-	@Autowired
-	private GroupRepository groupRepository;
-	@Autowired
-	private UserGroupRepository userGroupRepository;
-	@Autowired
-	private InterestRepository interestRepository;
-	@Autowired
-	private UserInterestRepository userInterestRepository;
+	private final GroupRepository groupRepository;
+	private final UserGroupRepository userGroupRepository;
+	private final InterestRepository interestRepository;
+	private final UserInterestRepository userInterestRepository;
 
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, GroupRepository groupRepository, UserGroupRepository userGroupRepository, InterestRepository interestRepository, UserInterestRepository userInterestRepository) {
 		this.userRepository = userRepository;
+		this.groupRepository = groupRepository;
+		this.userGroupRepository = userGroupRepository;
+		this.interestRepository = interestRepository;
+		this.userInterestRepository = userInterestRepository;
 	}
 
 	/**
@@ -123,6 +125,7 @@ public class UserService {
 		}
 
 		protected R_UserGroup addRelationToUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException, CybudsActionResultsInConflictException {
+
 			Optional<User> user = getUserByID(uid);
 			Optional<GroupEntity> optionalGroup = groupRepository.findById(gid);// 2
 			if (!user.isPresent() || !optionalGroup.isPresent()) throw new CybudsEntityByIdNotFoundException();

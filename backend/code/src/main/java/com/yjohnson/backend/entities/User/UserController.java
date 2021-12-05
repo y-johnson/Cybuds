@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-	private final UserRepository userRepository;
+	@Autowired
 	private final UserService userService;
 
-	public UserController(UserRepository userRepository) {
-		this.userRepository = userRepository;
-		this.userService = new UserService(userRepository);
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
 	/**
@@ -268,8 +269,9 @@ public class UserController {
 	 */
 	@GetMapping("/{id}/match")
 	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @RequestBody GroupType choice) {
+		System.out.println(id);
 		if (id.isPresent()) {
-			Optional<User> optionalCurrentUser = userRepository.findById(id.get());
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
 			if (optionalCurrentUser.isPresent()) {
 				int same = 0;
 				int t = 0;

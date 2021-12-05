@@ -1,5 +1,9 @@
 package com.yjohnson.backend.entities.User;
 
+import com.yjohnson.backend.entities.DB_Relations.UserGroupRepository;
+import com.yjohnson.backend.entities.DB_Relations.UserInterestRepository;
+import com.yjohnson.backend.entities.Group.GroupRepository;
+import com.yjohnson.backend.entities.Interest.InterestRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,16 @@ import static org.junit.jupiter.api.Assertions.fail;
 class UserServiceTest {
 	public static final long ID = 1L;
 	@Autowired
-	UserRepository repo;
+	UserRepository userRepository;
+	@Autowired
+	GroupRepository groupRepository;
+	@Autowired
+	InterestRepository interestRepository;
+	@Autowired
+	UserGroupRepository userGroupRepository;
+	@Autowired
+	UserInterestRepository userInterestRepository;
+
 	UserService service;
 	User user;
 
@@ -35,8 +48,9 @@ class UserServiceTest {
 				new HashSet<>(),
 				ID
 		);
-		repo.save(user);
-		service = new UserService(repo);
+		userRepository.save(user);
+
+		service = new UserService(userRepository, groupRepository, userGroupRepository, interestRepository, userInterestRepository);
 	}
 
 	@Test
@@ -102,7 +116,7 @@ class UserServiceTest {
 	void getAllUsersFromDB() {
 		int i = 0;
 		for (User ignored : service.getAllUsersFromDB()) {
-		    ++i;
+			++i;
 		}
 		assert i == 1;
 	}
