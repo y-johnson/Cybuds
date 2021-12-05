@@ -9,17 +9,18 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_contact_profile"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="260dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="105dp"
+        android:layout_marginBottom="32dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_groups_profile"
-        app:layout_constraintVertical_bias="0.497">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/email_profile"
@@ -66,11 +67,12 @@
         android:layout_marginTop="20dp"
         android:onClick="btnUserProfile_groupCard_onClick"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
+        app:layout_constraintBottom_toTopOf="@+id/card_view_contact_profile"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_view_interests_profile"
-        app:layout_constraintVertical_bias="0.507">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/group1_profile"
@@ -117,10 +119,12 @@
         android:layout_marginTop="20dp"
         android:onClick="btnUserProfile_interestCard_onClick"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
+        app:layout_constraintBottom_toTopOf="@+id/card_view_contact_profile"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_top_banner_profile">
+        app:layout_constraintTop_toBottomOf="@+id/card_view_friends_profile"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/interest_1_profile"
@@ -155,6 +159,56 @@
             android:text="Interests"
             android:textColor="@color/dark_red"
             android:textSize="26sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_friends_profile"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_top_banner_profile"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/friend1_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/yellow"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="May Day"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/friend2_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="76dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/yellow"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Cargo Zoom"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/friends_title_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/racing_sans_one"
+            android:text="Friends"
+            android:textColor="@color/dark_red"
+            android:textSize="26dp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
