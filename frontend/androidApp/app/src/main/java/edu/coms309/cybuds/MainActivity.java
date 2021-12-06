@@ -19,8 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
 		TextView title = findViewById(R.id.activity_main_group_name);
 		title.setText("Get Group's Name"); //calls db and retrieves random group name
+<<<<<<< HEAD
+		TextView description = (TextView) findViewById(R.id.activity_main_short_description);
+		description.setText("Get Group's Description"); //calls db and retrieves the above group names description
+=======
 		TextView description = findViewById(R.id.activity_main_short_description);
 		title.setText("Get Group's Description"); //calls db and retrieves the above group names description
+>>>>>>> cf0f390231abc0e07b07585ccc11be8f3f76c92e
 		//Group picture element not implemented
 
 //		datalist = findViewById(R.id.activity_register_interests_recycler_view);
