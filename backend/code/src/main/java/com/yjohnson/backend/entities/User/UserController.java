@@ -2,7 +2,6 @@ package com.yjohnson.backend.entities.User;
 
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
-import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupType;
 import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
 import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
@@ -11,23 +10,21 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Random;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-	@Autowired
+	private final MatchService matchService;
 	private final UserService userService;
 
-	public UserController(UserService userService) {
+	public UserController(MatchService matchService, UserService userService) {
+		this.matchService = matchService;
 		this.userService = userService;
 	}
 
@@ -260,77 +257,66 @@ public class UserController {
 	}
 
 	/**
-	 * Sorts all user profiles that have the same characteristic as the choice of the current user. Calls add() which counts the number of
-	 * characterists that are shared. Returns user with the most shared characteristics.
+	 * Returns an ordered list of all user IDs in descending order of match score.
 	 *
-	 * @param id     user id
-	 * @param choice the identifier the current user wanted to match with
+	 * @param id the user ID of the current user
 	 *
-	 * @return user profile with the most in common with current user
+	 * @return an ordered descending list of the users that match the most with the current user.
 	 */
-	@Operation(summary = "Matches a user with another based on the group type specified.")
+	@Operation(summary = "Matches a user with others based on the group type specified.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			@ApiResponse(responseCode = "200", description = "Matched the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
 			}),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
 	})
-	@GetMapping("/{id}/match/{choice}")
-	public ResponseEntity<?> match(@PathVariable Optional<Long> id, @PathVariable GroupType choice) {
+	@GetMapping("/{id}/match")
+	public ResponseEntity<?> matchUserByChoice(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
 			if (optionalCurrentUser.isPresent()) {
-				int same = 0;
-				int t = 0;
-				User temp = null;
-				Iterable<User> All = getAllUsers();
-				for (User secondaryUser : All) {
-					User currentUser = optionalCurrentUser.get();
-					if (!secondaryUser.getId().equals(currentUser.getId())) {
-						switch (choice) {
-							case STUDENT_CLASS:
-								if (secondaryUser.classification == currentUser.classification) {
-									t = add(currentUser, secondaryUser);
-								}
-								break;
-							case COLLEGE:
-								Iterable<GroupEntity> college1 = currentUser.getColleges();
-								Iterable<GroupEntity> college2 = secondaryUser.getColleges();
-								for (GroupEntity c1 : college1) {
-									for (GroupEntity c2 : college2) {
-										if (c1 == c2) {
-											t = add(currentUser, secondaryUser);
-										}
-									}
-								}
-								break;
-							case STUDENT_MAJOR:
-								Iterable<GroupEntity> major1 = currentUser.getMajors();
-								Iterable<GroupEntity> major2 = secondaryUser.getMajors();
-								for (GroupEntity g1 : major1) {
-									for (GroupEntity g2 : major2) {
-										if (g1 == g2) {
-											t = add(currentUser, secondaryUser);
-										}
-									}
-								}
-								break;
-							default:
-								break;
-						}
-						if (t > same) {
-							same = t;
-							temp = secondaryUser;
-						}
-					}
-				}
-				return new ResponseEntity<>(temp, HttpStatus.OK);
+				return new ResponseEntity<>(
+						matchService.matchUser(optionalCurrentUser.get(), userService.getAllUsersFromDB()),
+						HttpStatus.OK
+				);
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
+	/**
+	 * Returns an ordered list of all user IDs that conform to the chosen constraint in descending order of match score.
+	 *
+	 * @param id     the user ID of the current user
+	 * @param choice the constraint to match against
+	 *
+	 * @return an ordered descending list of the users that match the most with the current user.
+	 */
+	@Operation(summary = "Matches a user with others based on the group type specified.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Matched the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+	})
+	@GetMapping("/{id}/match/{choice}")
+	public ResponseEntity<?> matchUserByChoice(@PathVariable Optional<Long> id, @PathVariable GroupType choice) {
+		if (id.isPresent()) {
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
+			if (optionalCurrentUser.isPresent()) {
+				return new ResponseEntity<>(
+						matchService.matchUserByChoice(choice, optionalCurrentUser.get(), userService.getAllUsersFromDB()),
+						HttpStatus.OK
+				);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 
 	/**
 	 * Retrieves all the {@code User} objects in the database.
@@ -343,57 +329,12 @@ public class UserController {
 		return userService.getAllUsersFromDB();    //1
 	}
 
-	/**
-	 * Helper method tracks the number of characteristics that are the same between two users.
-	 *
-	 * @param one  user one
-	 * @param two, user two
-	 *
-	 * @return returns int of the number of shared characteristics
-	 */
-	public int add(User one, User two) {
-		int i = 0;
-		//iterate through all interests-sees if any match
-		for (R_UserInterest r1 : one.interestedIn) {
-			for (R_UserInterest r2 : two.interestedIn) {
-				if (r1 == r2) ++i;
-			}
-		}
-		//iterate through all majors-counts if any match
-		Iterable<GroupEntity> major1 = one.getMajors();
-		Iterable<GroupEntity> major2 = two.getMajors();
-		for (GroupEntity g1 : major1) {
-			for (GroupEntity g2 : major2) {
-				if (g1 == g2) ++i;
-			}
-		}
-
-		//iterate through all colleges-counts if any match
-		Iterable<GroupEntity> college1 = one.getColleges();
-		Iterable<GroupEntity> college2 = two.getColleges();
-		for (GroupEntity c1 : college1) {
-			for (GroupEntity c2 : college2) {
-				if (c1 == c2) ++i;
-			}
-		}
-
-		//another point if the students are the same class year
-		if (one.classification == two.classification) {
-			i++;
-		}
-
-		if(two.premium){
-			i++;
-		}
-
-		return i;
-	}
-
 	@Operation(summary = "Matches a user randomly based on their ID.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Deleted the interest", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = R_UserInterest.class))
+			@ApiResponse(responseCode = "200", description = "Matched and returned user randomly", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
 			}),
+			@ApiResponse(responseCode = "204", description = "No match found"),
 			@ApiResponse(responseCode = "400", description = "Missing parameter"),
 			@ApiResponse(responseCode = "404", description = "Not found"),
 	})
@@ -401,23 +342,16 @@ public class UserController {
 	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
+			Iterable<User> allUsers = userService.getAllUsersFromDB();
 			if (optionalCurrentUser.isPresent()) {
-				User currentUser = optionalCurrentUser.get();
-
-				Iterable<User> all = userService.getAllUsersFromDB();
-				ArrayList<User> list = new ArrayList<>();
-				all.forEach(list::add);
-
-				int peopleCounter = list.size();
-				Random rand = new Random();
-				User selected = currentUser;
-				while (selected.getId().equals(currentUser.getId())) {
-					selected = list.get(rand.nextInt(peopleCounter));
-				}
-				return new ResponseEntity<>(selected, HttpStatus.OK);
+				return matchService.matchUserRandomly(optionalCurrentUser.get(), allUsers)
+				                   .map(selected -> new ResponseEntity<>(selected, HttpStatus.OK))
+				                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
 			}
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
+
 }
