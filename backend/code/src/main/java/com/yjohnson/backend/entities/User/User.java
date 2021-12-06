@@ -8,9 +8,7 @@ import com.yjohnson.backend.entities.Group.GroupType;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 enum Gender {
 	MALE,
@@ -26,30 +24,30 @@ enum StudentClassification {
 @Table(name = "Users")
 public class User implements Serializable, Cloneable {
 	@Column(nullable = false)
-	public boolean premium;
+	private boolean premium;
 	@Column(nullable = false, unique = true)
-	public String username;
+	private String username;
 	@Column(nullable = false, unique = true)
-	public String email;
+	private String email;
 	@Column(nullable = false)
-	public String passwordHash;
+	private String passwordHash;
 	@Column(nullable = false, length = 15)
-	public String firstName;
+	private String firstName;
 	@Column(length = 15)
-	public String middleName;
+	private String middleName;
 	@Column(nullable = false, length = 15)
-	public String lastName;
-	public String biography;
-	public int profilePicture;
-	public String address;
-	public String phoneNumber;
+	private String lastName;
+	private String biography;
+	private int profilePicture;
+	private String address;
+	private String phoneNumber;
 	@Column(nullable = false)
-	public StudentClassification classification;
+	private StudentClassification classification;
 	@Enumerated(EnumType.STRING)
-	public Gender gender;
+	private Gender gender;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
-	public Set<R_UserInterest> interestedIn;
+	private Set<R_UserInterest> interestedIn;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<R_UserGroup> partOf;
@@ -260,6 +258,11 @@ public class User implements Serializable, Cloneable {
 		this.classification = classification;
 	}
 
+	@JsonIgnore
+	public Set<R_UserInterest> getInterests() {
+		return interestedIn;
+	}
+
 	public String getBiography() {
 		return biography;
 	}
@@ -300,12 +303,7 @@ public class User implements Serializable, Cloneable {
 	}
 
 	@JsonIgnore
-	public Set<R_UserInterest> getInterests() {
-		return interestedIn;
-	}
-
-	@JsonIgnore
-	public Iterable<GroupEntity> getMajors() {
+	public Set<GroupEntity> getMajors() {
 		Set<GroupEntity> majors = new HashSet<>();
 		for (R_UserGroup relation : partOf) {
 			if (relation.getGroup().groupType == GroupType.STUDENT_MAJOR) {
@@ -316,7 +314,7 @@ public class User implements Serializable, Cloneable {
 	}
 
 	@JsonIgnore
-	public Iterable<GroupEntity> getColleges() {
+	public Set<GroupEntity> getColleges() {
 		Set<GroupEntity> colleges = new HashSet<>();
 		for (R_UserGroup relation : partOf) {
 			if (relation.getGroup().groupType == GroupType.COLLEGE) {

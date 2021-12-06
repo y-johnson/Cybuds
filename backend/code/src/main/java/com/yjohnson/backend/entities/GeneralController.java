@@ -36,15 +36,15 @@ public class GeneralController {
 	 */
 	@PostMapping("/login")
 	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
-		Optional<User> query = userRepository.findByEmail(attemptedLogin.email);        // 1
-		if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
+		Optional<User> query = userRepository.findByEmail(attemptedLogin.getEmail());        // 1
+			if (query.isPresent() && Objects.equals(query.get().getPasswordHash(), attemptedLogin.getPasswordHash())) {
 			return new ResponseEntity<>(query.get(), HttpStatus.OK);
 		} else {
-			query = userRepository.findByUsername(attemptedLogin.username);                   // 2
-			if (query.isPresent() && Objects.equals(query.get().passwordHash, attemptedLogin.passwordHash)) {
+			query = userRepository.findByUsername(attemptedLogin.getUsername());                   // 2
+			if (query.isPresent() && Objects.equals(query.get().getPasswordHash(), attemptedLogin.getPasswordHash())) {
 				return new ResponseEntity<>(query.get(), HttpStatus.OK);
 			} else {
-				if (query.isPresent() && query.get().passwordHash.isEmpty()) return new ResponseEntity<>(attemptedLogin, HttpStatus.BAD_REQUEST);
+				if (query.isPresent() && query.get().getPasswordHash().isEmpty()) return new ResponseEntity<>(attemptedLogin, HttpStatus.BAD_REQUEST);
 				else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 		}
