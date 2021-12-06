@@ -382,6 +382,10 @@ public class UserController {
 			i++;
 		}
 
+		if(two.premium){
+			i++;
+		}
+
 		return i;
 	}
 
