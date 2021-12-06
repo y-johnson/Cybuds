@@ -1,6 +1,5 @@
 package com.yjohnson.backend.entities.Interest;
 
-import com.yjohnson.backend.entities.User.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,7 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,15 +15,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/interests")
 public class InterestController {
+	private final InterestService interestService;
 
-	private final InterestRepository interestRepository;
-
-	public InterestController(InterestRepository interestRepository) {
-		this.interestRepository = interestRepository;
+	public InterestController(InterestService interestService) {
+		this.interestService = interestService;
 	}
 
 	/**
-	 * Adds a given interest to the database. This method sanitizes the input to a degree; the fields will be trimmed and names will be capitalized in
+	 * Adds a given interest to the database. This method sanitizes the input to a degree; the fields will be trimmed and names will be
+	 * capitalized in
 	 * Title case (e.g. "marTHa" - "Martha").
 	 * <p>
 	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
@@ -45,14 +43,10 @@ public class InterestController {
 	@PostMapping
 	public ResponseEntity<?> addInterest(@RequestBody InterestEntity newInterestEntity) {
 		if (newInterestEntity.getName() == null || newInterestEntity.getName().isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		newInterestEntity.setName(StringUtils.trimWhitespace(StringUtils.capitalize(newInterestEntity.getName())));
-		newInterestEntity.setDescription(StringUtils.trimWhitespace(StringUtils.capitalize(newInterestEntity.getDescription())));
-		if (interestRepository.findByName(newInterestEntity.getName()).isPresent()) {              //1
-			return new ResponseEntity<>(newInterestEntity.getName(), HttpStatus.CONFLICT);
-		} else {
-			return new ResponseEntity<>(interestRepository.save(newInterestEntity), HttpStatus.CREATED);
-		}
+		return interestService.addInterestToDB(newInterestEntity).map(entity -> new ResponseEntity<>(entity, HttpStatus.CREATED))
+		                      .orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
 	}
+
 
 	/**
 	 * Retrieves a {@code InterestEntity} from the database whose ID or name matches the given path variable.
@@ -73,14 +67,7 @@ public class InterestController {
 	public ResponseEntity<?> getInterest(@PathVariable("identifier") Optional<String> identifier) {
 		Optional<InterestEntity> optionalInterest;
 		if (identifier.isPresent()) {
-			try {
-				// Treat it as a Long first (id)
-				Long id = Long.parseLong(identifier.get());
-				optionalInterest = interestRepository.findById(id);     // 1
-			} catch (NumberFormatException e) {
-				// If it is not a long, treat it as a String (name)
-				optionalInterest = interestRepository.findByName(identifier.get());   // 1
-			}
+			optionalInterest = interestService.getInterestByString(identifier.get());
 		} else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		return optionalInterest.map(interestEntity -> new ResponseEntity<>(interestEntity, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(
 				HttpStatus.NOT_FOUND));
@@ -107,13 +94,9 @@ public class InterestController {
 	public ResponseEntity<InterestEntity> deleteInterest(@PathVariable Optional<Long> id) {
 		if (id.isPresent()) {
 			try {
-				Optional<InterestEntity> optionalInterest = interestRepository.findById(id.get());  //1
-				if (optionalInterest.isPresent()) {
-					InterestEntity deleted = optionalInterest.get().clone();
-					interestRepository.delete(optionalInterest.get());                         //2
-					return new ResponseEntity<>(deleted, HttpStatus.OK);
-				}
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				Optional<InterestEntity> deleted = interestService.deleteInterestById(id.get());
+				return deleted.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+				              .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -121,6 +104,7 @@ public class InterestController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+
 
 	/**
 	 * Updates the {@code InterestEntity} that corresponds to the given ID path variable with the values of the request body. It is not possible to
@@ -145,9 +129,9 @@ public class InterestController {
 	public ResponseEntity<InterestEntity> updateGroup(@RequestBody Optional<InterestEntity> valuesToUpdate, @PathVariable Optional<Long> id) {
 		try {
 			if (valuesToUpdate.isPresent() && id.isPresent()) {
-				Optional<InterestEntity> fromDB = interestRepository.findById(id.get());     // 1
+				Optional<InterestEntity> fromDB = interestService.getInterestByID(id.get());     // 1
 				return fromDB.map(interest -> new ResponseEntity<>(
-						interestRepository.save(interest.updateContents(valuesToUpdate.get())),  // 2
+						interestService.saveUpdatedInterest(valuesToUpdate.get(), interest),  // 2
 						HttpStatus.OK
 				)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 			}
@@ -157,6 +141,7 @@ public class InterestController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+
 	/**
 	 * Retrieves all the {@code InterestEntity} objects in the database.
 	 *
@@ -165,6 +150,6 @@ public class InterestController {
 	@Operation(summary = "Gets all interests")
 	@GetMapping
 	public Iterable<InterestEntity> retrieveAll() {
-		return interestRepository.findAll();
+		return interestService.getAllInterests();
 	}
 }

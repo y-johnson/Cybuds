@@ -2,7 +2,9 @@ package edu.coms309.cybuds;
 
 import android.os.Bundle;
 
-public class UsernamePictureActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class UsernamePictureActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

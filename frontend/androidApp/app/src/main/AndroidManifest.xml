@@ -30,6 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MatchPeopleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SearchPeopleActivity"
+            android:exported="true" />
     </application>
 
 
