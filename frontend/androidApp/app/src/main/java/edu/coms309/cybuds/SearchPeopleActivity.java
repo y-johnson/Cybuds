@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import edu.coms309.cybuds.model.User;
@@ -39,4 +40,16 @@ public class SearchPeopleActivity extends AppCompatActivity {
 
         startActivity(toProfile);
     }
+
+    public void btnUserProfile_menu_onClick(View view) {
+
+    }
+
+    public void btnUserProfile_settings_onClick(View view) {
+        setContentView(R.layout.activity_profile_settings);
+    }
+    public void btnUserProfile_profile_OnClick(View view) {
+        setContentView(R.layout.activity_user_profile);
+    }
+
 }
