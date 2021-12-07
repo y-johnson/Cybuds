@@ -113,5 +113,27 @@ public class MatchController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@Operation(summary = "Matches a user randomly based on their ID and choice.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Matched the user", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+			}),
+			@ApiResponse(responseCode = "400", description = "Missing parameter"),
+			@ApiResponse(responseCode = "404", description = "Not found"),
+	})
+	@GetMapping("/random/{choice}")
+	public ResponseEntity<?> matchUserRandomlyByChoice(@PathVariable Optional<Long> id, @PathVariable GroupType choice) {
+		if (id.isPresent()) {
+			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
+			if (optionalCurrentUser.isPresent()) {
+				return new ResponseEntity<>(
+						matchService.matchUserRandomlyByChoice(choice, optionalCurrentUser.get(), userService.getAllUsersFromDB()),
+						HttpStatus.OK
+				);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 
 }

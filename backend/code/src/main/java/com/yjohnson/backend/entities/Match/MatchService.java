@@ -10,22 +10,59 @@ import java.util.*;
 
 @Service
 public class MatchService {
+	private final MatchRepository matchRepository;
 
-	protected Set<MatchEntity> matchUser(User currentUser, Iterable<User> allUsers) {
+	public MatchService(MatchRepository matchRepository) {
+		this.matchRepository = matchRepository;
+	}
+
+	protected Iterable<MatchEntity> matchUser(User currentUser, Iterable<User> allUsers) {
 		Set<MatchEntity> set = new TreeSet<>(Comparator.comparingInt(MatchEntity::getScore).reversed());
 		allUsers.forEach(user -> {
 			if (!currentUser.equals(user)) set.add(new MatchEntity(
 					currentUser,
-					user,
-					aggregateMatchScore(currentUser, user)
+					user
 			));
 		});
+		return matchRepository.saveAll(set);
+
+	}
+
+	protected Iterable<MatchEntity> matchUserByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
+		return matchRepository.saveAll(populateMatchSet(currentUser, choice, allUsers));
+	}
+
+	private TreeSet<MatchEntity> populateMatchSet(User currentUser, GroupType choice, Iterable<User> allUsers) {
+		TreeSet<MatchEntity> set = new TreeSet<>(Comparator.comparingInt(MatchEntity::getScore).reversed());
+		allUsers.forEach(user -> {
+			if (!currentUser.equals(user)) {
+				switch (choice) {
+					case STUDENT_CLASS:
+						if (currentUser.getClassification() == user.getClassification()) {
+							set.add(new MatchEntity(currentUser, user));
+						}
+						break;
+					case COLLEGE:
+					case STUDENT_MAJOR:
+						/* Combines majors and colleges into one list and finds the intersection between them */
+						Set<GroupEntity> groups = new HashSet<>();
+						Set<GroupEntity> against = new HashSet<>();
+
+						groups.addAll(currentUser.getColleges());
+						groups.addAll(currentUser.getMajors());
+
+						against.addAll(user.getColleges());
+						against.addAll(user.getMajors());
+
+						groups.retainAll(against);
+						if (groups.size() > 0) set.add(new MatchEntity(currentUser, user));
+						break;
+					default:
+						break;
+				}
+			}
+		});
 		return set;
-//		HashMap<Long, Integer> orderedList = new HashMap<>();
-//		allUsers.forEach(user -> {
-//			if (!currentUser.equals(user)) orderedList.put(user.getId(), aggregateMatchScore(currentUser, user));
-//		});
-//		return orderedList;
 	}
 
 	/**
@@ -65,37 +102,18 @@ public class MatchService {
 		return i;
 	}
 
-	protected Map<Long, Integer> matchUserByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
-		HashMap<Long, Integer> orderedList = new HashMap<>();
-		allUsers.forEach(otherUser -> {
-			if (!currentUser.equals(otherUser)) {
-				switch (choice) {
-					case STUDENT_CLASS:
-						if (currentUser.getClassification() == otherUser.getClassification()) {
-							orderedList.put(otherUser.getId(), aggregateMatchScore(currentUser, otherUser));
-						}
-						break;
-					case COLLEGE:
-					case STUDENT_MAJOR:
-						/* Combines majors and colleges into one list and finds the intersection between them */
-						Set<GroupEntity> groups = new HashSet<>();
-						Set<GroupEntity> against = new HashSet<>();
+	protected Optional<User> matchUserRandomlyByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
 
-						groups.addAll(currentUser.getColleges());
-						groups.addAll(currentUser.getMajors());
+		TreeSet<MatchEntity> set = populateMatchSet(currentUser, choice, allUsers);
 
-						against.addAll(otherUser.getColleges());
-						against.addAll(otherUser.getMajors());
+		int toGet = new Random().nextInt(set.size());
+		int i = 0;
 
-						groups.retainAll(against);
-						if (groups.size() > 0) orderedList.put(otherUser.getId(), aggregateMatchScore(currentUser, otherUser));
-						break;
-					default:
-						break;
-				}
-			}
-		});
-		return MapUtil.sortByValueDescending(orderedList);
+		for (MatchEntity m : set) {
+			if (i == toGet) return Optional.of(m.getMatchee());
+			++i;
+		}
+		return Optional.empty();
 	}
 
 	protected Optional<User> matchUserRandomly(User currentUser, Iterable<User> allUsers) {

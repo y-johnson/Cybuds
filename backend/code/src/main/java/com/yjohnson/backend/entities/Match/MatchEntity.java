@@ -12,20 +12,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "MatchEntity")
-@IdClass(MatchEntityId.class)
 public class MatchEntity implements Serializable {
 	@ManyToOne
-	@Id
 	@JsonProperty("matching_user")
 	private User matcher;
 	@ManyToOne
-	@Id
 	@JsonProperty("matched_user")
 	private User matchee;
 	@JsonProperty("last_updated")
 	private LocalDateTime lastUpdated;
 	@Column(nullable = false)
 	private int score;
+
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
+	private Long id;
 
 	public MatchEntity(User matcher, User matchee, int score) {
 		this.matcher = matcher;
@@ -34,23 +35,10 @@ public class MatchEntity implements Serializable {
 		this.lastUpdated = LocalDateTime.now();
 	}
 
-	public MatchEntity() {
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	/**
-	 * This method updates both the score with the provided value and the {@code lastUpdated} variable with the time at the moment this method was
-	 * executed. This should be the only way to update the score. Note that this score is not guaranteed to be constant or permanently the same value
-	 * throughout the object's lifetime.
-	 *
-	 * @param score the score to update this match with.
-	 */
-	public void setScore(int score) {
-		this.lastUpdated = LocalDateTime.now();
-		this.score = score;
+	public MatchEntity(User matcher, User matchee) {
+		this.matcher = matcher;
+		this.matchee = matchee;
+		refreshScore();
 	}
 
 	/**
@@ -100,6 +88,25 @@ public class MatchEntity implements Serializable {
 		return i;
 	}
 
+	public MatchEntity() {
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	/**
+	 * This method updates both the score with the provided value and the {@code lastUpdated} variable with the time at the moment this method was
+	 * executed. This should be the only way to update the score. Note that this score is not guaranteed to be constant or permanently the same value
+	 * throughout the object's lifetime.
+	 *
+	 * @param score the score to update this match with.
+	 */
+	public void setScore(int score) {
+		this.lastUpdated = LocalDateTime.now();
+		this.score = score;
+	}
+
 	public User getMatcher() {
 		return matcher;
 	}
@@ -110,5 +117,13 @@ public class MatchEntity implements Serializable {
 
 	public LocalDateTime getLastUpdated() {
 		return lastUpdated;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
