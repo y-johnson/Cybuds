@@ -1,7 +1,5 @@
 package com.yjohnson.backend.entities.User;
 
-import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
-import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 import com.yjohnson.backend.entities.DB_Relations.UserGroupRepository;
@@ -10,18 +8,17 @@ import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupRepository;
 import com.yjohnson.backend.entities.Interest.InterestEntity;
 import com.yjohnson.backend.entities.Interest.InterestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
+import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class UserService {
-	protected final UserGroupService ugService = new UserGroupService();
-	protected final UserInterestService igService = new UserInterestService();
+	public final UserGroupService ugService = new UserGroupService();
+	public final UserInterestService uiService = new UserInterestService();
 
 	private final UserRepository userRepository;
 	private final GroupRepository groupRepository;
@@ -29,7 +26,8 @@ public class UserService {
 	private final InterestRepository interestRepository;
 	private final UserInterestRepository userInterestRepository;
 
-	public UserService(UserRepository userRepository, GroupRepository groupRepository, UserGroupRepository userGroupRepository, InterestRepository interestRepository, UserInterestRepository userInterestRepository) {
+	public UserService(UserRepository userRepository, GroupRepository groupRepository, UserGroupRepository userGroupRepository,
+	                   InterestRepository interestRepository, UserInterestRepository userInterestRepository) {
 		this.userRepository = userRepository;
 		this.groupRepository = groupRepository;
 		this.userGroupRepository = userGroupRepository;
@@ -45,7 +43,7 @@ public class UserService {
 	 *
 	 * @return the {@code User} object that corresponds with the identifier.
 	 */
-	protected Optional<User> getUserByString(String identifier) {
+	public Optional<User> getUserByString(String identifier) {
 		Optional<User> optionalUser;
 		try {
 			// Treat it as a Long first (id)
@@ -65,7 +63,7 @@ public class UserService {
 	 *
 	 * @return a {@code Optional} with a clone of the deleted {@code User} object.
 	 */
-	protected Optional<User> deleteUserByID(Long id) throws CloneNotSupportedException {
+	public Optional<User> deleteUserByID(Long id) throws CloneNotSupportedException {
 		Optional<User> optionalUser = getUserByID(id);
 		if (optionalUser.isPresent()) {
 			User deleted = optionalUser.get().clone();
@@ -82,7 +80,7 @@ public class UserService {
 	 *
 	 * @return the {@code User} object that corresponds with the ID.
 	 */
-	protected Optional<User> getUserByID(Long id) {
+	public Optional<User> getUserByID(Long id) {
 		return userRepository.findById(id);
 	}
 
@@ -95,7 +93,7 @@ public class UserService {
 	 *
 	 * @return the updated {@code User} object.
 	 */
-	protected User saveUpdatedUser(User user, User valuesToUpdate) {
+	public User saveUpdatedUser(User user, User valuesToUpdate) {
 		return userRepository.save(user.updateContents(valuesToUpdate));
 	}
 
@@ -104,7 +102,7 @@ public class UserService {
 	 *
 	 * @return all the users in the database
 	 */
-	protected Iterable<User> getAllUsersFromDB() {
+	public Iterable<User> getAllUsersFromDB() {
 		return userRepository.findAll();
 	}
 
@@ -116,7 +114,7 @@ public class UserService {
 		 *
 		 * @return an optional iterable collection of {@code R_UserGroup} that the user participates in.
 		 */
-		protected Optional<Iterable<R_UserGroup>> getGroupsOfUserByID(Long id) {
+		public Optional<Iterable<R_UserGroup>> getGroupsOfUserByID(Long id) {
 			Optional<User> optionalUser = getUserByID(id);
 			Optional<Iterable<R_UserGroup>> groups = Optional.empty();
 			if (optionalUser.isPresent())
@@ -124,7 +122,7 @@ public class UserService {
 			return groups;
 		}
 
-		protected R_UserGroup addRelationToUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException, CybudsActionResultsInConflictException {
+		public R_UserGroup addRelationToUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException, CybudsActionResultsInConflictException {
 
 			Optional<User> user = getUserByID(uid);
 			Optional<GroupEntity> optionalGroup = groupRepository.findById(gid);// 2
@@ -145,7 +143,8 @@ public class UserService {
 			return relation;
 		}
 
-		protected R_UserGroup deleteRelationForUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException, CybudsActionResultsInConflictException {
+		public R_UserGroup deleteRelationForUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException,
+				CybudsActionResultsInConflictException {
 			Optional<User> user = getUserByID(uid);
 			Optional<GroupEntity> optionalGroup = groupRepository.findById(gid);// 2
 			if (!user.isPresent() || !optionalGroup.isPresent()) throw new CybudsEntityByIdNotFoundException();
@@ -169,7 +168,7 @@ public class UserService {
 		 *
 		 * @return an optional iterable collection of {@code R_UserInterest} that the user participates in.
 		 */
-		protected Optional<Iterable<R_UserInterest>> getInterestsOfUserByID(Long id) {
+		public Optional<Iterable<R_UserInterest>> getInterestsOfUserByID(Long id) {
 			Optional<User> optionalUser = getUserByID(id);
 			Optional<Iterable<R_UserInterest>> interests = Optional.empty();
 			if (optionalUser.isPresent())
@@ -177,7 +176,8 @@ public class UserService {
 			return interests;
 		}
 
-		protected R_UserInterest addRelationToUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException, CybudsActionResultsInConflictException {
+		public R_UserInterest addRelationToUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException,
+				CybudsActionResultsInConflictException {
 			Optional<User> user = getUserByID(uid);
 			Optional<InterestEntity> optionalInterest = interestRepository.findById(gid);// 2
 			if (!user.isPresent() || !optionalInterest.isPresent()) throw new CybudsEntityByIdNotFoundException();
@@ -197,7 +197,8 @@ public class UserService {
 			return relation;
 		}
 
-		protected R_UserInterest deleteRelationForUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException, CybudsActionResultsInConflictException {
+		public R_UserInterest deleteRelationForUser(Long uid, Long gid) throws CybudsEntityByIdNotFoundException,
+				CybudsActionResultsInConflictException {
 			Optional<User> user = getUserByID(uid);
 			Optional<InterestEntity> optionalInterest = interestRepository.findById(gid);// 2
 			if (!user.isPresent() || !optionalInterest.isPresent()) throw new CybudsEntityByIdNotFoundException();

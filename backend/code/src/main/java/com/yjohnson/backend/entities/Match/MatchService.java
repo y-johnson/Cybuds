@@ -1,8 +1,9 @@
-package com.yjohnson.backend.entities.User;
+package com.yjohnson.backend.entities.Match;
 
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupType;
+import com.yjohnson.backend.entities.User.User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,12 +11,21 @@ import java.util.*;
 @Service
 public class MatchService {
 
-	protected Map<Long, Integer> matchUser(User currentUser, Iterable<User> allUsers) {
-		HashMap<Long, Integer> orderedList = new HashMap<>();
+	protected Set<MatchEntity> matchUser(User currentUser, Iterable<User> allUsers) {
+		Set<MatchEntity> set = new TreeSet<>(Comparator.comparingInt(MatchEntity::getScore).reversed());
 		allUsers.forEach(user -> {
-			if (!currentUser.equals(user)) orderedList.put(user.getId(), aggregateMatchScore(currentUser, user));
+			if (!currentUser.equals(user)) set.add(new MatchEntity(
+					currentUser,
+					user,
+					aggregateMatchScore(currentUser, user)
+			));
 		});
-		return orderedList;
+		return set;
+//		HashMap<Long, Integer> orderedList = new HashMap<>();
+//		allUsers.forEach(user -> {
+//			if (!currentUser.equals(user)) orderedList.put(user.getId(), aggregateMatchScore(currentUser, user));
+//		});
+//		return orderedList;
 	}
 
 	/**
