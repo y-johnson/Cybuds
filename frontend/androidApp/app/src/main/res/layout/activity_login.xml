@@ -9,9 +9,10 @@
 
     <EditText
         android:id="@+id/activity_login_email"
-        android:layout_width="224dp"
+        android:layout_width="290dp"
         android:layout_height="63dp"
         android:background="@drawable/text_box"
+        android:fontFamily="@font/racing_sans_one"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -36,7 +37,6 @@
         android:fontFamily="@font/racing_sans_one"
         android:onClick="btnLogin_submit_onClick"
         android:text="Submit"
-
         android:textColor="#000"
         android:textSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,12 +46,13 @@
 
     <EditText
         android:id="@+id/activity_login_password"
-        android:layout_width="224dp"
+        android:layout_width="290dp"
         android:layout_height="63dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/text_box"
         android:ems="10"
         android:hint="Password"
+        android:fontFamily="@font/racing_sans_one"
         android:inputType="textPassword"
         android:textColor="#000"
         android:textSize="20dp"

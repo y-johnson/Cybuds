@@ -36,6 +36,15 @@
         <activity
             android:name=".SearchPeopleActivity"
             android:exported="true" />
+        <activity
+            android:name=".MatchInterestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".OtherUsersProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MatchGroupActivity"
+            android:exported="true" />
     </application>
 
 

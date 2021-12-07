@@ -1,16 +1,23 @@
 package edu.coms309.cybuds;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
 import edu.coms309.cybuds.model.User;
 import edu.coms309.cybuds.network.HTTPDriver;
 
@@ -33,6 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
 	EditText genderIn;
 	Spinner genderSpinner;
 
+	List<String> interests;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,10 +57,32 @@ public class RegisterActivity extends AppCompatActivity {
 		phonenumberIn = findViewById(R.id.activity_register_personal_info_phone_number);
 		gradyearIn = findViewById(R.id.activity_register_graduation_year);
 
+		// initiate a Switch
+		Switch simpleSwitch = (Switch) findViewById(R.id.activity_register_username_picture_switch);
+
+		// check current state of a Switch (true or false).
+		Boolean switchState = simpleSwitch.isChecked();
+		if (simpleSwitch.isChecked()) {
+			//tell db user is premium
+		} else {
+			//tell db user is not premium
+		}
+
 
 	}
 		@Override
 	protected void onDestroy() {
+			// initiate a Switch
+			Switch simpleSwitch = (Switch) findViewById(R.id.activity_register_username_picture_switch);
+
+			// check current state of a Switch (true or false).
+			Boolean switchState = simpleSwitch.isChecked();
+			if (simpleSwitch.isChecked()) {
+				//tell db user is premium
+			} else {
+				//tell db user is not premium
+			}
+
 		super.onDestroy();
 		Intent gotoProfileActivityIntent = new Intent(this, ProfileActivity.class);
 		startActivity(gotoProfileActivityIntent);
@@ -88,6 +119,39 @@ public class RegisterActivity extends AppCompatActivity {
 		adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
 		genderSpinner.setAdapter(adapter);*/
 
+	}
+
+	public void btnRegister_photo_1_OnClick(View view){
+		ImageView bigImage = findViewById(R.id.activity_register_username_picture_p5);
+		bigImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage1));
+		ImageView profileImage = findViewById(R.id.card_view_image);
+		profileImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage1));
+	}
+	public void btnRegister_photo_2_OnClick(View view){
+		ImageView bigImage = findViewById(R.id.activity_register_username_picture_p5);
+		bigImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage2));
+		ImageView profileImage = findViewById(R.id.card_view_image);
+		profileImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage2));
+	}
+	public void btnRegister_photo_3_OnClick(View view){
+		ImageView bigImage = findViewById(R.id.activity_register_username_picture_p5);
+		bigImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage3));
+		ImageView profileImage = findViewById(R.id.card_view_image);
+		profileImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage3));
+	}
+	public void btnRegister_photo_4_OnClick(View view){
+		ImageView bigImage = findViewById(R.id.activity_register_username_picture_p5);
+		bigImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage4));
+		ImageView profileImage = findViewById(R.id.card_view_image);
+		profileImage.setImageDrawable(getResources().getDrawable(R.drawable.pimage4));
+	}
+
+	public void btnRegister_interests_add_OnClick(View view){
+		interests.add(view.toString());
+	}
+
+	public void btnRegister_groups_add_OnClick(View view){
+		interests.add(view.toString());
 	}
 
 	public void btnRegister_personalInfo_continue_onClick(View view) {
