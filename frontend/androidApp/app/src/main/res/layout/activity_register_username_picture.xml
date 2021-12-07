@@ -43,7 +43,7 @@
         android:fontFamily="@font/racing_sans_one"
         android:gravity=""
         android:hint="Public UserName"
-        android:text="y"
+        android:text=""
         android:textColor="#000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +146,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pimage1" />
+                android:src="@drawable/pimage1"
+                android:onClick="btnRegister_photo_1_onClick"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -176,7 +177,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/pimage2" />
+            android:src="@drawable/pimage2"
+            android:onClick="btnRegister_photo_2_onClick"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -205,7 +207,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pimage3" />
+                android:src="@drawable/pimage3"
+                android:onClick="btnRegister_photo_3_onClick"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -234,7 +237,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pimage4" />
+                android:src="@drawable/pimage4"
+                android:onClick="btnRegister_photo_4_onClick"/>
 
         </androidx.cardview.widget.CardView>
 
