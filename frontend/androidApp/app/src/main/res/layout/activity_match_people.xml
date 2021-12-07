@@ -144,7 +144,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/bottom_banner_people_search"
+        android:id="@+id/bottom_banner_people_search_2"
         android:layout_width="0dp"
         android:layout_height="65dp"
         app:cardBackgroundColor="@color/yellow"
@@ -173,6 +173,48 @@
             android:layout_gravity="center|left|center_vertical"
             app:srcCompat="@drawable/ic_baseline_home_50" />
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_banner_people_search"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:cardBackgroundColor="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/icon_more_match_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_baseline_person_50"
+            android:onClick="btnUserProfile_settings_onClick"/>
+
+        <ImageView
+            android:id="@+id/icon_person_match_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            app:srcCompat="@drawable/ic_baseline_more_vert_50"
+            android:onClick="btnUserProfile_profile_OnClick"/>
+
+        <ImageView
+            android:id="@+id/icon_house_match_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:clickable="false"
+            android:onClick="btnUserProfile_menu_onClick"
+            app:srcCompat="@drawable/ic_baseline_home_50"
+             />
+
+
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_search_people_categories_groups"

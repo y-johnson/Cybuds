@@ -95,6 +95,13 @@ public class ProfileActivity extends AppCompatActivity {
 		Toast.makeText( getBaseContext(), "Goto Feed!", Toast.LENGTH_LONG ).show();
 	}
 
+	public void btnUserProfile_settings_onClick(View view) {
+		setContentView(R.layout.activity_profile_settings);
+	}
+	public void btnUserProfile_profile_OnClick(View view) {
+
+	}
+
 
 	public void btnUserProfile_interestCard_onClick(View view) {
 		setContentView(R.layout.activity_search_interests);

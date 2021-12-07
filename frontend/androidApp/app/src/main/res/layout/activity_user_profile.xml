@@ -361,6 +361,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:onClick="btnUserProfile_profile_OnClick"
             app:srcCompat="@drawable/ic_baseline_person_50" />
 
         <ImageView
@@ -368,7 +369,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
+            app:srcCompat="@drawable/ic_baseline_more_vert_50"
+            android:onClick="btnUserProfile_settings_OnClick"/>
 
         <ImageView
             android:id="@+id/icon_house_profile"

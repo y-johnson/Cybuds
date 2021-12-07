@@ -88,30 +88,36 @@
         app:cardBackgroundColor="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/icon_more_search_interests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingLeft="250dp"
-            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
+            app:srcCompat="@drawable/ic_baseline_person_50"
+            android:onClick="btnUserProfile_settings_onClick"/>
 
         <ImageView
             android:id="@+id/icon_person_search_interests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_baseline_person_50" />
+            android:layout_gravity="right|center_vertical"
+            app:srcCompat="@drawable/ic_baseline_more_vert_50"
+            android:onClick="btnUserProfile_profile_OnClick"/>
 
         <ImageView
             android:id="@+id/icon_house_search_interests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingRight="300dp"
-            app:srcCompat="@drawable/ic_baseline_home_50" />
+            android:layout_gravity="left|center_vertical"
+            android:clickable="false"
+            android:onClick="btnUserProfile_menu_onClick"
+            app:srcCompat="@drawable/ic_baseline_home_50"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.cardview.widget.CardView>
 
     <Button

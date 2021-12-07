@@ -78,36 +78,42 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/bottom_banner_group_search"
+        android:id="@+id/bottom_banner_group_search_3"
         android:layout_width="0dp"
         android:layout_height="65dp"
         app:cardBackgroundColor="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/icon_more_group_interests"
+            android:id="@+id/icon_more_match_group_interests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingLeft="250dp"
-            app:srcCompat="@drawable/ic_baseline_more_vert_50" />
+            app:srcCompat="@drawable/ic_baseline_person_50"
+            android:onClick="btnUserProfile_settings_onClick"/>
 
         <ImageView
-            android:id="@+id/icon_person_group_interests"
+            android:id="@+id/icon_person_match_group_interests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_baseline_person_50" />
+            android:layout_gravity="right|center_vertical"
+            app:srcCompat="@drawable/ic_baseline_more_vert_50"
+            android:onClick="btnUserProfile_profile_OnClick"/>
 
         <ImageView
-            android:id="@+id/icon_house_search_groups"
+            android:id="@+id/icon_house_match_search_groups"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingRight="300dp"
-            app:srcCompat="@drawable/ic_baseline_home_50" />
+            android:layout_gravity="left|center_vertical"
+            android:clickable="false"
+            android:onClick="btnUserProfile_menu_onClick"
+            app:srcCompat="@drawable/ic_baseline_home_50"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.cardview.widget.CardView>
 
     <Button
@@ -121,7 +127,7 @@
         android:text="Back"
         android:textColor="@color/white"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_group_search"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_banner_group_search_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
