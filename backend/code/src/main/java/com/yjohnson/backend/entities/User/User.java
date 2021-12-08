@@ -5,10 +5,13 @@ import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupType;
+import com.yjohnson.backend.entities.Match.MatchEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 enum Gender {
 	MALE,
@@ -55,6 +58,14 @@ public class User implements Serializable, Cloneable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
 	private Long id;
+
+	public Set<MatchEntity> getMatches() {
+		return matches;
+	}
+
+	@JsonIgnore
+	@OneToMany
+	private Set<MatchEntity> matches;
 
 	protected User() {
 	}
@@ -170,14 +181,6 @@ public class User implements Serializable, Cloneable {
 				'}';
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -242,6 +245,10 @@ public class User implements Serializable, Cloneable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public StudentClassification getClassification() {
+		return classification;
+	}
+
 	public Gender getGender() {
 		return gender;
 	}
@@ -250,17 +257,21 @@ public class User implements Serializable, Cloneable {
 		this.gender = gender;
 	}
 
-	public StudentClassification getClassification() {
-		return classification;
+	@JsonIgnore
+	public Set<R_UserInterest> getInterests() {
+		return interestedIn;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setClassification(StudentClassification classification) {
 		this.classification = classification;
-	}
-
-	@JsonIgnore
-	public Set<R_UserInterest> getInterests() {
-		return interestedIn;
 	}
 
 	public String getBiography() {

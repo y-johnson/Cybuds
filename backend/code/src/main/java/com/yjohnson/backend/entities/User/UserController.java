@@ -2,7 +2,7 @@ package com.yjohnson.backend.entities.User;
 
 import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
-import com.yjohnson.backend.entities.Group.GroupType;
+import com.yjohnson.backend.entities.Match.MatchService;
 import com.yjohnson.backend.exceptions.CybudsActionResultsInConflictException;
 import com.yjohnson.backend.exceptions.CybudsEntityByIdNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,6 +54,16 @@ public class UserController {
 		return optionalUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	/**
+	 * Retrieves all the {@code User} objects in the database.
+	 *
+	 * @return all the users in the database
+	 */
+	@Operation(summary = "Gets all users")
+	@GetMapping
+	public Iterable<User> getAllUsers() {
+		return userService.getAllUsersFromDB();    //1
+	}
 
 	/**
 	 * Deletes the {@code User} that corresponds to the given ID from the database.
@@ -200,7 +210,7 @@ public class UserController {
 	})
 	@GetMapping("/{id}/interests")
 	public ResponseEntity<?> getAllInterestsForUser(@PathVariable Optional<Long> id) {
-		id.ifPresent(identifier -> userService.igService.getInterestsOfUserByID(identifier)
+		id.ifPresent(identifier -> userService.uiService.getInterestsOfUserByID(identifier)
 		                                                .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
 		                                                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)));
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -221,7 +231,7 @@ public class UserController {
 
 		try {
 			return new ResponseEntity<>(
-					userService.igService.addRelationToUser(user_id.get(), interest_id.get()),
+					userService.uiService.addRelationToUser(user_id.get(), interest_id.get()),
 					HttpStatus.OK
 			);
 		} catch (CybudsEntityByIdNotFoundException e) {
@@ -246,7 +256,7 @@ public class UserController {
 
 		try {
 			return new ResponseEntity<>(
-					userService.igService.deleteRelationForUser(user_id.get(), interest_id.get()),
+					userService.uiService.deleteRelationForUser(user_id.get(), interest_id.get()),
 					HttpStatus.OK
 			);
 		} catch (CybudsEntityByIdNotFoundException e) {
@@ -255,103 +265,5 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
-
-	/**
-	 * Returns an ordered list of all user IDs in descending order of match score.
-	 *
-	 * @param id the user ID of the current user
-	 *
-	 * @return an ordered descending list of the users that match the most with the current user.
-	 */
-	@Operation(summary = "Matches a user with others based on the group type specified.")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Matched the user", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-			}),
-			@ApiResponse(responseCode = "400", description = "Missing parameter"),
-			@ApiResponse(responseCode = "404", description = "Not found"),
-	})
-	@GetMapping("/{id}/match")
-	public ResponseEntity<?> matchUserByChoice(@PathVariable Optional<Long> id) {
-		if (id.isPresent()) {
-			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
-			if (optionalCurrentUser.isPresent()) {
-				return new ResponseEntity<>(
-						matchService.matchUser(optionalCurrentUser.get(), userService.getAllUsersFromDB()),
-						HttpStatus.OK
-				);
-			}
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	/**
-	 * Returns an ordered list of all user IDs that conform to the chosen constraint in descending order of match score.
-	 *
-	 * @param id     the user ID of the current user
-	 * @param choice the constraint to match against
-	 *
-	 * @return an ordered descending list of the users that match the most with the current user.
-	 */
-	@Operation(summary = "Matches a user with others based on the group type specified.")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Matched the user", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-			}),
-			@ApiResponse(responseCode = "400", description = "Missing parameter"),
-			@ApiResponse(responseCode = "404", description = "Not found"),
-	})
-	@GetMapping("/{id}/match/{choice}")
-	public ResponseEntity<?> matchUserByChoice(@PathVariable Optional<Long> id, @PathVariable GroupType choice) {
-		if (id.isPresent()) {
-			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
-			if (optionalCurrentUser.isPresent()) {
-				return new ResponseEntity<>(
-						matchService.matchUserByChoice(choice, optionalCurrentUser.get(), userService.getAllUsersFromDB()),
-						HttpStatus.OK
-				);
-			}
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-
-	/**
-	 * Retrieves all the {@code User} objects in the database.
-	 *
-	 * @return all the users in the database
-	 */
-	@Operation(summary = "Gets all users")
-	@GetMapping
-	public Iterable<User> getAllUsers() {
-		return userService.getAllUsersFromDB();    //1
-	}
-
-	@Operation(summary = "Matches a user randomly based on their ID.")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Matched and returned user randomly", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-			}),
-			@ApiResponse(responseCode = "204", description = "No match found"),
-			@ApiResponse(responseCode = "400", description = "Missing parameter"),
-			@ApiResponse(responseCode = "404", description = "Not found"),
-	})
-	@GetMapping("/{id}/randomMatch")
-	public ResponseEntity<?> randomMatch(@PathVariable Optional<Long> id) {
-		if (id.isPresent()) {
-			Optional<User> optionalCurrentUser = userService.getUserByID(id.get());
-			Iterable<User> allUsers = userService.getAllUsersFromDB();
-			if (optionalCurrentUser.isPresent()) {
-				return matchService.matchUserRandomly(optionalCurrentUser.get(), allUsers)
-				                   .map(selected -> new ResponseEntity<>(selected, HttpStatus.OK))
-				                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
-			}
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
 
 }
