@@ -16,7 +16,7 @@ public class MatchService {
 		this.matchRepository = matchRepository;
 	}
 
-	protected Iterable<MatchEntity> matchUser(User currentUser, Iterable<User> allUsers) {
+	public Iterable<MatchEntity> matchUser(User currentUser, Iterable<User> allUsers) {
 		Set<MatchEntity> set = new TreeSet<>(Comparator.comparingInt(MatchEntity::getScore).reversed());
 		allUsers.forEach(user -> {
 			if (!currentUser.equals(user)) set.add(new MatchEntity(
@@ -28,7 +28,7 @@ public class MatchService {
 
 	}
 
-	protected Iterable<MatchEntity> matchUserByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
+	public Iterable<MatchEntity> matchUserByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
 		return matchRepository.saveAll(populateMatchSet(currentUser, choice, allUsers));
 	}
 
@@ -64,45 +64,45 @@ public class MatchService {
 		});
 		return set;
 	}
+//
+//	/**
+//	 * Helper method tracks the number of characteristics that are the same between two users.
+//	 *
+//	 * @param one  user one
+//	 * @param two, user two
+//	 *
+//	 * @return returns int of the number of shared characteristics
+//	 */
+//	public int aggregateMatchScore(User one, User two) {
+//		int i = 0;
+//
+//		/* Same year */
+//		if (one.getClassification() == two.getClassification()) i++;
+//
+//		/* Iterates through all interests; counts if any match */
+//		for (R_UserInterest r1 : one.getInterests()) {
+//			for (R_UserInterest r2 : two.getInterests()) {
+//				if (r1 == r2) ++i;
+//			}
+//		}
+//
+//		/* Combines majors and colleges into one list and finds the intersection between them */
+//		Set<GroupEntity> groups = new HashSet<>();
+//		Set<GroupEntity> against = new HashSet<>();
+//
+//		groups.addAll(one.getColleges());
+//		groups.addAll(one.getMajors());
+//
+//		against.addAll(two.getColleges());
+//		against.addAll(two.getMajors());
+//
+//		groups.retainAll(against);
+//		i += groups.size();
+//
+//		return i;
+//	}
 
-	/**
-	 * Helper method tracks the number of characteristics that are the same between two users.
-	 *
-	 * @param one  user one
-	 * @param two, user two
-	 *
-	 * @return returns int of the number of shared characteristics
-	 */
-	protected int aggregateMatchScore(User one, User two) {
-		int i = 0;
-
-		/* Same year */
-		if (one.getClassification() == two.getClassification()) i++;
-
-		/* Iterates through all interests; counts if any match */
-		for (R_UserInterest r1 : one.getInterests()) {
-			for (R_UserInterest r2 : two.getInterests()) {
-				if (r1 == r2) ++i;
-			}
-		}
-
-		/* Combines majors and colleges into one list and finds the intersection between them */
-		Set<GroupEntity> groups = new HashSet<>();
-		Set<GroupEntity> against = new HashSet<>();
-
-		groups.addAll(one.getColleges());
-		groups.addAll(one.getMajors());
-
-		against.addAll(two.getColleges());
-		against.addAll(two.getMajors());
-
-		groups.retainAll(against);
-		i += groups.size();
-
-		return i;
-	}
-
-	protected Optional<User> matchUserRandomlyByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
+	public Optional<User> matchUserRandomlyByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {
 
 		TreeSet<MatchEntity> set = populateMatchSet(currentUser, choice, allUsers);
 
@@ -116,7 +116,7 @@ public class MatchService {
 		return Optional.empty();
 	}
 
-	protected Optional<User> matchUserRandomly(User currentUser, Iterable<User> allUsers) {
+	public Optional<User> matchUserRandomly(User currentUser, Iterable<User> allUsers) {
 		LinkedList<User> list = new LinkedList<>();
 		allUsers.forEach(list::add);
 

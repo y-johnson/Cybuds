@@ -25,7 +25,7 @@ public class MatchEntity implements Serializable {
 	private int score;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	public MatchEntity(User matcher, User matchee, int score) {
