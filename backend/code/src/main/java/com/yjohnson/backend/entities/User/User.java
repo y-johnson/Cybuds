@@ -286,6 +286,13 @@ public class User implements Serializable, Cloneable {
 	public Set<R_UserGroup> getGroups() {
 		return partOf;
 	}
+	public int getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(int profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 
 	/**
 	 * Update all declared member variables with the contents of the given {@code User} object. Note that the given object does NOT need to declare
