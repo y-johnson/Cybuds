@@ -58,11 +58,6 @@ public class User implements Serializable, Cloneable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
 	private Long id;
-
-	public Set<MatchEntity> getMatches() {
-		return matches;
-	}
-
 	@JsonIgnore
 	@OneToMany
 	private Set<MatchEntity> matches;
@@ -131,6 +126,10 @@ public class User implements Serializable, Cloneable {
 		this.profilePicture = profilePicture;
 	}
 
+	public Set<MatchEntity> getMatches() {
+		return matches;
+	}
+
 	/**
 	 * Verifies that a User is completely equal to another. This method verifies that each variable that composes the user object is equivalent.
 	 */
@@ -140,20 +139,21 @@ public class User implements Serializable, Cloneable {
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
 		/* Object.equals is null-safe */
-		return getUsername().equals(user.getUsername())
-				&& getEmail().equals(user.getEmail())
-				&& getPasswordHash().equals(user.getPasswordHash())
-				&& getFirstName().equals(user.getFirstName())
-				&& Objects.equals(getMiddleName(), user.getMiddleName())
-				&& getLastName().equals(user.getLastName())
-				&& Objects.equals(getAddress(), user.getAddress())
-				&& Objects.equals(getPhoneNumber(), user.getPhoneNumber())
-				&& getClassification() == user.getClassification()
-				&& getGender() == user.getGender()
-				&& Objects.equals(getInterests(), user.getInterests())
-				&& Objects.equals(partOf, user.partOf)
-				&& premium == user.premium
-				&& getId().equals(user.getId());
+		final boolean b = (getUsername().equals(user.getUsername()))
+				&& (getEmail().equals(user.getEmail()))
+				&& (getPasswordHash().equals(user.getPasswordHash()))
+				&& (getFirstName().equals(user.getFirstName()))
+				&& (Objects.equals(getMiddleName(), user.getMiddleName()))
+				&& (getLastName().equals(user.getLastName()))
+				&& (Objects.equals(getAddress(), user.getAddress()))
+				&& (Objects.equals(getPhoneNumber(), user.getPhoneNumber()))
+				&& (getClassification() == user.getClassification())
+				&& (getGender() == user.getGender())
+				&& (Objects.equals(getInterests(), user.getInterests()))
+				&& (Objects.equals(partOf, user.partOf))
+				&& (premium == user.premium)
+				&& (getId().equals(user.getId()));
+		return b;
 	}
 
 	@Override
@@ -286,13 +286,6 @@ public class User implements Serializable, Cloneable {
 	public Set<R_UserGroup> getGroups() {
 		return partOf;
 	}
-	public int getProfilePicture() {
-		return profilePicture;
-	}
-
-	public void setProfilePicture(int profilePicture) {
-		this.profilePicture = profilePicture;
-	}
 
 	/**
 	 * Update all declared member variables with the contents of the given {@code User} object. Note that the given object does NOT need to declare
@@ -313,7 +306,6 @@ public class User implements Serializable, Cloneable {
 		if (toCopy.firstName != null) this.setFirstName(toCopy.firstName);
 		if (toCopy.middleName != null) this.setMiddleName(toCopy.middleName);
 		if (toCopy.lastName != null) this.setLastName(toCopy.lastName);
-		if (toCopy.profilePicture != 0) this.setProfilePicture(toCopy.profilePicture);
 		if (toCopy.biography != null) this.setBiography(toCopy.biography);
 		if (toCopy.classification != null) this.setClassification(toCopy.classification);
 		if (toCopy.phoneNumber != null) this.setPhoneNumber(toCopy.phoneNumber);
@@ -347,4 +339,11 @@ public class User implements Serializable, Cloneable {
 		return username != null && email != null && firstName != null && lastName != null && passwordHash != null && classification != null;
 	}
 
+	public int getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(int profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 }
