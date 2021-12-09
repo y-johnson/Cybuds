@@ -11,6 +11,12 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@Table(
+		name = "match_entity",
+		uniqueConstraints = {
+				@UniqueConstraint(columnNames = {"matcher_id", "matchee_id"})
+		}
+)
 @Entity(name = "MatchEntity")
 public class MatchEntity implements Serializable {
 	@ManyToOne
@@ -24,14 +30,17 @@ public class MatchEntity implements Serializable {
 	@Column(nullable = false)
 	private int score;
 
+	private boolean confirmed;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	public MatchEntity(User matcher, User matchee, int score) {
+	public MatchEntity(User matcher, User matchee, int score, boolean confirmed) {
 		this.matcher = matcher;
 		this.matchee = matchee;
 		this.score = score;
+		this.confirmed = confirmed;
 		this.lastUpdated = LocalDateTime.now();
 	}
 
@@ -125,5 +134,13 @@ public class MatchEntity implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 }

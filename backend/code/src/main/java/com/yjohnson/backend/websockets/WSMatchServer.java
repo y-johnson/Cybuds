@@ -12,10 +12,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @ServerEndpoint(value = "/ws/{id}", encoders = {MatchEntityEncoder.class})
@@ -25,10 +22,12 @@ public class WSMatchServer {
 	private static final Map<Long, Session> userIDSessionMap = new Hashtable<>();
 	private static WSMatchService wsMatchService;
 	private final Logger logger = LoggerFactory.getLogger(WSMatchServer.class);
+
+	private ListIterator<MatchEntity> iterator;
 	private User currentUser;
 	private Iterable<User> allUsers;
-	private ArrayList<MatchEntity> matches = new ArrayList<>();
-	private int index;
+	private final ArrayList<MatchEntity> matches = new ArrayList<>();
+	private WSRequest lastAction;
 
 	@Autowired
 	public void setWSMatchService(WSMatchService wsMatchService) {
@@ -80,26 +79,33 @@ public class WSMatchServer {
 	public void onMessage(Session session, String message) throws IOException {
 		// Handle new messages
 		logger.info("Call to onMessage: Got Message:" + message);
-		WebsocketAction action;
+		WSRequest action = null;
 		try {
-			action = WebsocketAction.valueOf(message.trim());
+			action = WSRequest.valueOf(message.trim());
 			switch (action) {
 				case NEXT_MATCH:
-					session.getBasicRemote().sendObject(matches.get(index));
+					if (this.iterator.hasNext()) session.getBasicRemote().sendObject(iterator.next());
+					else session.getBasicRemote().sendText(WSResponse.END_OF_MATCHES.toString());
 					break;
 				case PREVIOUS_MATCH:
+					if (this.iterator.hasPrevious()) session.getBasicRemote().sendObject(iterator.previous());
+					else session.getBasicRemote().sendText(WSResponse.END_OF_MATCHES.toString());
 					break;
 				case START_MATCHING_PROCESS:
+					this.iterator = matches.listIterator();
 					broadcast(currentUser.getUsername() + ": " + message);
-
 					break;
 				case END_MATCHING_PROCESS:
+					// todo
 					break;
 				case CONFIRM_MATCH:
+
 					break;
 			}
 		} catch (IllegalArgumentException | EncodeException e) {
 			logger.error("Caught exception " + e);
+		} finally {
+			lastAction = action;
 		}
 	}
 

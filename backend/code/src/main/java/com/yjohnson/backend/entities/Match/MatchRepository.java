@@ -6,11 +6,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface MatchRepository extends CrudRepository<MatchEntity, Long> {
 
+	List<MatchEntity> findByMatcherAndMatchee(User matcher, User matchee);
 
-	@Query(value = "SELECT m FROM MatchEntity m, User u WHERE m.matcher = u || m.matchee = u", nativeQuery = true)
-	List<MatchEntity> findAllWhereUserPresent(User matcher);
+	@Query(value = "SELECT DISTINCT * FROM match_entity m, users u WHERE m.matcher_id = u.id OR m.matchee_id = u.id ORDER BY m.score DESC ",
+			nativeQuery = true)
+	Set<MatchEntity> findAllWhereUserPresentDescScore(User matcher);
 }

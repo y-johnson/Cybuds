@@ -1,6 +1,5 @@
 package com.yjohnson.backend.entities.Match;
 
-import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 import com.yjohnson.backend.entities.Group.GroupEntity;
 import com.yjohnson.backend.entities.Group.GroupType;
 import com.yjohnson.backend.entities.User.User;
@@ -19,13 +18,22 @@ public class MatchService {
 	public Iterable<MatchEntity> matchUser(User currentUser, Iterable<User> allUsers) {
 		Set<MatchEntity> set = new TreeSet<>(Comparator.comparingInt(MatchEntity::getScore).reversed());
 		allUsers.forEach(user -> {
-			if (!currentUser.equals(user)) set.add(new MatchEntity(
-					currentUser,
-					user
-			));
+			if (!currentUser.equals(user)) {
+				List<MatchEntity> list = matchRepository.findByMatcherAndMatchee(currentUser, user);
+				if (!list.isEmpty()) {
+					for (MatchEntity m : list) {
+						m.refreshScore();
+					}
+					matchRepository.saveAll(list);
+				} else {
+					matchRepository.save(new MatchEntity(
+							currentUser,
+							user
+					));
+				}
+			}
 		});
-		return matchRepository.saveAll(set);
-
+		return matchRepository.findAllWhereUserPresentDescScore(currentUser);
 	}
 
 	public Iterable<MatchEntity> matchUserByChoice(GroupType choice, User currentUser, Iterable<User> allUsers) {

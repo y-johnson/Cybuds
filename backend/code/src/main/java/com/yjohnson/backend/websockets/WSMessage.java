@@ -1,20 +1,20 @@
 package com.yjohnson.backend.websockets;
 
 public class WSMessage {
-	private WebsocketAction action;
+	private WSRequest action;
 
 	public WSMessage() {
 	}
 
-	public WSMessage(WebsocketAction action) {
+	public WSMessage(WSRequest action) {
 		this.action = action;
 	}
 
-	public WebsocketAction getAction() {
+	public WSRequest getAction() {
 		return action;
 	}
 
-	public void setAction(WebsocketAction action) {
+	public void setAction(WSRequest action) {
 		this.action = action;
 	}
 }
