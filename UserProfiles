@@ -1,0 +1,450 @@
+{
+  "username": “Matt”,
+  "email": “mmm@email.com”,
+  "passwordHash": “m-and-ms rule”,
+  "firstName": “Matthew”,
+  "middleName": “Michael”,
+  "lastName": “McGee”,
+  "biography": “I can juggle“,
+  "address": “Friley Hall, Ames, IA”,
+  "phoneNumber": “1231112222”,
+  "classification": "FRESHMAN",
+  "gender": "MALE",
+  "id": 0
+}
+
+{
+  "username": “Mark”,
+  "email": “mr@email.com”,
+  "passwordHash": “fast47”,
+  "firstName": “Mark”,
+  "middleName": “Phillip”,
+  "lastName": “Rudy”,
+  "biography": “Running is my passion.”,
+  "address": “Helser Hall, Ames, IA”,
+  "phoneNumber": “1232223333”,
+  "classification": “SOPHMORE”,
+  "gender": "MALE",
+  "id": 1
+}
+
+{
+  "username": “Luke0”,
+  "email": “lh2@email.com”,
+  "passwordHash": “JohnDeere85”,
+  "firstName": “Luke”,
+  "middleName": “Kegan”,
+  "lastName": “Henry”,
+  "biography": “I fix tractors.”,
+  "address": “Freddy Ct. Ames, IA”,
+  "phoneNumber": “1233334444”,
+  "classification": “JUNIOR”,
+  "gender": "MALE",
+  "id": 2
+}
+
+{
+  "username": “JC”,
+  "email": “jb@email.com”,
+  "passwordHash": “goldfish”,
+  "firstName": “John”,
+  "middleName": “Cole”,
+  "lastName": “Bankard”,
+  "biography": “I skipped two grades.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “1234445555”,
+  "classification": “SENIOR”,
+  "gender": "MALE",
+  "id": 3
+}
+
+{
+  "username": “Adam”,
+  "email": “anf@email.com”,
+  "passwordHash": “dodgeCamo6”,
+  "firstName": “Adam”,
+  "middleName": “Nick”,
+  "lastName": “Frederikson”,
+  "biography": “I like to go fishing.“,
+  "address": “Towers Ames, IA”,
+  "phoneNumber": “1235556666”,
+  "classification": "FRESHMAN",
+  "gender": "MALE",
+  "id": 4
+}
+
+{
+  "username": “Jonah”,
+  "email": “jk@email.com”,
+  "passwordHash": “justjonah”,
+  "firstName": “Jonah”,
+  "middleName": “Chester”,
+  "lastName": “Klomberg”,
+  "biography": “I have 3 older brothers.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “1236667777”,
+  "classification": “SOPHMORE”,
+  "gender": "MALE",
+  "id": 5
+}
+
+{
+  "username": “Joe”,
+  "email": “td@freddy.com”,
+  "passwordHash": “greenhouse25”,
+  "firstName": “Joseph”,
+  "middleName": “Ted”,
+  "lastName": “Dragon”,
+  "biography": “My favorite color is green.“,
+  "address": “Freddy Ct, Ames, IA”,
+  "phoneNumber": “1237778888”,
+  "classification": “JUNIOR”,
+  "gender": "MALE",
+  "id": 6
+}
+
+{
+  "username": “Isaac”,
+  "email": “ij@email.com”,
+  "passwordHash": “ij02”,
+  "firstName": “Isaac”,
+  "middleName": “Craig”,
+  "lastName": “Jones”,
+  "biography": “I like to garden when I have the time.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “1238889999”,
+  "classification": “SENIOR”,
+  "gender": "MALE",
+  "id": 7
+}
+
+{
+  "username": “PStevenson”,
+  "email": “pss@email.com”,
+  "passwordHash": “math373”,
+  "firstName": “Paul”,
+  "middleName": “Sebastian”,
+  "lastName": “Stevenson”,
+  "biography": “I love Iowa”,
+  "address": “Ames, IA”,
+  "phoneNumber": “1239990000”,
+  "classification": "FRESHMAN",
+  "gender": "MALE",
+  "id": 8
+}
+
+{
+  "username": “Frankie”,
+  "email": “fjr@freddy.com”,
+  "passwordHash": “thorGreaterthanHawkeye”,
+  "firstName": “Frank”,
+  "middleName": “Jarod”,
+  "lastName": “Rider”,
+  "biography": “My favorite movie is The Avengers.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “1230001111”,
+  "classification": “SOPHMORE”,
+  "gender": "MALE",
+  "id": 9
+}
+
+{
+  "username": “Sarah”,
+  "email": “sss@email.com”,
+  "passwordHash": “Rapunzel4ever”,
+  "firstName": “Sarah”,
+  "middleName": “Stella”,
+  "lastName": “Sandberg”,
+  "biography": “My favorite movie is Tangled“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3211112222”,
+  "classification": “JUNIOR”,
+  "gender": “FEMALE",
+  "id": 10
+}
+
+{
+  "username": “Becca”,
+  "email": “rrr@email.com”,
+  "passwordHash": “kittykat”,
+  "firstName": “Rebecca”,
+  "middleName": “Rylie”,
+  "lastName": “Runyan”,
+  "biography": “I have 3 cats.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3212223333”,
+  "classification": “SENIOR”,
+  "gender": “FEMALE",
+  "id": 11
+}
+
+{
+  "username": “HanHan03”,
+  "email": “hhh@freddy.com”,
+  "passwordHash": “ykmfptd”,
+  "firstName": “Hannah”,
+  "middleName": “Hope”,
+  "lastName": “Hilton”,
+  "biography": “I read the Princess Bride every year.“,
+  "address": “Eaton Hall, Ames, IA”,
+  "phoneNumber": “3213334444”,
+  "classification": "FRESHMAN",
+  "gender": “FEMALE",
+  "id": 12
+}
+
+{
+  "username": “Issy”,
+  "email": “ias@email.com”,
+  "passwordHash": “vampireHate9”,
+  "firstName": “Issabel”,
+  "middleName": “Alexis”,
+  "lastName": “Starling”,
+  "biography": “I was named after a vampire story.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3214445555”,
+  "classification": “SOPHMORE”,
+  "gender": “FEMALE",
+  "id": 13
+}
+
+{
+  "username": “Tay”,
+  "email": “tmm@freddy.com”,
+  "passwordHash": “TayTayisLife”,
+  "firstName": “Taylor”,
+  "middleName": “Minnie”,
+  "lastName": “McFay”,
+  "biography": “I am OBSESSED with Taylor Swift.“,
+  "address": “Martin Hall, Ames, IA”,
+  "phoneNumber": “3215556666”,
+  "classification": “JUNIOR”,
+  "gender": “FEMALE",
+  "id": 14
+}
+
+{
+  "username": “Chrissy”,
+  "email": “cad@freddy.com”,
+  "passwordHash": “craycrayChris”,
+  "firstName": “Christine”,
+  "middleName": “Abigail”,
+  "lastName": “Decker”,
+  "biography": “I love to read.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3216667777”,
+  "classification": “SENIOR”,
+  "gender": “FEMALE",
+  "id": 15
+}
+
+{
+  "username": “Meredith”,
+  "email": “mmp@email.com”,
+  "passwordHash": “mpgIsexpensive”,
+  "firstName": “Meredith”,
+  "middleName": “Maggie”,
+  "lastName": “Palmer”,
+  "biography": “I do not like to exercise“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3217778888”,
+  "classification": "FRESHMAN",
+  "gender": “FEMALE",
+  "id": 16
+}
+
+{
+  "username": “Emily”,
+  "email": “ecf@freddy.com”,
+  "passwordHash": “carrotsRbest”,
+  "firstName": “Emily”,
+  "middleName": “Callie”,
+  "lastName": “Fay”,
+  "biography": “Carrots are my favorite food.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3218889999”,
+  "classification": “SOPHMORE”,
+  "gender": “FEMALE",
+  "id": 17
+}
+
+{
+  "username": “Estelle”,
+  "email": “ekj@email.com”,
+  "passwordHash": “Kathy87”,
+  "firstName": “Estelle”,
+  "middleName": “Kathryn”,
+  "lastName": “Junlin”,
+  "biography": “I like to paint.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3219990000”,
+  "classification": “JUNIOR”,
+  "gender": “FEMALE",
+  "id": 18
+}
+
+{
+  "username": “Maddie”,
+  "email": “mht@freddy.com”,
+  "passwordHash": “Ilovefood”,
+  "firstName": “Madison”,
+  "middleName": “Holly”,
+  "lastName": “Trubiski”,
+  "biography": “Cooking is my passion“,
+  "address": “Freddy Ct. Ames, IA”,
+  "phoneNumber": “3210009999”,
+  "classification": “SENIOR”,
+  "gender": “FEMALE",
+  "id": 19
+}
+
+{
+  "username": “Tabby”,
+  "email": “tr@email.com”,
+  "passwordHash": “Ilive4Friday”,
+  "firstName": “Tabatha”,
+  "middleName": “Elle”,
+  "lastName": “Rick”,
+  "biography": “Roller Coasters are sick.”,
+  "address": “Ames, IA”,
+  "phoneNumber": “0001112222”,
+  "classification": "FRESHMAN",
+  "gender": “OTHER”,
+  "id": 20
+}
+
+{
+  "username": “Scottie”,
+  "email": “sh@email.com”,
+  "passwordHash": “watermelon”,
+  "firstName": “Scott”,
+  "middleName": “James”,
+  "lastName": “Hansen”,
+  "biography": “It is Christmas time!“,
+  "address": “Ames, IA”,
+  "phoneNumber": “9990001111”,
+  "classification": “SOPHMORE”,
+  "gender": “OTHER”,
+  "id": 21
+}
+
+{
+  "username": “Tracy5”,
+  "email": “tj@freddy.com”,
+  "passwordHash": “tracyjoan”,
+  "firstName": “Tracy”,
+  "middleName": “Joan”,
+  "lastName": “Meger”,
+  "biography": “having a blast“,
+  "address": “Ames, IA”,
+  "phoneNumber": "8889990000",
+  "classification": “JUNIOR”,
+  "gender": “OTHER”,
+  "id": 22
+}
+
+{
+  "username": “Kareem3”,
+  "email": “kare@email.com”,
+  "passwordHash": “carebear”,
+  "firstName": “Kareem”,
+  "middleName": “Steph”,
+  "lastName": “Smith”,
+  "biography": “tired”,
+  "address": “Ames, IA”,
+  "phoneNumber": “7778889999”,
+  "classification": “SENIOR”,
+  "gender": “OTHER”,
+  "id": 23
+}
+
+{
+  "username": “Chelsea”,
+  "email": “cj@freddy.com”,
+  "passwordHash": “ChelsStac”,
+  "firstName": “Chelsea”,
+  "middleName": “Stacy”,
+  "lastName": “Johnson”,
+  "biography": “Go Cyclones!”,
+  "address": “Ames, Iowa”,
+  "phoneNumber": “6667778888”,
+  "classification": "FRESHMAN",
+  "gender": “OTHER”,
+  "id": 24
+}
+
+{
+  "username": “TopDog”,
+  "email": “rl@email.com”,
+  "passwordHash": “corndogs”,
+  "firstName": “Ryan”,
+  "middleName": “Louise”,
+  "lastName": “Summerville”,
+  "biography": “vibin’”,
+  "address": “Iowa”,
+  "phoneNumber": “5556667777”,
+  "classification": “SOPHMORE”,
+  "gender": “OTHER”,
+  "id": 25
+}
+
+{
+  "username": “Nickyyyy”,
+  "email": “NT@freddy.com”,
+  "passwordHash": “RustyBoat9”,
+  "firstName": “Nicky”,
+  "middleName": “Kieran”,
+  "lastName": “Tanner”,
+  "biography": “lonely”,
+  "address": “Ames, IA”,
+  "phoneNumber": “4445556666”,
+  "classification": “JUNIOR”,
+  "gender": “OTHER”,
+  "id": 26
+}
+
+{
+  "username": “Log”,
+  "email": “ld@freddy.com”,
+  "passwordHash": “Deere77”,
+  "firstName": “Logan”,
+  "middleName": “Estem”,
+  "lastName": “Deere”,
+  "biography": “Thriving college student“,
+  "address": “Ames, IA”,
+  "phoneNumber": “3334445555”,
+  "classification": “SENIOR”,
+  "gender": “OTHER”,
+  "id": 27
+}
+
+{
+  "username": “Alex22”,
+  "email": “alexs@email.com”,
+  "passwordHash": “MusicalDolphins22”,
+  "firstName": “Alex”,
+  "middleName": “Lyric”,
+  "lastName": “Shallop”,
+  "biography": “I like dolphins.“,
+  "address": “Ames, IA”,
+  "phoneNumber": “2223334444”,
+  "classification": "FRESHMAN",
+  "gender": “OTHER”,
+  "id": 28
+}
+
+{
+  "username": “JamieJ”,
+  "email": “jj@email.com”,
+  "passwordHash": “justJamie”,
+  "firstName": “Jamie”,
+  "middleName": “Marie”,
+  "lastName": “Jackson”,
+  "biography": “Born and Raised in Iowa-Iowa Nice.”,
+  "address": “Ames, Iowa”,
+  "phoneNumber": “1112223333”,
+  "classification": “SOPHMORE”,
+  "gender": “OTHER”,
+  "id": 29
+}
+
