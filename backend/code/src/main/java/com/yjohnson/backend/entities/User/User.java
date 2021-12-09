@@ -313,6 +313,7 @@ public class User implements Serializable, Cloneable {
 		if (toCopy.firstName != null) this.setFirstName(toCopy.firstName);
 		if (toCopy.middleName != null) this.setMiddleName(toCopy.middleName);
 		if (toCopy.lastName != null) this.setLastName(toCopy.lastName);
+		if (toCopy.profilePicture != 0) this.setProfilePicture(toCopy.profilePicture);
 		if (toCopy.biography != null) this.setBiography(toCopy.biography);
 		if (toCopy.classification != null) this.setClassification(toCopy.classification);
 		if (toCopy.phoneNumber != null) this.setPhoneNumber(toCopy.phoneNumber);
