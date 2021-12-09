@@ -97,9 +97,12 @@ public class WSMatchServer {
 					break;
 				case END_MATCHING_PROCESS:
 					// todo
+					session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Requested close."));
+					onClose(session);
 					break;
 				case CONFIRM_MATCH:
-
+					if (lastAction == WSRequest.NEXT_MATCH) iterator.previous().setConfirmed(true);
+					else iterator.next().setConfirmed(true);
 					break;
 			}
 		} catch (IllegalArgumentException | EncodeException e) {
