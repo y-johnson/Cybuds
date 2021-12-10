@@ -5,6 +5,7 @@ import com.yjohnson.backend.entities.DB_Relations.R_UserGroup;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,11 @@ public class GroupEntity implements Cloneable, Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 
+	public GroupEntity(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		return "GroupEntity{" +
@@ -26,6 +32,20 @@ public class GroupEntity implements Cloneable, Serializable {
 				", name='" + name + '\'' +
 				", description='" + description + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GroupEntity that = (GroupEntity) o;
+		return groupType == that.groupType && getId().equals(that.getId()) && getName().equals(that.getName()) &&
+				Objects.equals(getDescription(), that.getDescription());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(groupType, getId(), getName(), getDescription());
 	}
 
 	@Column(nullable = false, unique = true)
