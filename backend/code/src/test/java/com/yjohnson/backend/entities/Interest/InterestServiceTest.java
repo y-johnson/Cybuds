@@ -15,8 +15,6 @@ class InterestServiceTest {
 	public static long ID = 1L;
 
 	@Autowired
-	GroupRepository groupRepository;
-	@Autowired
 	InterestRepository interestRepository;
 
 
