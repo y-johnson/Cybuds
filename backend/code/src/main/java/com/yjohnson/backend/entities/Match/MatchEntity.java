@@ -78,7 +78,7 @@ public class MatchEntity implements Serializable {
 		/* Iterates through all interests; counts if any match */
 		for (R_UserInterest r1 : this.matcher.getInterests()) {
 			for (R_UserInterest r2 : this.matchee.getInterests()) {
-				if (r1 == r2) ++i;
+				if (r1.getInterest() == r2.getInterest()) ++i;
 			}
 		}
 

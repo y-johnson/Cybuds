@@ -44,6 +44,7 @@ public class MatchService {
 		TreeSet<MatchEntity> set = new TreeSet<>(Comparator.comparingInt(MatchEntity::getScore).reversed());
 		allUsers.forEach(user -> {
 			if (!currentUser.equals(user)) {
+
 				switch (choice) {
 					case STUDENT_CLASS:
 						if (currentUser.getClassification() == user.getClassification()) {
