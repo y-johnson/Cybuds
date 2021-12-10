@@ -208,12 +208,12 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not found"),
 
 	})
-	@GetMapping("/{id}/interests")
-	public ResponseEntity<?> getAllInterestsForUser(@PathVariable Optional<Long> id) {
-		id.ifPresent(identifier -> userService.uiService.getInterestsOfUserByID(identifier)
-		                                                .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
-		                                                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)));
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	@GetMapping("/{pathID}/interests")
+	public ResponseEntity<?> getAllInterestsForUser(@PathVariable Optional<Long> pathID) {
+		return pathID.map(id -> userService.uiService.getInterestsOfUserByID(id)
+		                                             .map(groups -> new ResponseEntity<>(groups, HttpStatus.OK))
+		                                             .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)))
+		             .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
 	}
 
 	@Operation(summary = "Add a User-Interest relation")
