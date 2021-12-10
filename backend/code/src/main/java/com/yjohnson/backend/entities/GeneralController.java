@@ -37,7 +37,7 @@ public class GeneralController {
 	@PostMapping("/login")
 	public ResponseEntity<User> stageLogin(@RequestBody User attemptedLogin) {
 		Optional<User> query = userRepository.findByEmail(attemptedLogin.getEmail());        // 1
-			if (query.isPresent() && Objects.equals(query.get().getPasswordHash(), attemptedLogin.getPasswordHash())) {
+		if (query.isPresent() && Objects.equals(query.get().getPasswordHash(), attemptedLogin.getPasswordHash())) {
 			return new ResponseEntity<>(query.get(), HttpStatus.OK);
 		} else {
 			query = userRepository.findByUsername(attemptedLogin.getUsername());                   // 2
@@ -56,33 +56,38 @@ public class GeneralController {
 	 * <p>
 	 * If the given object contains repeated unique fields, then those fields are returned alongside a CONFLICT status code.
 	 *
-	 * @param toRegister the user object to insert into the database.
+	 * @param optionalUser the user object to insert into the database.
 	 *
 	 * @return a response entity with the created {@code User} object (CREATED) or the conflicting value (CONFLICT).
 	 */
 	@PostMapping("/register")
-	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> toRegister) {
+	public ResponseEntity<?> stageRegistration(@RequestBody Optional<User> optionalUser) {
 		try {
-			if (toRegister.isPresent() && toRegister.get().validate()) {
-				toRegister.get().setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getFirstName().toLowerCase())));
-				if (toRegister.get().getMiddleName() != null) toRegister.get().setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(
-						toRegister.get().getMiddleName().toLowerCase())));
-				toRegister.get().setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(toRegister.get().getLastName().toLowerCase())));
-				toRegister.get().setUsername(StringUtils.trimAllWhitespace(toRegister.get().getUsername().toLowerCase()));
-				toRegister.get().setEmail(StringUtils.trimAllWhitespace(toRegister.get().getEmail().toLowerCase()));
-				if (toRegister.get().getPhoneNumber() != null) toRegister.get().setPhoneNumber(String.format("%10s",
-				                                                                                             StringUtils.deleteAny(
-						                                                                                             toRegister.get()
-						                                                                                                       .getPhoneNumber(),
-						                                                                                             "-()/_-+ "
-				                                                                                             )));
+			if (optionalUser.isPresent()) {
+				User user = optionalUser.get();
+				if (user.validate()) {
+					user.setFirstName(StringUtils.trimWhitespace(StringUtils.capitalize(user.getFirstName().toLowerCase())));
+					if (user.getMiddleName() != null) {
+						user.setMiddleName(StringUtils.trimWhitespace(StringUtils.capitalize(user.getMiddleName().toLowerCase())));
+					}
+					user.setLastName(StringUtils.trimWhitespace(StringUtils.capitalize(user.getLastName().toLowerCase())));
+					user.setUsername(StringUtils.trimAllWhitespace(user.getUsername().toLowerCase()));
+					user.setEmail(StringUtils.trimAllWhitespace(user.getEmail().toLowerCase()));
+					if (user.getPhoneNumber() != null) user.setPhoneNumber(String.format(
+							"%10s",
+							StringUtils.deleteAny(
+									user.getPhoneNumber(),
+									"-()/_-+ "
+							)
+					));
 
-				if (userRepository.findByEmail(toRegister.get().getEmail()).isPresent()) {               // 1
-					return new ResponseEntity<>(toRegister.get().getEmail(), HttpStatus.CONFLICT);
-				} else if (userRepository.findByUsername(toRegister.get().getUsername()).isPresent()) {  // 2
-					return new ResponseEntity<>(toRegister.get().getUsername(), HttpStatus.CONFLICT);
+					if (userRepository.findByEmail(user.getEmail()).isPresent()) {               // 1
+						return new ResponseEntity<>(user.getEmail(), HttpStatus.CONFLICT);
+					} else if (userRepository.findByUsername(user.getUsername()).isPresent()) {  // 2
+						return new ResponseEntity<>(user.getUsername(), HttpStatus.CONFLICT);
+					}
+					return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
 				}
-				return new ResponseEntity<>(userRepository.save(toRegister.get()), HttpStatus.CREATED);
 			}
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (DataIntegrityViolationException e) {
