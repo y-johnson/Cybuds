@@ -5,6 +5,7 @@ import com.yjohnson.backend.entities.DB_Relations.R_UserInterest;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,9 @@ public class InterestEntity implements Serializable, Cloneable {
 	@Column(nullable = false, unique = true)
 	String name;
 	String description;
+
+	public InterestEntity() {
+	}
 
 	public Long getId() {
 		return id;
@@ -62,5 +66,32 @@ public class InterestEntity implements Serializable, Cloneable {
 		if (toCopy.name != null) this.name = toCopy.name;
 		if (toCopy.description != null) this.description = toCopy.description;
 		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		InterestEntity that = (InterestEntity) o;
+		return getId().equals(that.getId()) && getName().equals(that.getName()) && Objects.equals(getDescription(), that.getDescription());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getName(), getDescription());
+	}
+
+	@Override
+	public String toString() {
+		return "InterestEntity{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				'}';
+	}
+
+	public InterestEntity(String name, String description) {
+		this.name = name;
+		this.description = description;
 	}
 }
