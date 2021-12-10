@@ -1,35 +1,52 @@
 package com.yjohnson.backend.entities.Group;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
 public class GroupService {
-	public static final String STATIC_MAJORS_TXT = "/majors.txt";
-	public static final String STATIC_COLLEGES_TXT = "/colleges.txt";
+	public static final String STATIC_MAJORS_TXT = "/static/txt/majors.txt";
+	public static final String STATIC_COLLEGES_TXT = "/static/txt/colleges.txt";
 	private static boolean loaded = false;
 	private final GroupRepository groupRepository;
+	@Value("classpath:static/txt/*")
+	private Resource[] resources;
+	private List<String> filenames;
 
 	public GroupService(GroupRepository groupRepository) {
 		this.groupRepository = groupRepository;
-		preloadGroups(groupRepository, "%s is a major at ISU.", GroupType.STUDENT_MAJOR, STATIC_MAJORS_TXT);
-		preloadGroups(groupRepository, "%s is a college at ISU.", GroupType.COLLEGE, STATIC_COLLEGES_TXT);
+
 	}
 
-	private static void preloadGroups(GroupRepository groupRepository, String format, GroupType groupType, String file) {
-		if (!loaded){
-			URL url = GroupService.class.getResource(file);
-			assert url != null;
-			try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
+	@PostConstruct
+	void init() throws IOException {
+		File f = new ClassPathResource("static/txt/majors.txt").getFile();
+		preloadGroups(groupRepository, "%s is a major at ISU.", GroupType.STUDENT_MAJOR, f);
+
+		f = new ClassPathResource("static/txt/colleges.txt").getFile();
+
+		preloadGroups(groupRepository, "%s is a college at ISU.", GroupType.COLLEGE, f);
+	}
+
+	private static void preloadGroups(GroupRepository groupRepository, String format, GroupType groupType, File file) {
+		if (!loaded) {
+
+			try (Stream<String> stream = Files.lines(file.toPath())) {
 				stream.forEach((name) -> {
 					if (!groupRepository.findByName(name).isPresent()) {
 						try {
@@ -43,7 +60,7 @@ public class GroupService {
 						}
 					}
 				});
-			} catch (IOException | URISyntaxException | NullPointerException e) {
+			} catch (IOException | NullPointerException e) {
 				e.printStackTrace();
 			} finally {
 				loaded = true;
