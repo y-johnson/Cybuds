@@ -49,7 +49,7 @@ class UserServiceTest {
 				new HashSet<>(),
 				"",
 				false,
-				0,
+				1,
 				ID
 		);
 		userRepository.save(user);
